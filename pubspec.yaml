@@ -51,6 +51,7 @@ dependencies:
   shared_preferences: ^2.0.13
   lottie: ^1.3.0
   rxdart: ^0.27.3
+  cached_network_image: ^3.2.0
  
 
 dev_dependencies:
@@ -79,18 +80,20 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - asset/images/splash_logo.png
+    - asset/images/profile.png
     - asset/images/login.svg
     - asset/images/first_onBoarding_icon.svg
     - asset/images/second_onBoarding_icon.svg
     - asset/images/third_onBoarding_icon.svg
     - asset/images/camera.svg
-    - asset/images/profile.svg
     - asset/json/boyError.json
     - asset/json/empty.json
     - asset/json/emptySearch.json
     - asset/json/error.json
     - asset/json/loadFullScreen.json
     - asset/json/loadingPup.json
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,80 +1,92 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+const String prefsKeyOnBoardingScreenView = "PREFS_KEY_ONBOARD_SCREEN_VIEW";
+const String prefsKeyIsUserLoggedIn = "PREFS_KEY_IS_USER_LOGGED_IN";
 
+const String prefsKeyAccessToken = "PREFS_KEY_ACCESS_TOKEN";
+const String prefsKeyName = "PREFS_KEY_NAME";
+const String prefsKeyImage = "PREFS_KEY_IMAGE";
+const String prefsKeyNationalId = "PREFS_KEY_NATIONAL_ID";
+const String prefsKeyPhoneNumber = "PREFS_KEY_PHONE_NUMBER";
+const String prefsKeyAddress = "PREFS_KEY_Address";
 
-const String prefsKeyOnBoardingScreenView="PREFS_KEY_ONBOARD_SCREEN_VIEW";
-const String prefsKeyIsUserLoggedIn="PREFS_KEY_IS_USER_LOGGED_IN";
-
-const String prefsKeyAccessToken="PREFS_KEY_ACCESS_TOKEN";
-const String prefsKeyName="PREFS_KEY_NAME";
-const String prefsKeyImage="PREFS_KEY_IMAGE";
-const String prefsKeyNationalId="PREFS_KEY_NATIONAL_ID";
-const String prefsKeyPhoneNumber="PREFS_KEY_PHONE_NUMBER";
-
-
-
-
-class AppPreferences{
+class AppPreferences {
   final SharedPreferences _sharedPreferences;
   AppPreferences(this._sharedPreferences);
 
-  //on Boarding screen
-Future<void> setOnBoardingScreenView()async{
-  _sharedPreferences.setBool(prefsKeyOnBoardingScreenView, true);
-}
-
-  Future<bool> isOnBoardingScreenView()async{
-   return _sharedPreferences.getBool(prefsKeyOnBoardingScreenView)??false;
+//Clear  data from application
+  removeData() {
+    _sharedPreferences.remove(prefsKeyAccessToken); //clear token
+    _sharedPreferences.remove(prefsKeyName); //clear name
+    _sharedPreferences.remove(prefsKeyImage); //clear image
+    _sharedPreferences.remove(prefsKeyNationalId); //clear national
+    _sharedPreferences.remove(prefsKeyPhoneNumber); // clear phone
+    _sharedPreferences.remove(prefsKeyAddress);  // clear address
+    _sharedPreferences.remove(prefsKeyIsUserLoggedIn); // clear bool data in login
   }
 
+  //on Boarding screen
+  Future<void> setOnBoardingScreenView() async {
+    _sharedPreferences.setBool(prefsKeyOnBoardingScreenView, true);
+  }
+
+  Future<bool> isOnBoardingScreenView() async {
+    return _sharedPreferences.getBool(prefsKeyOnBoardingScreenView) ?? false;
+  }
 
   //login screen data
-  Future<void> setLoginScreenView()async{
+
+  Future<void> setLoginScreenView() async {
     _sharedPreferences.setBool(prefsKeyIsUserLoggedIn, true);
   }
 
-  Future<bool> isUserLoggedIn()async{
-    return _sharedPreferences.getBool(prefsKeyIsUserLoggedIn)??false;
+  Future<bool> isUserLoggedIn() async {
+    return _sharedPreferences.getBool(prefsKeyIsUserLoggedIn) ?? false;
   }
 
-  Future<void> setAccessToken(value)async{
-    _sharedPreferences.setString(prefsKeyAccessToken, value);
+  //set login screen data
+  Future<void> setLoginScreenData(
+      {required String tokenValue,
+        required String nameValue,
+        required String phoneValue,
+        required String imageValue,
+        required String addressValue,
+        required int nationalIdValue,
+
+      }) async {
+    _sharedPreferences.setString(prefsKeyAccessToken, tokenValue);
+    _sharedPreferences.setString(prefsKeyName, nameValue);
+    _sharedPreferences.setString(prefsKeyPhoneNumber, phoneValue);
+    _sharedPreferences.setString(prefsKeyImage, imageValue);
+    _sharedPreferences.setString(prefsKeyAddress, addressValue);
+    _sharedPreferences.setInt(prefsKeyNationalId, nationalIdValue);
+
   }
 
-  Future<String> isAccessToken()async{
-    return _sharedPreferences.getString(prefsKeyAccessToken)??"";
+
+  String isAccessToken() {
+    return _sharedPreferences.getString(prefsKeyAccessToken) ?? "";
   }
 
 
-  Future<void> setAccessName(value)async{
-    _sharedPreferences.setString(prefsKeyName, value);
+  String isAccessName() {
+    return _sharedPreferences.getString(prefsKeyName) ?? "";
   }
 
-  Future<String> isAccessName()async{
-    return _sharedPreferences.getString(prefsKeyName)??"";
+  String isAccessImage() {
+    return _sharedPreferences.getString(prefsKeyImage) ?? "";
   }
 
-  Future<void> setAccessImage(value)async{
-    _sharedPreferences.setString(prefsKeyImage, value);
+
+  String isAccessPhoneNumber() {
+    return _sharedPreferences.getString(prefsKeyPhoneNumber) ?? "";
   }
 
-  Future<String> isAccessImage()async{
-    return _sharedPreferences.getString(prefsKeyImage)??"";
+  String isAccessAddress() {
+    return _sharedPreferences.getString(prefsKeyAddress) ?? "";
   }
 
-  Future<void> setAccessPhoneNumber(value)async{
-    _sharedPreferences.setString(prefsKeyPhoneNumber, value);
-  }
-
-  Future<String> isAccessPhoneNumber()async{
-    return _sharedPreferences.getString(prefsKeyPhoneNumber)??"";
-  }
-
-  Future<void> setAccessNationalId(value)async{
-    _sharedPreferences.setInt(prefsKeyNationalId, value);
-  }
-
-  Future<int> isAccessNationalId()async{
-    return _sharedPreferences.getInt(prefsKeyNationalId)??0;
+  int isAccessNationalId() {
+    return _sharedPreferences.getInt(prefsKeyNationalId) ?? 0;
   }
 }

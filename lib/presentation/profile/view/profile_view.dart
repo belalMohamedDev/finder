@@ -1,12 +1,13 @@
+
 import 'package:finder/presentation/resources/color_manger.dart';
 import 'package:finder/presentation/resources/font_manger.dart';
 import 'package:finder/presentation/resources/route_manger.dart';
-
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
+import '../../../application/app_prefs.dart';
+import '../../../application/di.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final AppPreferences _appPreferences = instance<AppPreferences>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,26 +45,19 @@ class _ProfileViewState extends State<ProfileView> {
                       color: ColorManger.lightGrey,
                     )),
               ),
-              const _Stack(),
+              _stack(),
               SizedBox(
                 height: AppPadding.p4.h,
               ),
-              const _Column()
+              _column()
             ],
           ),
         ),
       )),
     );
   }
-}
 
-class _Column extends StatelessWidget {
-  const _Column({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _column() {
     return Column(
       children: [
         Card(
@@ -148,7 +144,7 @@ class _Column extends StatelessWidget {
                         BorderRadius.all(Radius.circular(APPSize.s12.sp)),
                     side: BorderSide(
                         color: ColorManger.white, width: AppPadding.p1.sp)),
-                backgroundColor: ColorManger.blue,
+                backgroundColor: ColorManger.blue1,
                 titleTextStyle: TextStyle(
                     color: ColorManger.white,
                     fontSize: FontSize.s16.sp,
@@ -173,7 +169,10 @@ class _Column extends StatelessWidget {
                     ),
                   ),
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _appPreferences.removeData();
+                      Navigator.pushReplacementNamed(context, Routes.loginRoute);
+                    },
                     child: Text(
                       "yes",
                       style: TextStyle(
@@ -218,15 +217,8 @@ class _Column extends StatelessWidget {
       ],
     );
   }
-}
 
-class _Stack extends StatelessWidget {
-  const _Stack({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _stack() {
     return Stack(
       children: [
         Padding(
@@ -250,22 +242,22 @@ class _Stack extends StatelessWidget {
                     height: AppPadding.p6.h,
                   ),
                   Text(
-                    "     Name:  ",
+                    "     Name:  ${_appPreferences.isAccessName()}  ",
                     style: Theme.of(context).textTheme.headlineSmall,
                     maxLines: 1,
                   ),
                   Text(
-                    '     Phone Number:    ',
+                    '     Phone Number:  ${_appPreferences.isAccessPhoneNumber()}   ',
                     style: Theme.of(context).textTheme.headlineSmall,
                     maxLines: 1,
                   ),
                   Text(
-                    "     National Number:   ",
+                    "     National Number:  ${_appPreferences.isAccessNationalId()}  ",
                     style: Theme.of(context).textTheme.headlineSmall,
                     maxLines: 1,
                   ),
                   Text(
-                    "     Address:   ",
+                    "     Address:  ${_appPreferences.isAccessAddress()}  ",
                     style: Theme.of(context).textTheme.headlineSmall,
                     maxLines: 1,
                   ),
@@ -284,13 +276,15 @@ class _Stack extends StatelessWidget {
               height: AppPadding.p18.h,
               width: AppPadding.p41.w,
               decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(_appPreferences.isAccessImage()),
+                    fit: BoxFit.cover,
+                ),
                 color: ColorManger.lightDarkBlue,
                 borderRadius: BorderRadius.all(
                   Radius.circular(APPSize.s60.sp),
                 ),
-              ),
-              child: SvgPicture.asset(
-                "asset/images/profile.svg",
+
               ),
             ),
           ),
@@ -305,7 +299,9 @@ class _Stack extends StatelessWidget {
               AppStrings.edite,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
-            onPressed: () {},
+            onPressed: () {
+
+            },
             style: ElevatedButton.styleFrom(primary: ColorManger.blue),
           )),
         ),

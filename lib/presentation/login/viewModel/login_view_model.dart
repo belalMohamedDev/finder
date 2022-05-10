@@ -14,8 +14,6 @@ import '../../common/stateRenderer/state_renderer_impl.dart';
 
 class LoginViewModel extends BaseViewModel
     with LoginViewModelInput, LoginViewModelOutput {
-
-
 //stream
   final StreamController _nationalIdStreamController =
       StreamController.broadcast();
@@ -26,19 +24,16 @@ class LoginViewModel extends BaseViewModel
   final StreamController _areAllInputsValidStreamController =
       StreamController<void>.broadcast();
 
-  final StreamController isUserLoggedInSuccessfullyStreamController=StreamController<bool>();
-
-
+  final StreamController isUserLoggedInSuccessfullyStreamController =
+      StreamController<bool>();
 
 //object instance
   var loginObject = LoginObject("", "");
   bool showPass = true;
   final LoginUseCase _loginUseCase;
   LoginViewModel(this._loginUseCase);
-  final AppPreferences _appPreferences=instance<AppPreferences>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
   String? imageData;
-
-
 
 //inputs
   @override
@@ -48,21 +43,18 @@ class LoginViewModel extends BaseViewModel
     _passwordStreamController.close();
     _areAllInputsValidStreamController.close();
     isUserLoggedInSuccessfullyStreamController.close();
-
-
   }
 
   @override
   void start() {
     // view model should tell view please show content state
     inputState.add(ContentState());
-
   }
 
   @override
   void login() async {
-    inputState.add(
-       LoadingState(stateRenderType: StateRenderType.popupLoadingState, message: ''));
+    inputState.add(LoadingState(
+        stateRenderType: StateRenderType.popupLoadingState, message: ''));
 
     (await _loginUseCase.execute(
             LoginUseCaseInput(loginObject.nationalId, loginObject.password)))
@@ -70,26 +62,27 @@ class LoginViewModel extends BaseViewModel
             (failure) => {
                   // left -> failure
                   inputState.add(ErrorState(
-                     stateRenderType: StateRenderType.popupErrorState, message: failure.message,
-                     )),
-                },
-            (data)  {
-                  //right -> data(success)
+                    stateRenderType: StateRenderType.popupErrorState,
+                    message: failure.message,
+                  )),
+                }, (data) {
+      //right -> data(success)
 
-                  //content
-                  inputState.add(ContentState());
-                  //navigate to main screen
-                  isUserLoggedInSuccessfullyStreamController.add(true);
+      //content
+      inputState.add(ContentState());
+      //navigate to main screen
+      isUserLoggedInSuccessfullyStreamController.add(true);
 
-                  // storage data in app preference
-              _appPreferences.setAccessToken(data.accessToken);
-                  _appPreferences.setAccessName(data.user?.attribute?.name);
-                  _appPreferences.setAccessNationalId(data.user?.attribute?.nationalId);
-                  _appPreferences.setAccessPhoneNumber(data.user?.attribute?.phoneNumber);
-                  imageData="${Constant.baseUrl}/storage/${data.user?.attribute?.picture}";
-                  _appPreferences.setAccessImage(imageData);
-
-                });
+      // storage data in app preference
+           imageData="${Constant.baseUrl}/storage/${data.user?.attribute?.picture}";
+      _appPreferences.setLoginScreenData(
+          tokenValue: data.accessToken,
+          nameValue: data.user!.attribute!.name,
+          phoneValue: data.user!.attribute!.phoneNumber,
+          imageValue: imageData!,
+          addressValue: data.user!.attribute!.address,
+          nationalIdValue: data.user!.attribute!.nationalId);
+    });
   }
 
   @override
@@ -123,8 +116,6 @@ class LoginViewModel extends BaseViewModel
   @override
   Sink get inputAreAllInputsValid => _areAllInputsValidStreamController.sink;
 
-
-
   //outputs
   @override
   Stream<bool> get outIsNationalIdValid => _nationalIdStreamController.stream
@@ -150,11 +141,7 @@ class LoginViewModel extends BaseViewModel
     return _isPasswordValid(loginObject.password) &&
         _isNationalIdValid(loginObject.nationalId);
   }
-
-  }
-
-
-
+}
 
 //on boarding function input
 abstract class LoginViewModelInput {
@@ -165,7 +152,6 @@ abstract class LoginViewModelInput {
   Sink get inputNationalId;
   Sink get inputPassword;
   Sink get inputAreAllInputsValid;
-
 }
 
 //on boarding function output
@@ -173,5 +159,4 @@ abstract class LoginViewModelOutput {
   Stream<bool> get outIsNationalIdValid;
   Stream<bool> get outIsPasswordValid;
   Stream<bool> get outAreAllInputsValid;
-
 }

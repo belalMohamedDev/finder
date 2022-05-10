@@ -52,7 +52,7 @@ class AboutAppView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 5.h,
+              height: 10.h,
             ),
             const _ColumnText(),
             const Spacer(),

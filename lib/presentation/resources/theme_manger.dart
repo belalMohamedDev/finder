@@ -60,6 +60,9 @@ ThemeData getApplicationTheme() {
           fontSize: FontSize.s16.sp,
           color: ColorManger.black,
         ),
+//using in profile page
+        headlineSmall: getMediumStyle(
+            fontSize: FontSize.s14.sp, color: ColorManger.blackText),
 
 // using in text on boarding
         headlineMedium: getMediumStyle(
@@ -78,6 +81,10 @@ ThemeData getApplicationTheme() {
           fontSize: FontSize.s12.sp,
           color: ColorManger.white,
         ),
+          //use in on about profile page
+        bodyLarge: getMediumStyle(
+            fontSize:FontSize.s14.sp,
+            color: ColorManger.blackText),
       ),
 
 // input decoration theme ( text form field )
@@ -85,7 +92,7 @@ ThemeData getApplicationTheme() {
         labelStyle: TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: SizerUtil.deviceType == DeviceType.mobile
-              ? FontSize.s13.sp
+              ? FontSize.s12.sp
               : FontSize.s6.sp,
         ),
         filled: true,

@@ -17,7 +17,7 @@ class AppStrings {
   static const String confirmPassword = "Confirm Password";
   static const String nationalNumber = "National Number";
   static const String login = "      LOGIN       ";
-  static const String loginSignUp = "                 LOGIN    ";
+  static const String loginSignUp = "            LOGIN    ";
   static const String loginButton = "      Login       ";
   static const String signUp = "          SIGN-UP  ";
   static const String signUp1 = "    SIGN-UP     ";
@@ -46,18 +46,15 @@ people with the help of our
   static const String yes = "yes";
   static const String finder = "Finder";
   static const String aboutTheApp = "About the App";
-  static const String aboutTheAppText1 = """Finder gives you the power to 
-shrink the world,to find missing
-people that need help finding
- their way back home. """;
-  static const String aboutTheAppText2 = """we believe in harnessing 
-technology for the good of the
-public.""";
-  static const String aboutTheAppText3 = """so at finder we empower
-community with the power
-of technology  to access
-information faster ,easier,
-connect and help find each
-other.
+  static const String aboutTheAppText1 = """Finder gives you the power to shrink
+the world,to find missing people that
+need help finding their way back 
+home. """;
+  static const String aboutTheAppText2 = """we believe in harnessing technology
+for the good of the public.""";
+  static const String aboutTheAppText3 = """so at finder we empower community
+with the power of technology to
+access information faster ,easier,
+connect and help find each other.
 """;
 }

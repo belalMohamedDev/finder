@@ -11,21 +11,37 @@ import '../../resources/route_manger.dart';
 import '../../resources/strings_manger.dart';
 import '../../resources/values_manger.dart';
 
-class RegisterView extends StatelessWidget {
+class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController name = TextEditingController();
-    TextEditingController nationalNumber = TextEditingController();
-    TextEditingController email = TextEditingController();
-    TextEditingController password = TextEditingController();
-    TextEditingController confirmPassword = TextEditingController();
-    TextEditingController phone = TextEditingController();
-    TextEditingController location = TextEditingController();
-    File? image;
-    var formKey = GlobalKey<FormState>();
+  State<RegisterView> createState() => _RegisterViewState();
+}
 
+class _RegisterViewState extends State<RegisterView> {
+  TextEditingController name = TextEditingController();
+
+  TextEditingController nationalNumber = TextEditingController();
+
+  TextEditingController email = TextEditingController();
+
+  TextEditingController password = TextEditingController();
+
+  TextEditingController confirmPassword = TextEditingController();
+
+  TextEditingController phone = TextEditingController();
+
+  TextEditingController location = TextEditingController();
+
+  bool showPass = true;
+
+  bool showConfPass = true;
+
+  var formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    File? image;
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
@@ -36,8 +52,9 @@ class RegisterView extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      top:
-                          SizerUtil.deviceType == DeviceType.mobile ?AppPadding.p2.h :AppPadding.p3.h,
+                      top: SizerUtil.deviceType == DeviceType.mobile
+                          ? AppPadding.p2.h
+                          : AppPadding.p3.h,
                       right: AppPadding.p5.w,
                       left: AppPadding.p5.w),
                   child: Form(
@@ -53,8 +70,7 @@ class RegisterView extends StatelessWidget {
                                   SizerUtil.deviceType == DeviceType.mobile
                                       ? AppPadding.p28.sp
                                       : AppPadding.p23.sp,
-                                 fontWeight: FontWeightManger.bold
-                             ),
+                              fontWeight: FontWeightManger.bold),
                         ),
                         Text(
                           AppStrings.titleRegister,
@@ -96,20 +112,13 @@ class RegisterView extends StatelessWidget {
                               ? AppPadding.p1.h
                               : AppPadding.p2.h,
                         ),
-                        const Center(child: _StackCustom()),
+                        Center(child: _stackCustom()),
                         SizedBox(
                           height: SizerUtil.deviceType == DeviceType.mobile
                               ? AppPadding.p1.h
                               : AppPadding.p2.h,
                         ),
-                        _ColumnTextForm(
-                            name: name,
-                            nationalNumber: nationalNumber,
-                            email: email,
-                            password: password,
-                            confirmPassword: confirmPassword,
-                            location: location,
-                            phone: phone),
+                        _columnTextForm(),
                       ],
                     ),
                   ),
@@ -127,15 +136,14 @@ class RegisterView extends StatelessWidget {
                     height: AppPadding.p6_5.h,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child:  Text(
+                      child: const Text(
                         AppStrings.registerNow,
-                        style: Theme.of(context).textTheme.headlineLarge,
                       ),
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.circular(APPSize.s0.sp)),
-                          primary: ColorManger.lightBlue),
+                          primary: ColorManger.darkBlue),
                     ),
                   ),
                 )
@@ -146,86 +154,68 @@ class RegisterView extends StatelessWidget {
       ),
     );
   }
-}
 
-class _ColumnTextForm extends StatefulWidget {
-  const _ColumnTextForm({
-    Key? key,
-    required this.name,
-    required this.nationalNumber,
-    required this.email,
-    required this.password,
-    required this.confirmPassword,
-    required this.location,
-    required this.phone,
-  }) : super(key: key);
-
-  final TextEditingController name;
-  final TextEditingController nationalNumber;
-  final TextEditingController email;
-  final TextEditingController password;
-  final TextEditingController confirmPassword;
-  final TextEditingController location;
-  final TextEditingController phone;
-
-  @override
-  State<_ColumnTextForm> createState() => _ColumnTextFormState();
-}
-
-bool showPass = true;
-bool showConfPass = true;
-
-class _ColumnTextFormState extends State<_ColumnTextForm> {
-  @override
-  Widget build(BuildContext context) {
+  Widget _columnTextForm() {
     return Column(
       children: [
         TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
-            controller: widget.name,
+            controller: name,
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.person,
-                size: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p19.sp : AppPadding.p10.sp,
+                size: SizerUtil.deviceType == DeviceType.mobile
+                    ? AppPadding.p19.sp
+                    : AppPadding.p10.sp,
               ),
               labelText: AppStrings.name,
             )),
         SizedBox(
-          height: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p1.h : AppPadding.p2.h,
+          height: SizerUtil.deviceType == DeviceType.mobile
+              ? AppPadding.p1.h
+              : AppPadding.p2.h,
         ),
         TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.number,
-            controller: widget.nationalNumber,
+            controller: nationalNumber,
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.badge,
-                size: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p19.sp : AppPadding.p10.sp,
+                size: SizerUtil.deviceType == DeviceType.mobile
+                    ? AppPadding.p19.sp
+                    : AppPadding.p10.sp,
               ),
               labelText: AppStrings.nationalNumber,
             )),
         SizedBox(
-          height: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p1.h : AppPadding.p2.h,
+          height: SizerUtil.deviceType == DeviceType.mobile
+              ? AppPadding.p1.h
+              : AppPadding.p2.h,
         ),
         TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
-            controller: widget.email,
+            controller: email,
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.email,
-                size: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p19.sp : AppPadding.p10.sp,
+                size: SizerUtil.deviceType == DeviceType.mobile
+                    ? AppPadding.p19.sp
+                    : AppPadding.p10.sp,
               ),
               labelText: AppStrings.email,
             )),
         SizedBox(
-          height: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p1.h : AppPadding.p2.h,
+          height: SizerUtil.deviceType == DeviceType.mobile
+              ? AppPadding.p1.h
+              : AppPadding.p2.h,
         ),
         TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.visiblePassword,
-            controller: widget.password,
+            controller: password,
             obscureText: showPass,
             decoration: InputDecoration(
               suffixIcon: IconButton(
@@ -250,17 +240,21 @@ class _ColumnTextFormState extends State<_ColumnTextForm> {
                         )),
               prefixIcon: Icon(
                 Icons.lock,
-                size: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p19.sp : AppPadding.p10.sp,
+                size: SizerUtil.deviceType == DeviceType.mobile
+                    ? AppPadding.p19.sp
+                    : AppPadding.p10.sp,
               ),
               labelText: AppStrings.password,
             )),
         SizedBox(
-          height: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p1.h : AppPadding.p2.h,
+          height: SizerUtil.deviceType == DeviceType.mobile
+              ? AppPadding.p1.h
+              : AppPadding.p2.h,
         ),
         TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.visiblePassword,
-            controller: widget.confirmPassword,
+            controller: confirmPassword,
             obscureText: showConfPass,
             decoration: InputDecoration(
               suffixIcon: IconButton(
@@ -285,50 +279,53 @@ class _ColumnTextFormState extends State<_ColumnTextForm> {
                         )),
               prefixIcon: Icon(
                 Icons.lock,
-                size: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p19.sp : AppPadding.p10.sp,
+                size: SizerUtil.deviceType == DeviceType.mobile
+                    ? AppPadding.p19.sp
+                    : AppPadding.p10.sp,
               ),
               labelText: AppStrings.confirmPassword,
             )),
         SizedBox(
-          height: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p1.h : AppPadding.p2.h,
+          height: SizerUtil.deviceType == DeviceType.mobile
+              ? AppPadding.p1.h
+              : AppPadding.p2.h,
         ),
         TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.streetAddress,
-            controller: widget.location,
+            controller: location,
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.location_on,
-                size: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p19.sp : AppPadding.p10.sp,
+                size: SizerUtil.deviceType == DeviceType.mobile
+                    ? AppPadding.p19.sp
+                    : AppPadding.p10.sp,
               ),
               labelText: AppStrings.address,
             )),
         SizedBox(
-          height: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p1.h :AppPadding.p2.h,
+          height: SizerUtil.deviceType == DeviceType.mobile
+              ? AppPadding.p1.h
+              : AppPadding.p2.h,
         ),
         TextFormField(
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.phone,
-            controller: widget.phone,
+            controller: phone,
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.phone,
-                size: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p19.sp : AppPadding.p10.sp,
+                size: SizerUtil.deviceType == DeviceType.mobile
+                    ? AppPadding.p19.sp
+                    : AppPadding.p10.sp,
               ),
               labelText: AppStrings.phoneNumber,
             )),
       ],
     );
   }
-}
 
-class _StackCustom extends StatelessWidget {
-  const _StackCustom({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _stackCustom() {
     return SizedBox(
         width: AppPadding.p80.w,
         height: SizeHelper.of(context).help(
@@ -340,16 +337,19 @@ class _StackCustom extends StatelessWidget {
           children: [
             Positioned(
               right: SizerUtil.deviceType == DeviceType.mobile
-                  ? AppPadding.p3.w
+                  ? AppPadding.p9.w
                   : AppPadding.p16.w,
               top: AppPadding.p0_7.h,
               bottom: AppPadding.p1_2.h,
-              left: SizerUtil.deviceType == DeviceType.mobile ? AppPadding.p28.w : AppPadding.p30.w,
+              left: SizerUtil.deviceType == DeviceType.mobile
+                  ? AppPadding.p28.w
+                  : AppPadding.p30.w,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, Routes.loginRoute);
                 },
-                style: ElevatedButton.styleFrom(onPrimary: ColorManger.grey),
+                style: ElevatedButton.styleFrom(
+                    onPrimary: ColorManger.grey, primary: ColorManger.white),
                 child: Text(AppStrings.loginSignUp,
                     style: TextStyle(
                       color: ColorManger.black,
@@ -358,7 +358,7 @@ class _StackCustom extends StatelessWidget {
             ),
             Positioned(
               right: SizerUtil.deviceType == DeviceType.mobile
-                  ? AppPadding.p30.w
+                  ? AppPadding.p36.w
                   : AppPadding.p34.w,
               child: ElevatedButton(
                 onPressed: () {},
@@ -366,7 +366,6 @@ class _StackCustom extends StatelessWidget {
                   AppStrings.signUp1,
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: ColorManger.darkBlue,
                   fixedSize: Size.fromHeight(
                       SizerUtil.deviceType == DeviceType.mobile
                           ? AppPadding.p46.sp
