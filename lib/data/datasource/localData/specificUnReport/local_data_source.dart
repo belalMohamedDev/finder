@@ -1,15 +1,17 @@
 import 'package:finder/data/network/error_handler/error_handler.dart';
-import 'package:finder/data/responses/MakeSpecificReport/response.dart';
+
+
+import '../../../responses/makeUnSpecificReport/response.dart';
 
 
 
 
 const cacheHomeKey="cacheHomeKey";
 const cacheHomeInterval=60*1000;  // 1 minute cache in millis
-abstract class SpecificReportLocalDataSource{
-  Future<MakeSpecificReportResponse> getSpecificReports();
+abstract class SpecificUnReportLocalDataSource{
+  Future<MakeSpecificUnReportResponse> getSpecificUnReports();
 
-  Future<void> saveReportToCache(MakeSpecificReportResponse reportResponse);
+  Future<void> saveReportToCache(MakeSpecificUnReportResponse reportResponse);
 
   void clearCache();
   void removeFromCache(String key);
@@ -17,11 +19,11 @@ abstract class SpecificReportLocalDataSource{
 }
 
 
-class SpecificReportLocalDataSourceImpl implements SpecificReportLocalDataSource {
+class SpecificUnReportLocalDataSourceImpl implements SpecificUnReportLocalDataSource {
   //run time cache
   Map<String,CachedItem> cashMap={};
   @override
-  Future<MakeSpecificReportResponse> getSpecificReports() async{
+  Future<MakeSpecificUnReportResponse> getSpecificUnReports() async{
     CachedItem? cachedItem=cashMap[cacheHomeKey];
     if(cachedItem !=null&&cachedItem.isValid(cacheHomeInterval)){
       //return the response from cash
@@ -34,7 +36,7 @@ class SpecificReportLocalDataSourceImpl implements SpecificReportLocalDataSource
   }
 
   @override
-  Future<void> saveReportToCache(MakeSpecificReportResponse reportResponse) async{
+  Future<void> saveReportToCache(MakeSpecificUnReportResponse reportResponse) async{
     cashMap[cacheHomeKey]=CachedItem(reportResponse);
   }
 

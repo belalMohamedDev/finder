@@ -20,6 +20,9 @@ class RegisterViewModel extends BaseViewModel
   //stream
   final StreamController _nameStreamController =
       StreamController<String>.broadcast();
+  final StreamController _lastNameStreamController =
+      StreamController<String>.broadcast();
+
   final StreamController _nationalIdStreamController =
       StreamController<String>.broadcast();
   final StreamController _emailStreamController =
@@ -37,7 +40,11 @@ class RegisterViewModel extends BaseViewModel
   final StreamController isUserLoggedInSuccessfullyStreamController =
       StreamController<bool>();
 
+  String countryCode = "+20";
+  String? lastNameData;
   String? imageData;
+  String? imageValidData;
+
   final RegisterUseCase _registerUseCase;
   final LoginUseCase _loginUseCase;
   var registerObject = RegisterObject("", "", "", "", "", "", "");
@@ -57,6 +64,8 @@ class RegisterViewModel extends BaseViewModel
     _pictureStreamController.close();
     _allInputValidStreamController.close();
     isUserLoggedInSuccessfullyStreamController.close();
+    _lastNameStreamController.close();
+
     super.dispose();
   }
 
@@ -133,7 +142,7 @@ class RegisterViewModel extends BaseViewModel
             imageValue: imageData!,
             addressValue: data.user!.attribute!.address,
             nationalIdValue: data.user!.attribute!.nationalId,
-            id: data.user!.id);
+            id: data.user!.id, password: registerObject.password, email: data.user!.attribute!.email,);
       });
     });
   }
@@ -153,6 +162,7 @@ class RegisterViewModel extends BaseViewModel
     inputAddress.add(userAddress);
     if (_addressValid(userAddress)) {
       //update register view object
+
       registerObject = registerObject.copyWith(address: userAddress);
     } else {
       // rest user name value in register view object
@@ -179,7 +189,8 @@ class RegisterViewModel extends BaseViewModel
     inputName.add(userName);
     if (_nameValid(userName)) {
       //update register view object
-      registerObject = registerObject.copyWith(name: userName);
+      String nameData = "$userName $lastNameData";
+      registerObject = registerObject.copyWith(name: nameData);
     } else {
       // rest user name value in register view object
       registerObject = registerObject.copyWith(name: "");
@@ -218,7 +229,8 @@ class RegisterViewModel extends BaseViewModel
     inputPhone.add(userPhone);
     if (_phoneValid(userPhone)) {
       //update register view object
-      registerObject = registerObject.copyWith(phone: userPhone);
+      String phoneData = "$countryCode$userPhone";
+      registerObject = registerObject.copyWith(phone: phoneData);
     } else {
       // rest user name value in register view object
       registerObject = registerObject.copyWith(phone: "");
@@ -231,17 +243,21 @@ class RegisterViewModel extends BaseViewModel
     inputPicture.add(userPicture);
     if (userPicture.path.isNotEmpty) {
       //update register view object
+      imageValidData = userPicture.path;
       String fileName = userPicture.path.split("/").last;
       dynamic image =
           await MultipartFile.fromFile(userPicture.path, filename: fileName);
 
-      registerObject = registerObject.copyWith(picture: userPicture);
+      registerObject = registerObject.copyWith(picture: image);
     } else {
       // rest user name value in register view object
       registerObject = registerObject.copyWith(picture: "");
     }
     validate();
   }
+
+  @override
+  Sink get inputLastName => _lastNameStreamController.sink;
 
   @override
   Sink get inputAddress => _addressStreamController.sink;
@@ -325,14 +341,21 @@ class RegisterViewModel extends BaseViewModel
   Stream<File> get outputPictureValid =>
       _pictureStreamController.stream.map((file) => file);
 
+  @override
+  Stream<String?> get outputLastNameErrorValid => outputLastNameValid
+      .map((isUserName) => isUserName ? null : AppStrings.userNameValid);
+
+  @override
+  Stream<bool> get outputLastNameValid =>
+      _lastNameStreamController.stream.map((name) => _nameValid(name));
+
   //private function
   bool _addressValid(String address) {
     return address.length >= 10;
   }
 
   bool _nameValid(String name) {
-    return RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$")
-        .hasMatch(name);
+    return RegExp(r'^[a-z A-Z,.\-]+$').hasMatch(name);
   }
 
   bool _nationalIdValid(String id) {
@@ -363,11 +386,25 @@ class RegisterViewModel extends BaseViewModel
         registerObject.email.isNotEmpty &&
         registerObject.password.isNotEmpty &&
         registerObject.phone.isNotEmpty &&
+        imageValidData!.isNotEmpty &&
+        lastNameData!.isNotEmpty &&
         registerObject.address.isNotEmpty;
   }
 
   validate() {
     inputAllInputValid.add(null);
+  }
+
+  @override
+  setUserLastName(String userLastName) {
+    inputLastName.add(userLastName);
+    if (_nameValid(userLastName)) {
+      //update register view object
+      lastNameData = userLastName;
+    } else {
+      // rest user name value in register view object
+      lastNameData = "";
+    }
   }
 }
 
@@ -377,6 +414,7 @@ abstract class RegisterViewModelInput {
   void gallery(); // open gallery and upload photo
   void register(); // post and storage data, and register
   Sink get inputName;
+  Sink get inputLastName;
   Sink get inputNationalId;
   Sink get inputEmail;
   Sink get inputPassword;
@@ -384,6 +422,7 @@ abstract class RegisterViewModelInput {
   Sink get inputAddress;
   Sink get inputPicture;
   Sink get inputAllInputValid;
+  setUserLastName(String userLastName);
   setUserName(String userName);
   setUserNationalId(String userId);
   setUserEmail(String userEmail);
@@ -397,6 +436,8 @@ abstract class RegisterViewModelInput {
 abstract class RegisterViewModelOutput {
   Stream<bool> get outputNameValid;
   Stream<String?> get outputNameErrorValid;
+  Stream<bool> get outputLastNameValid;
+  Stream<String?> get outputLastNameErrorValid;
   Stream<bool> get outputNationalIdValid;
   Stream<String?> get outputNationalIdErrorValid;
   Stream<bool> get outputEmailValid;

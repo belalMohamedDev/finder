@@ -29,11 +29,13 @@ class LoginViewModel extends BaseViewModel
 
 //object instance
   var loginObject = LoginObject("", "");
+
   bool showPass = true;
   final LoginUseCase _loginUseCase;
   LoginViewModel(this._loginUseCase);
   final AppPreferences _appPreferences = instance<AppPreferences>();
   String? imageData;
+  String? userPassword;
 
 //inputs
   @override
@@ -83,7 +85,7 @@ class LoginViewModel extends BaseViewModel
           imageValue: imageData!,
           addressValue: data.user!.attribute!.address,
           nationalIdValue: data.user!.attribute!.nationalId,
-          id: data.user!.id);
+          id: data.user!.id, password: userPassword!, email: data.user!.attribute!.email);
     });
   }
 
@@ -115,6 +117,7 @@ class LoginViewModel extends BaseViewModel
   @override
   setPassword(String password) {
     inputPassword.add(password.trim());
+    userPassword=password.trim();
     loginObject = loginObject.copyWith(password: password.trim());
     inputAreAllInputsValid.add(null);
   }

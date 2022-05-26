@@ -7,6 +7,7 @@ import 'package:finder/presentation/resources/asset_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../application/constant.dart';
@@ -49,13 +50,19 @@ class _MissingViewState extends State<MissingView> {
   }
 
   Widget _getData() {
-    return SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Theme.of(context).primaryColor
+    ),
+    child:
+      SafeArea(
       child: StreamBuilder<List<DataModel>>(
         stream: _viewModel.outputData,
         builder: (context, snapshot) {
           return _showData(snapshot.data);
         },
       ),
+    )
     );
   }
 

@@ -7,6 +7,7 @@ import 'package:finder/data/network/dio_factory/dio_factory.dart';
 import 'package:finder/data/network/network_info/network_info.dart';
 import 'package:finder/data/repository/repository_impl.dart';
 import 'package:finder/domain/repository/repositry.dart';
+import 'package:finder/domain/useCase/logOut/log_out_use_case.dart';
 import 'package:finder/domain/useCase/login/login_use_case.dart';
 import 'package:finder/domain/useCase/makeReport/make_report_use_case.dart';
 import 'package:finder/domain/useCase/register/register_use_case.dart';
@@ -17,16 +18,22 @@ import 'package:finder/presentation/makeUnReport/viewModel/view_model.dart';
 import 'package:finder/presentation/makingReport/viewModel/view_model.dart';
 import 'package:finder/presentation/missing/viewModel/missing_view_model.dart';
 import 'package:finder/presentation/profile/specificReport/viewModel/view_model.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/datasource/localData/specificReport/local_data_source.dart';
+import '../data/datasource/localData/specificUnReport/local_data_source.dart';
 import '../data/datasource/remoteData/remote_data_source.dart';
 import '../domain/useCase/makeUnReport/make_un_report_use_case.dart';
+import '../domain/useCase/makeUnSpecificReport/use_case.dart';
 import '../domain/useCase/unReport/un_report_use_case.dart';
+import '../domain/useCase/updateUser/use_case.dart';
 import '../presentation/found/viewModel/found_view_model.dart';
+import '../presentation/profile/specificUnReport/viewModel/view_model.dart';
+import '../presentation/profile/viewModel/view_model.dart';
 import '../presentation/register/viewModel/register_view_model.dart';
 
 final instance = GetIt.instance;
@@ -64,13 +71,18 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<UnReportLocalDataSource>(
           () => UnReportLocalDataSourceImpl());
 
-  //  un report local data source
+  //  specific report local data source
   instance.registerLazySingleton<SpecificReportLocalDataSource>(
           () => SpecificReportLocalDataSourceImpl());
 
+
+  //  un specific report local data source
+  instance.registerLazySingleton<SpecificUnReportLocalDataSource>(
+          () => SpecificUnReportLocalDataSourceImpl());
+
   //repository
   instance.registerLazySingleton<Repositry>(
-      () => RepositoryImpl(instance(), instance(),instance(),instance(),instance()));
+      () => RepositoryImpl(instance(), instance(),instance(),instance(),instance(),instance()));
 }
 
 initLoginModule() {
@@ -107,6 +119,24 @@ initSpecificReportModule() {
 }
 
 
+initSpecificUnReportModule() {
+  if (!GetIt.I.isRegistered<SpecificUnReportUseCase>()) {
+    instance.registerFactory<SpecificUnReportUseCase>(() => SpecificUnReportUseCase(instance()));
+    instance.registerFactory<SpecificUnReportViewModel>(() => SpecificUnReportViewModel(instance()));
+
+  }
+}
+
+initUpdateUserModule() {
+  if (!GetIt.I.isRegistered<UpdateUserUseCase>()) {
+    instance.registerFactory<UpdateUserUseCase>(() => UpdateUserUseCase(instance()));
+    instance.registerFactory<ImagePicker>(() => ImagePicker());
+
+  }
+}
+
+
+
 
 initMissingModule() {
   if (!GetIt.I.isRegistered<ReportUseCase>()) {
@@ -133,5 +163,13 @@ initMakeUnReportModule() {
     instance.registerFactory<MakeUnReport>(
             () => MakeUnReport(instance()));
    // instance.registerFactory<ImagePicker>(() => ImagePicker());
+  }
+}
+
+
+initLogOutModule() {
+  if (!GetIt.I.isRegistered<LogOutUseCase>()) {
+    instance.registerFactory<LogOutUseCase>(() => LogOutUseCase(instance()));
+    instance.registerFactory<ProfileViewModel>(() => ProfileViewModel(instance(),instance()));
   }
 }

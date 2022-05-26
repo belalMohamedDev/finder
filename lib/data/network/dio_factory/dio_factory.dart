@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 
-
 const String applicationJson="application/json";
 const String contentType="content-type";
 const String accept="accept";
@@ -25,7 +24,7 @@ class DioFactory{
     {
       contentType:applicationJson,
       accept:applicationJson,
-      authorization:Constant.token,
+      authorization:"Bearer ${_appPreferences.isAccessToken()}",
 
 
     };

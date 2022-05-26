@@ -825,3 +825,245 @@ abstract class _MakeUnReportObject implements MakeUnReportObject {
   _$$_MakeUnReportObjectCopyWith<_$_MakeUnReportObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$UpdateUserObject {
+  String get name => throw _privateConstructorUsedError;
+  String get nationalId => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
+  String get phoneNumber => throw _privateConstructorUsedError;
+  dynamic get picture => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $UpdateUserObjectCopyWith<UpdateUserObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UpdateUserObjectCopyWith<$Res> {
+  factory $UpdateUserObjectCopyWith(
+          UpdateUserObject value, $Res Function(UpdateUserObject) then) =
+      _$UpdateUserObjectCopyWithImpl<$Res>;
+  $Res call(
+      {String name,
+      String nationalId,
+      String email,
+      String password,
+      String address,
+      String phoneNumber,
+      dynamic picture});
+}
+
+/// @nodoc
+class _$UpdateUserObjectCopyWithImpl<$Res>
+    implements $UpdateUserObjectCopyWith<$Res> {
+  _$UpdateUserObjectCopyWithImpl(this._value, this._then);
+
+  final UpdateUserObject _value;
+  // ignore: unused_field
+  final $Res Function(UpdateUserObject) _then;
+
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? nationalId = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
+    Object? address = freezed,
+    Object? phoneNumber = freezed,
+    Object? picture = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      nationalId: nationalId == freezed
+          ? _value.nationalId
+          : nationalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      phoneNumber: phoneNumber == freezed
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      picture: picture == freezed
+          ? _value.picture
+          : picture // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_UpdateUserObjectCopyWith<$Res>
+    implements $UpdateUserObjectCopyWith<$Res> {
+  factory _$$_UpdateUserObjectCopyWith(
+          _$_UpdateUserObject value, $Res Function(_$_UpdateUserObject) then) =
+      __$$_UpdateUserObjectCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String name,
+      String nationalId,
+      String email,
+      String password,
+      String address,
+      String phoneNumber,
+      dynamic picture});
+}
+
+/// @nodoc
+class __$$_UpdateUserObjectCopyWithImpl<$Res>
+    extends _$UpdateUserObjectCopyWithImpl<$Res>
+    implements _$$_UpdateUserObjectCopyWith<$Res> {
+  __$$_UpdateUserObjectCopyWithImpl(
+      _$_UpdateUserObject _value, $Res Function(_$_UpdateUserObject) _then)
+      : super(_value, (v) => _then(v as _$_UpdateUserObject));
+
+  @override
+  _$_UpdateUserObject get _value => super._value as _$_UpdateUserObject;
+
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? nationalId = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
+    Object? address = freezed,
+    Object? phoneNumber = freezed,
+    Object? picture = freezed,
+  }) {
+    return _then(_$_UpdateUserObject(
+      name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      nationalId == freezed
+          ? _value.nationalId
+          : nationalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      phoneNumber == freezed
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      picture == freezed
+          ? _value.picture
+          : picture // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateUserObject implements _UpdateUserObject {
+  _$_UpdateUserObject(this.name, this.nationalId, this.email, this.password,
+      this.address, this.phoneNumber, this.picture);
+
+  @override
+  final String name;
+  @override
+  final String nationalId;
+  @override
+  final String email;
+  @override
+  final String password;
+  @override
+  final String address;
+  @override
+  final String phoneNumber;
+  @override
+  final dynamic picture;
+
+  @override
+  String toString() {
+    return 'UpdateUserObject(name: $name, nationalId: $nationalId, email: $email, password: $password, address: $address, phoneNumber: $phoneNumber, picture: $picture)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UpdateUserObject &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.nationalId, nationalId) &&
+            const DeepCollectionEquality().equals(other.email, email) &&
+            const DeepCollectionEquality().equals(other.password, password) &&
+            const DeepCollectionEquality().equals(other.address, address) &&
+            const DeepCollectionEquality()
+                .equals(other.phoneNumber, phoneNumber) &&
+            const DeepCollectionEquality().equals(other.picture, picture));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(nationalId),
+      const DeepCollectionEquality().hash(email),
+      const DeepCollectionEquality().hash(password),
+      const DeepCollectionEquality().hash(address),
+      const DeepCollectionEquality().hash(phoneNumber),
+      const DeepCollectionEquality().hash(picture));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_UpdateUserObjectCopyWith<_$_UpdateUserObject> get copyWith =>
+      __$$_UpdateUserObjectCopyWithImpl<_$_UpdateUserObject>(this, _$identity);
+}
+
+abstract class _UpdateUserObject implements UpdateUserObject {
+  factory _UpdateUserObject(
+      final String name,
+      final String nationalId,
+      final String email,
+      final String password,
+      final String address,
+      final String phoneNumber,
+      final dynamic picture) = _$_UpdateUserObject;
+
+  @override
+  String get name => throw _privateConstructorUsedError;
+  @override
+  String get nationalId => throw _privateConstructorUsedError;
+  @override
+  String get email => throw _privateConstructorUsedError;
+  @override
+  String get password => throw _privateConstructorUsedError;
+  @override
+  String get address => throw _privateConstructorUsedError;
+  @override
+  String get phoneNumber => throw _privateConstructorUsedError;
+  @override
+  dynamic get picture => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$$_UpdateUserObjectCopyWith<_$_UpdateUserObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}

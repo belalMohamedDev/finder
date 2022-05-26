@@ -5,10 +5,14 @@ import 'package:finder/presentation/resources/route_manger.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../application/app_prefs.dart';
 import '../../../application/di.dart';
 import '../../resources/asset_manger.dart';
+import '../viewModel/view_model.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -19,11 +23,38 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   final AppPreferences _appPreferences = instance<AppPreferences>();
+  final ProfileViewModel _viewModel = instance<ProfileViewModel>();
+
+  _bind(){
+    _viewModel.start();
+    _viewModel.isUserLoggedOutSuccessfullyStreamController.stream.listen((isLoggedOut) {
+      if (isLoggedOut) {
+        //navigate to main screen
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoute,(Route<dynamic> route) => false);
+        });
+      }
+    });
+    }
+
+
+    @override
+  void initState() {
+  _bind();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Theme.of(context).primaryColor
+    ),
+    child:
+      SafeArea(
           child: SizedBox(
         height: double.infinity,
         width: double.infinity,
@@ -44,6 +75,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
       )),
+   )
     );
   }
 
@@ -52,7 +84,7 @@ class _ProfileViewState extends State<ProfileView> {
       children: [
         GestureDetector(
           onTap:() {
-      Navigator.pushNamed(context, Routes.makeSpecificReport);
+      Navigator.pushNamed(context, Routes.makeUnSpecificReport);
     },
           child: Card(
             color: ColorManger.lightWhiteColor,
@@ -131,6 +163,9 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         InkWell(
           onTap: () {
+            setState(() {
+
+            });
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -163,18 +198,18 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                   ),
-                  MaterialButton(
+                    MaterialButton(
                     onPressed: () {
-                      _appPreferences.removeData();
-                      Navigator.pushReplacementNamed(
-                          context, Routes.loginRoute);
-                    },
-                    child: Text(
-                      "yes",
-                      style: TextStyle(
-                          fontSize: FontSize.s15.sp, color: ColorManger.white),
-                    ),
-                  ),
+            _viewModel.logOut();
+
+
+            },
+            child: Text(
+            "yes",
+            style: TextStyle(
+            fontSize: FontSize.s15.sp, color: ColorManger.white),
+            ),
+            ),
                 ],
               ),
             );
@@ -279,8 +314,8 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(APPSize.s60.sp),
-                  child: CachedNetworkImage(
-                    imageUrl: _appPreferences.isAccessImage(),
+                  child: CachedNetworkImage (
+                    imageUrl:  _appPreferences.isAccessImage(),
                     fit: BoxFit.cover,
                     placeholder: (context, url) =>
                         const Center(child: CircularProgressIndicator()),
@@ -306,5 +341,12 @@ class _ProfileViewState extends State<ProfileView> {
         ),
       ],
     );
+  }
+
+
+  @override
+  void dispose() {
+  _viewModel.dispose();
+    super.dispose();
   }
 }

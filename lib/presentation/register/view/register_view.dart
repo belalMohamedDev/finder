@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:finder/presentation/resources/asset_manger.dart';
 import 'package:finder/presentation/resources/color_manger.dart';
 import 'package:finder/presentation/resources/font_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 
 import 'package:lottie/lottie.dart';
 
@@ -27,7 +29,7 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   final RegisterViewModel _viewModel = instance<RegisterViewModel>();
   TextEditingController name = TextEditingController();
-
+  TextEditingController lastName = TextEditingController();
   TextEditingController nationalNumber = TextEditingController();
 
   TextEditingController email = TextEditingController();
@@ -36,18 +38,30 @@ class _RegisterViewState extends State<RegisterView> {
 
   TextEditingController phone = TextEditingController();
 
+
   TextEditingController location = TextEditingController();
-  final AppPreferences _appPreferences=instance<AppPreferences>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
   bool showPass = true;
+
 
 
   var formKey = GlobalKey<FormState>();
 
   _bind() {
     _viewModel.start();
+
     name.addListener(() {
       _viewModel.setUserName(name.text);
     });
+    lastName.addListener(() {
+      _viewModel.setUserLastName(lastName.text);
+    });
+
+
+    phone.addListener(() {
+      _viewModel.setUserPhone(phone.text);
+    });
+
     nationalNumber.addListener(() {
       _viewModel.setUserNationalId(nationalNumber.text);
     });
@@ -62,18 +76,16 @@ class _RegisterViewState extends State<RegisterView> {
     location.addListener(() {
       _viewModel.setUserAddress(location.text);
     });
-    phone.addListener(() {
-      _viewModel.setUserPhone(phone.text);
-    });
 
-    _viewModel.isUserLoggedInSuccessfullyStreamController.stream.listen((isLoggedIn) {
-      if(isLoggedIn){
+
+    _viewModel.isUserLoggedInSuccessfullyStreamController.stream
+        .listen((isLoggedIn) {
+      if (isLoggedIn) {
         //navigate to main screen
         SchedulerBinding.instance?.addPostFrameCallback((_) {
           _appPreferences.setLoginScreenView();
           Navigator.of(context).pushReplacementNamed(Routes.bottomNavBarRoute);
         });
-
       }
     });
   }
@@ -87,6 +99,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: StreamBuilder<FlowState>(
           stream: _viewModel.outState,
           builder: (context, snapshot) {
@@ -100,69 +113,74 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Widget _getContentWidget() {
-    return SafeArea(
-      child: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: SizerUtil.deviceType == DeviceType.mobile
-                    ? AppPadding.p2.h
-                    : AppPadding.p3.h,
-                right: AppPadding.p5.w,
-                left: AppPadding.p5.w),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.register,
-                    style: TextStyle(
-                        color: ColorManger.blue,
-                        fontSize: SizerUtil.deviceType == DeviceType.mobile
-                            ? AppPadding.p28.sp
-                            : AppPadding.p23.sp,
-                        fontWeight: FontWeightManger.bold),
-                  ),
-                  Text(
-                    AppStrings.titleRegister,
-                    style: TextStyle(
-                        fontSize: SizerUtil.deviceType == DeviceType.mobile
-                            ? AppPadding.p13.sp
-                            : AppPadding.p10.sp,
-                        color: ColorManger.lightBlack),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: SizerUtil.deviceType == DeviceType.mobile
-                            ? AppPadding.p1.h
-                            : AppPadding.p3.h),
-                    child: Center(
-                      child: MaterialButton(
-                          highlightColor: ColorManger.gradationLightBlue,
-                          onPressed: () => _showPicker(context),
-                          child: StreamBuilder<File>(
-                              stream: _viewModel.outputPictureValid,
-                              builder: (context, snapshot) {
-                                return _imagePicketByUser(snapshot.data);
-                              })),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Theme.of(context).primaryColor
+      ),
+      child: SafeArea(
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: SizerUtil.deviceType == DeviceType.mobile
+                      ? AppPadding.p2.h
+                      : AppPadding.p3.h,
+                  right: AppPadding.p5.w,
+                  left: AppPadding.p5.w),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.register,
+                      style: TextStyle(
+                          color: ColorManger.blue,
+                          fontSize: SizerUtil.deviceType == DeviceType.mobile
+                              ? AppPadding.p28.sp
+                              : AppPadding.p23.sp,
+                          fontWeight: FontWeightManger.bold),
                     ),
-                  ),
-                  SizedBox(
-                    height: SizerUtil.deviceType == DeviceType.mobile
-                        ? AppPadding.p1.h
-                        : AppPadding.p2.h,
-                  ),
-                  Center(child: _stackCustom()),
-                  SizedBox(
-                    height: SizerUtil.deviceType == DeviceType.mobile
-                        ? AppPadding.p1.h
-                        : AppPadding.p2.h,
-                  ),
-                  _columnTextForm(),
-                ],
+                    Text(
+                      AppStrings.titleRegister,
+                      style: TextStyle(
+                          fontSize: SizerUtil.deviceType == DeviceType.mobile
+                              ? AppPadding.p13.sp
+                              : AppPadding.p10.sp,
+                          color: ColorManger.lightBlack),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: SizerUtil.deviceType == DeviceType.mobile
+                              ? AppPadding.p1.h
+                              : AppPadding.p3.h),
+                      child: Center(
+                        child: MaterialButton(
+                            highlightColor: ColorManger.gradationLightBlue,
+                            onPressed: () => _showPicker(context),
+                            child: StreamBuilder<File>(
+                                stream: _viewModel.outputPictureValid,
+                                builder: (context, snapshot) {
+                                  return _imagePicketByUser(snapshot.data);
+                                })),
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizerUtil.deviceType == DeviceType.mobile
+                          ? AppPadding.p1.h
+                          : AppPadding.p2.h,
+                    ),
+                    Center(child: _stackCustom()),
+                    SizedBox(
+                      height: SizerUtil.deviceType == DeviceType.mobile
+                          ? AppPadding.p1.h
+                          : AppPadding.p2.h,
+                    ),
+                    _columnTextForm(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -176,6 +194,7 @@ class _RegisterViewState extends State<RegisterView> {
         context: context,
         builder: (BuildContext context) {
           return SafeArea(
+
               child: SizedBox(
             height: AppPadding.p15.h,
             child: Wrap(
@@ -215,32 +234,61 @@ class _RegisterViewState extends State<RegisterView> {
             image: DecorationImage(fit: BoxFit.cover, image: FileImage(image))),
       );
     } else {
-      return Lottie.asset(JsonAsset.takePhoto,height:AppPadding.p16.h);
-
+      return Lottie.asset(JsonAsset.takePhoto, height: AppPadding.p16.h);
     }
   }
 
   Widget _columnTextForm() {
     return Column(
       children: [
-        StreamBuilder<String?>(
-          stream: _viewModel.outputNameErrorValid,
-          builder: (context, snapshot) {
-            return TextFormField(
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.name,
-                controller: name,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.person,
-                      size: SizerUtil.deviceType == DeviceType.mobile
-                          ? AppPadding.p19.sp
-                          : AppPadding.p10.sp,
-                    ),
-                    labelText: AppStrings.name,
-                    hintText: AppStrings.name,
-                    errorText: snapshot.data));
-          },
+        Row(
+          children: [
+            Expanded(
+              flex: 16,
+              child: StreamBuilder<String?>(
+                stream: _viewModel.outputNameErrorValid,
+                builder: (context, snapshot) {
+                  return TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      controller: name,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.person,
+                            size: SizerUtil.deviceType == DeviceType.mobile
+                                ? AppPadding.p19.sp
+                                : AppPadding.p10.sp,
+                          ),
+                          labelText: AppStrings.name,
+                          hintText: AppStrings.name,
+                          errorText: snapshot.data));
+                },
+              ),
+            ),
+            const Spacer(),
+            Expanded(
+              flex: 16,
+              child: StreamBuilder<String?>(
+                stream: _viewModel.outputLastNameErrorValid,
+                builder: (context, snapshot) {
+                  return TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      controller: lastName,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.person,
+                            size: SizerUtil.deviceType == DeviceType.mobile
+                                ? AppPadding.p19.sp
+                                : AppPadding.p10.sp,
+                          ),
+                          labelText: AppStrings.lastName,
+                          hintText: AppStrings.lastName,
+                          errorText: snapshot.data));
+                },
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: SizerUtil.deviceType == DeviceType.mobile
@@ -346,24 +394,45 @@ class _RegisterViewState extends State<RegisterView> {
               ? AppPadding.p1.h
               : AppPadding.p2.h,
         ),
-        StreamBuilder<String?>(
-          stream: _viewModel.outputPhoneErrorValid,
-          builder: (context, snapshot) {
-            return TextFormField(
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.phone,
-                controller: phone,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.phone,
-                      size: SizerUtil.deviceType == DeviceType.mobile
-                          ? AppPadding.p19.sp
-                          : AppPadding.p10.sp,
-                    ),
-                    labelText: AppStrings.phoneNumber,
-                    hintText: AppStrings.phoneNumber,
-                    errorText: snapshot.data));
-          },
+        Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: CountryCodePicker(
+                  onChanged: (value) {
+                   _viewModel.countryCode = value.dialCode!;
+                     _viewModel.setUserPhone(phone.text);
+
+                  },
+                  initialSelection: "+20",
+                  favorite: const ["+20", "+39", "FR", "+966"],
+                  showCountryOnly: true,
+                  hideMainText: true,
+                  showOnlyCountryWhenClosed: true,
+                )),
+            Expanded(
+              flex: 4,
+              child: StreamBuilder<String?>(
+                stream: _viewModel.outputPhoneErrorValid,
+                builder: (context, snapshot) {
+                  return TextFormField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.phone,
+                      controller: phone,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            size: SizerUtil.deviceType == DeviceType.mobile
+                                ? AppPadding.p19.sp
+                                : AppPadding.p10.sp,
+                          ),
+                          labelText: AppStrings.phoneNumber,
+                          hintText: AppStrings.phoneNumber,
+                          errorText: snapshot.data));
+                },
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: SizerUtil.deviceType == DeviceType.mobile
@@ -374,7 +443,6 @@ class _RegisterViewState extends State<RegisterView> {
           stream: _viewModel.outputAddressErrorValid,
           builder: (context, snapshot) {
             return TextFormField(
-                onEditingComplete:()=> _viewModel.register(),
                 textInputAction: TextInputAction.done,
                 keyboardType: TextInputType.streetAddress,
                 controller: location,
@@ -400,7 +468,10 @@ class _RegisterViewState extends State<RegisterView> {
               child: ElevatedButton(
                 onPressed: (snapshot.data ?? false)
                     ? () {
-                        _viewModel.register();
+                  _viewModel.setUserLastName(lastName.text);
+                  _viewModel.setUserName(name.text);
+                  _viewModel.register();
+
                       }
                     : null,
                 child: const Text(

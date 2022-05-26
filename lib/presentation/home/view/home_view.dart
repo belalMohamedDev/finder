@@ -1,3 +1,4 @@
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:finder/presentation/resources/asset_manger.dart';
 import 'package:finder/presentation/resources/color_manger.dart';
 import 'package:finder/presentation/resources/font_manger.dart';
@@ -18,9 +19,9 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final AppPreferences _appPreferences = instance<AppPreferences>();
+  final TextEditingController _userSearch = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -30,11 +31,18 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            AnimSearchBar(
+                width: 400,
+                textController: _userSearch,
 
-             Text(
+                onSuffixTap: (){}),
+            Text(
               "${AppStrings.hello} ${_appPreferences.isAccessName()} !",
-               maxLines: 1,
-              style:  TextStyle(fontSize:FontSize.s16.sp, fontWeight: FontWeight.bold,),
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: FontSize.s16.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(
               height: 4,

@@ -50,3 +50,18 @@ class  MakeUnReportObject with _$MakeUnReportObject{
 
       )=_MakeUnReportObject;
 }
+
+
+@freezed
+class  UpdateUserObject with _$UpdateUserObject{
+  factory UpdateUserObject(
+  String name,
+  String nationalId,
+  String email,
+  String password,
+  String address,
+  String phoneNumber,
+  dynamic picture,
+
+      )=_UpdateUserObject;
+}

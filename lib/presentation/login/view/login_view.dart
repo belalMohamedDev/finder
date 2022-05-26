@@ -5,6 +5,7 @@ import 'package:finder/presentation/resources/route_manger.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:sizer/sizer.dart';
@@ -64,28 +65,31 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _getContentWidget() {
-    return SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: AppPadding.p8.h),
-                SvgPicture.asset(
-                  ImageAsset.login,
-                ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Theme.of(context).primaryColor
+      ),
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: AppPadding.p5.h),
+                  SvgPicture.asset(
+                    ImageAsset.login,
+                  ),
 
-                SizedBox(
-                  height: AppPadding.p3.h,
-                ),
-                _stackCustom(),
-                _colum(),
-                SizedBox(
-                  height: AppPadding.p5.h,
-                ),
-              ],
+                  SizedBox(
+                    height: AppPadding.p3.h,
+                  ),
+                  _stackCustom(),
+                  _colum(),
+                  SizedBox(
+                    height: AppPadding.p5.h,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -44,3 +44,18 @@ class MakeUnReportRequest{
   dynamic picture;
   MakeUnReportRequest(this.area,this.gender,this.policeStation,this.picture);
 }
+
+
+
+
+class UpdateUserRequest{
+    String name;
+   String nationalId;
+  String email;
+  String password;
+  String address;
+  String phoneNumber;
+  dynamic picture;
+
+    UpdateUserRequest(this.name,this.nationalId,this.email,this.password,this.address,this.phoneNumber,this.picture);
+}

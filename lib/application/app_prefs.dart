@@ -10,26 +10,28 @@ const String prefsKeyNationalId = "PREFS_KEY_NATIONAL_ID";
 const String prefsKeyId = "prefsKeyId";
 const String prefsKeyPhoneNumber = "PREFS_KEY_PHONE_NUMBER";
 const String prefsKeyAddress = "PREFS_KEY_Address";
+const String prefsKeyEmail = "prefsKeyEmail";
+const String prefsKeyPassword = "prefsKeyPassword";
 
 class AppPreferences {
   final SharedPreferences _sharedPreferences;
   AppPreferences(this._sharedPreferences);
 
 //Clear  data from application
-  removeData() {
-    _sharedPreferences.remove(prefsKeyAccessToken); //clear token
-    _sharedPreferences.remove(prefsKeyName); //clear name
-    _sharedPreferences.remove(prefsKeyImage); //clear image
-    _sharedPreferences.remove(prefsKeyNationalId); //clear national
-    _sharedPreferences.remove(prefsKeyPhoneNumber); // clear phone
-    _sharedPreferences.remove(prefsKeyAddress);  // clear address
-    _sharedPreferences.remove(prefsKeyIsUserLoggedIn); // clear bool data in login
-    _sharedPreferences.remove(prefsKeyId); // clear id
+  removeData() async{
+   await _sharedPreferences.remove(prefsKeyAccessToken); //clear token
+   await _sharedPreferences.remove(prefsKeyName); //clear name
+   await _sharedPreferences.remove(prefsKeyImage); //clear image
+   await _sharedPreferences.remove(prefsKeyNationalId); //clear national
+   await _sharedPreferences.remove(prefsKeyPhoneNumber); // clear phone
+   await _sharedPreferences.remove(prefsKeyAddress);  // clear address
+   await _sharedPreferences.remove(prefsKeyIsUserLoggedIn); // clear bool data in login
+   await _sharedPreferences.remove(prefsKeyId); // clear id
   }
 
   //on Boarding screen
   Future<void> setOnBoardingScreenView() async {
-    _sharedPreferences.setBool(prefsKeyOnBoardingScreenView, true);
+   await _sharedPreferences.setBool(prefsKeyOnBoardingScreenView, true);
   }
 
   Future<bool> isOnBoardingScreenView() async {
@@ -39,7 +41,7 @@ class AppPreferences {
   //login screen data
 
   Future<void> setLoginScreenView() async {
-    _sharedPreferences.setBool(prefsKeyIsUserLoggedIn, true);
+   await _sharedPreferences.setBool(prefsKeyIsUserLoggedIn, true);
   }
 
   Future<bool> isUserLoggedIn() async {
@@ -54,22 +56,34 @@ class AppPreferences {
         required String imageValue,
         required String addressValue,
         required int nationalIdValue,
+        required String password,
+        required String email,
         required int id,
 
       }) async {
-    _sharedPreferences.setString(prefsKeyAccessToken, tokenValue);
-    _sharedPreferences.setString(prefsKeyName, nameValue);
-    _sharedPreferences.setString(prefsKeyPhoneNumber, phoneValue);
-    _sharedPreferences.setString(prefsKeyImage, imageValue);
-    _sharedPreferences.setString(prefsKeyAddress, addressValue);
-    _sharedPreferences.setInt(prefsKeyNationalId, nationalIdValue);
-    _sharedPreferences.setInt(prefsKeyId, id);
+   await _sharedPreferences.setString(prefsKeyAccessToken, tokenValue);
+  await  _sharedPreferences.setString(prefsKeyName, nameValue);
+  await  _sharedPreferences.setString(prefsKeyPhoneNumber, phoneValue);
+  await  _sharedPreferences.setString(prefsKeyImage, imageValue);
+   await _sharedPreferences.setString(prefsKeyAddress, addressValue);
+   await  _sharedPreferences.setString(prefsKeyEmail, email);
+   await _sharedPreferences.setString(prefsKeyPassword, password);
+   await _sharedPreferences.setInt(prefsKeyNationalId, nationalIdValue);
+   await _sharedPreferences.setInt(prefsKeyId, id);
 
   }
 
 
   String isAccessToken() {
-    return _sharedPreferences.getString(prefsKeyAccessToken) ?? "";
+    return  _sharedPreferences.getString(prefsKeyAccessToken) ?? "";
+  }
+
+  String isAccessEmail() {
+    return  _sharedPreferences.getString(prefsKeyEmail) ?? "";
+  }
+
+  String isAccessPassword() {
+    return  _sharedPreferences.getString(prefsKeyPassword) ?? "";
   }
 
 

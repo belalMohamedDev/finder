@@ -19,7 +19,8 @@ class AppStrings {
   static const String next = "NEXT";
   static const String complete = "COMPLETE";
   static const String camera = "CAMERA";
-  static const String name = "Name";
+  static const String name = "First Name";
+  static const String lastName = "Last Name";
   static const String gender = "Gender";
   static const String registerNow = "Register  Now";
   static const String register = "Register";

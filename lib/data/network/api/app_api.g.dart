@@ -9,10 +9,8 @@ part of 'app_api.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps
 
 class _AppServiceClient implements AppServiceClient {
-
-  final AppPreferences _appPreferences = instance<AppPreferences>();
   _AppServiceClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://3db8-197-36-114-250.eu.ngrok.io';
+    baseUrl ??= 'https://57b6-197-36-114-250.eu.ngrok.io';
   }
 
   final Dio _dio;
@@ -101,10 +99,42 @@ class _AppServiceClient implements AppServiceClient {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<MakeSpecificReportResponse>(
             Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/api/reports/${_appPreferences.isAccessId()}',
+                .compose(_dio.options, '/api/reports/',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MakeSpecificReportResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MakeSpecificUnReportResponse> getSpecificUnReports() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MakeSpecificUnReportResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/api/unreportedincidents/1',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MakeSpecificUnReportResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<LogOutResponse> logOut() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<LogOutResponse>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/api/logout',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = LogOutResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -153,6 +183,39 @@ class _AppServiceClient implements AppServiceClient {
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = MakeUnReportResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UpdateResponse> updateUser(
+      {required name,
+      required nationalId,
+      required email,
+      required password,
+      required address,
+      required phoneNumber,
+      required picture,
+      method = "put"}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'name': name,
+      'national_id': nationalId,
+      'email': email,
+      'password': password,
+      'address': address,
+      'phone_number': phoneNumber,
+      'picture': picture,
+      '_method': method
+    };
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<UpdateResponse>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'api/users',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UpdateResponse.fromJson(_result.data!);
     return value;
   }
 

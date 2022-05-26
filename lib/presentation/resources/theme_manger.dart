@@ -11,7 +11,7 @@ ThemeData getApplicationTheme() {
   return ThemeData(
 
 //main color
-      primaryColor: ColorManger.gradationLightBlue,
+      primaryColor: ColorManger.backGround,
       scaffoldBackgroundColor: ColorManger.backGround,
 //Button theme
       buttonTheme: ButtonThemeData(

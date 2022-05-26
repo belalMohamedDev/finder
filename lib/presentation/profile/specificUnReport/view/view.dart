@@ -1,31 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:finder/presentation/common/stateRenderer/state_renderer_impl.dart';
-import 'package:finder/presentation/found/viewModel/found_view_model.dart';
+
 
 import 'package:finder/presentation/resources/asset_manger.dart';
+import 'package:finder/presentation/resources/values_manger.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../application/constant.dart';
-import '../../../application/di.dart';
-import '../../../domain/models/unReport/un_report_model.dart';
-import '../../foundPerson/view/found_person.dart';
-import '../../resources/values_manger.dart';
+import '../../../../application/constant.dart';
+import '../../../../application/di.dart';
+import '../../../../domain/models/makeUnSpecificReport/model.dart';
+import '../foundPerson/view/found_specific_person.dart';
+
+import '../viewModel/view_model.dart';
 
 
-class FoundView extends StatefulWidget {
-  const FoundView({Key? key}) : super(key: key);
+class SpecificUnReportView extends StatefulWidget {
+  const SpecificUnReportView({Key? key}) : super(key: key);
 
   @override
-  State<FoundView> createState() => _FoundViewState();
+  State<SpecificUnReportView> createState() => _SpecificUnReportViewState();
 }
 
-class _FoundViewState extends State<FoundView> {
-  final FoundViewModel _viewModel = instance<FoundViewModel>();
-
-
+class _SpecificUnReportViewState extends State<SpecificUnReportView> {
+  final SpecificUnReportViewModel _viewModel = instance<SpecificUnReportViewModel>();
   _bind() {
     _viewModel.start();
   }
@@ -38,35 +38,32 @@ class _FoundViewState extends State<FoundView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<FlowState>(
-      stream: _viewModel.outState,
-      builder: (context, snapshot) {
-        return snapshot.data?.getScreenWidget(context, _getData(), () {
-              _viewModel.start();
-            }) ??
-            _getData();
-      },
+    return Scaffold(
+      body: StreamBuilder<FlowState>(
+        stream: _viewModel.outState,
+        builder: (context, snapshot) {
+          return snapshot.data?.getScreenWidget(context, _getData(), () {
+            _viewModel.start();
+          }) ??
+              _getData();
+        },
+      ),
     );
   }
 
+
   Widget _getData() {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: Theme.of(context).primaryColor
-    ),
-    child:
-      SafeArea(
-      child: StreamBuilder<List<DataModel>>(
+    return SafeArea(
+      child: StreamBuilder<List<MakeSpecificUnReportModel>>(
         stream: _viewModel.outputData,
         builder: (context, snapshot) {
           return _showData(snapshot.data);
         },
       ),
-   )
     );
   }
 
-  Widget _showData(List<DataModel>? data) {
+  Widget _showData(List<MakeSpecificUnReportModel>? data) {
     if (data != null) {
       return GridView.builder(
         padding: const EdgeInsets.only(
@@ -83,17 +80,17 @@ class _FoundViewState extends State<FoundView> {
         itemBuilder: (context, index) {
 
           String imageData =
-              "${Constant.baseUrl}/storage/${data[index].attributes?.picture}";
+              "${Constant.baseUrl}/storage/${data[index].data?.attributes?.picture}";
 
           return GestureDetector(
             onTap:(){
               Navigator.push(context,  MaterialPageRoute(
-                builder: (context) => FoundPersonDetailsScreen(data[index]),
+                builder: (context) => FoundSpecificPersonDetailsScreen(data[index]),
 
               ));
             },
-            child: _customCard(data[index].attributes?.policeStation,
-                data[index].attributes?.createdAt, imageData),
+            child: _customCard(data[index].data?.attributes?.policeStation,
+                data[index].data?.attributes?.createdAt, imageData),
           );
         },
         itemCount: data.length,
@@ -105,6 +102,7 @@ class _FoundViewState extends State<FoundView> {
 
     }
   }
+
 
 
   Widget _customCard(
@@ -160,3 +158,11 @@ class _FoundViewState extends State<FoundView> {
     super.dispose();
   }
 }
+
+
+
+
+
+
+
+

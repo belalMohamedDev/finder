@@ -10,6 +10,7 @@ import '../login/view/login_view.dart';
 import '../makeUnReport/view/view.dart';
 import '../onBoarding/view/onBoarding_view.dart';
 import '../profile/specificReport/view/view.dart';
+import '../profile/specificUnReport/view/view.dart';
 import '../splash/splash_view.dart';
 
 class Routes {
@@ -23,6 +24,7 @@ class Routes {
   static const String makeReport = "/makeReport";
   static const String makeUnReport = "/makeUnReport";
   static const String makeSpecificReport = "/makeSpecificReport";
+  static const String makeUnSpecificReport = "/makeUnSpecificReport";
 }
 
 class RouteGenerator {
@@ -47,9 +49,12 @@ class RouteGenerator {
           builder: (_) => const RegisterView(),
         );
         case Routes.bottomNavBarRoute:
+          initLogOutModule();
           initMissingModule();
           initFoundModule();
           initSpecificReportModule();
+          initSpecificUnReportModule();
+          initUpdateUserModule();
         return MaterialPageRoute(
           builder: (_) => const BottomNavBarView(),
         );
@@ -75,6 +80,11 @@ class RouteGenerator {
        // initSpecificReportModule();
         return MaterialPageRoute(
           builder: (_) => const SpecificReportView(),
+        );
+      case Routes.makeUnSpecificReport:
+      // initSpecificReportModule();
+        return MaterialPageRoute(
+          builder: (_) => const SpecificUnReportView(),
         );
       default:
         return unDefinedRoute();
