@@ -1,33 +1,48 @@
 import 'dart:async';
 import 'dart:io';
 
+
 import 'package:dio/dio.dart';
 import 'package:finder/presentation/base/base_view_model.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
 
+
 import '../../../application/di.dart';
-import '../../../domain/useCase/makeUnReport/make_un_report_use_case.dart';
+import '../../../domain/useCase/Incident/use_case.dart';
+
 import '../../common/freezed_data_classes.dart';
+
 import '../../common/stateRenderer/state_renderer.dart';
 import '../../common/stateRenderer/state_renderer_impl.dart';
 
-class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutput {
-  final StreamController _areaStreamController =  StreamController.broadcast();
+
+
+class MakeUnReport extends BaseViewModel
+    with MakeUnReportInput, MakeUnReportOutput {
+  final StreamController _areaStreamController = StreamController.broadcast();
   final StreamController _genderStreamController = StreamController.broadcast();
-  final StreamController _pictureStreamController = StreamController<File>.broadcast();
-  final StreamController _isALLCompleteStreamController = BehaviorSubject<
-      void>();
+  final StreamController _pictureStreamController =
+      StreamController<File>.broadcast();
+  final StreamController _isALLCompleteStreamController =
+      BehaviorSubject<void>();
   final StreamController _policeStationStreamController = BehaviorSubject();
 
   // object instance
-  var makeUnReportObject = MakeUnReportObject("", "", "", "");
+  var incidentObject = IncidentObject("", "", "", "");
   final ImagePicker _imagePicker = instance<ImagePicker>();
-  final MakeUnReportUseCase _reportUseCase;
-  String? imageData;
-  // Initial Selected Value
+  final IncidentUseCase _incidentUseCase;
 
-  MakeUnReport(this._reportUseCase);
+  // Initial Selected Value
+   String? imageData="";
+   File? fileName;
+  String? area;
+  String? gender;
+  String? police;
+  String? pictureData="";
+  MakeUnReport(this._incidentUseCase);
+
 
 
   // ----input------
@@ -47,7 +62,6 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
     super.dispose();
   }
 
-
   @override
   Sink get inputAllInputValid => _isALLCompleteStreamController.sink;
 
@@ -63,9 +77,7 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
   @override
   Sink get inputPoliceStation => _policeStationStreamController.sink;
 
-
   // ----output-----
-
 
   @override
   Stream<bool> get outAllInputValid =>
@@ -84,10 +96,8 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
       _pictureStreamController.stream.map((file) => file);
 
   @override
-  Stream<bool> get outPoliceStation =>
-      _policeStationStreamController.stream.map((station) =>
-          _isPoliceValid(station));
-
+  Stream<bool> get outPoliceStation => _policeStationStreamController.stream
+      .map((station) => _isPoliceValid(station));
 
   @override
   void camera() async {
@@ -98,35 +108,52 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
   @override
   void gallery() async {
     var _pickedImage =
-    await _imagePicker.pickImage(source: ImageSource.gallery);
+        await _imagePicker.pickImage(source: ImageSource.gallery);
     setUserPicture(File(_pickedImage?.path ?? ""));
   }
 
   @override
-  void makeUnReport() async {
-
+  void makeUnReport(context) async {
     inputState.add(LoadingState(
         stateRenderType: StateRenderType.popupLoadingState, message: ''));
 
-    (await _reportUseCase.execute(MakeUnReportUseCaseInput(
-      makeUnReportObject.area,
-      makeUnReportObject.gender,
-      makeUnReportObject.policeStation,
-      makeUnReportObject.picture,
+
+    (await _incidentUseCase.execute(IncidentUseCaseInput(
+      incidentObject.area,
+      incidentObject.gender,
+      incidentObject.policeStation,
+      incidentObject.picture,
     )))
         .fold(
             (failure) =>
         {
           // left -> failure
-          inputState.add(ErrorState(
-            stateRenderType: StateRenderType.popupErrorState,
-            message: failure.message,
-          )),
+          if (failure.code == -6)
+            {
+              inputState.add(InternetConnectionState(
+                stateRenderType:
+                StateRenderType.popupInternetConnectionState,
+                message: failure.message,
+              )),
+            }
+          else
+            {
+              inputState.add(ErrorState(
+                stateRenderType: StateRenderType.popupErrorState,
+                message: failure.message,
+              )),
+            }
         }, (data) async {
       //right -> data(success)
 
-      inputState.add(ContentState());
-      print("ok");
+      inputState.add(SuccessState(
+          stateRenderType: StateRenderType.popupSuccessState, message: ''));
+
+      Timer(const Duration(seconds: 3), () {
+        inputState.add(ContentState());
+
+      },);
+
     });
   }
 
@@ -134,10 +161,11 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
   setUserArea(String userArea) {
     inputArea.add(userArea);
     if (_isStringDataValid(userArea)) {
-      makeUnReportObject = makeUnReportObject.copyWith(area: userArea);
+      incidentObject = incidentObject.copyWith(area: userArea);
+      area = userArea;
     } else {
       // rest user name value in register view object
-      makeUnReportObject = makeUnReportObject.copyWith(area: "");
+      incidentObject = incidentObject.copyWith(area: "");
     }
     validate();
   }
@@ -146,27 +174,27 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
   setUserGender(String dropDownValue) {
     inputGender.add(dropDownValue);
     if (_isGenderValid(dropDownValue)) {
-      makeUnReportObject = makeUnReportObject.copyWith(gender: dropDownValue);
+      incidentObject = incidentObject.copyWith(gender: dropDownValue);
+      gender = dropDownValue;
     } else {
       // rest user name value in register view object
-      makeUnReportObject = makeUnReportObject.copyWith(gender: "");
+      incidentObject = incidentObject.copyWith(gender: "");
     }
     validate();
   }
-
 
   @override
   setUserPicture(File userPicture) async {
     inputPicture.add(userPicture);
     if (userPicture.path.isNotEmpty) {
       //update register view object
-      String fileName = userPicture.path
-          .split("/").last;
+      String fileName = userPicture.path.split("/").last;
       dynamic image = await MultipartFile.fromFile(userPicture.path, filename: fileName);
-      makeUnReportObject = makeUnReportObject.copyWith(picture: image);
+
+      incidentObject = incidentObject.copyWith(picture: image);
     } else {
       // rest user name value in register view object
-      makeUnReportObject = makeUnReportObject.copyWith(picture: "");
+      incidentObject = incidentObject.copyWith(picture: "");
     }
     validate();
   }
@@ -175,18 +203,15 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
   setUserPolice(String userPolice) {
     inputPoliceStation.add(userPolice);
     if (_isPoliceValid(userPolice)) {
-      makeUnReportObject =
-          makeUnReportObject.copyWith(policeStation: userPolice);
+      incidentObject = incidentObject.copyWith(policeStation: userPolice);
     } else {
       // rest user name value in register view object
-      makeUnReportObject = makeUnReportObject.copyWith(policeStation: "");
+      incidentObject = incidentObject.copyWith(policeStation: "");
     }
     validate();
   }
 
-
 //---- private function
-
 
   bool _isStringDataValid(String data) {
     return data.length >= 5;
@@ -196,20 +221,20 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
     return data.length >= 5;
   }
 
-
   bool _isGenderValid(String gender) {
-      if (gender == "Male") {
-        return gender == "Male";
-      } else if (gender == "FeMale") {
-        return gender == "FeMale";
-      } else{
-        return false;
+    if (gender == "Male") {
+      return gender == "Male";
+    } else if (gender == "FeMale") {
+      return gender == "FeMale";
+    } else {
+      return false;
     }
   }
 
   bool _areAllValid() {
-    return makeUnReportObject.gender.isNotEmpty && makeUnReportObject.area.isNotEmpty &&makeUnReportObject.policeStation.isNotEmpty;
-
+    return incidentObject.gender.isNotEmpty &&
+        incidentObject.area.isNotEmpty &&
+        incidentObject.policeStation.isNotEmpty;
   }
 
   validate() {
@@ -217,7 +242,7 @@ class MakeUnReport extends BaseViewModel with MakeUnReportInput,MakeUnReportOutp
   }
 }
 
-abstract class MakeUnReportInput{
+abstract class MakeUnReportInput {
   Sink get inputArea;
   Sink get inputGender;
   Sink get inputPicture;
@@ -225,18 +250,17 @@ abstract class MakeUnReportInput{
   Sink get inputAllInputValid;
   void camera(); // open camera and upload photo
   void gallery(); // open gallery and upload photo
-  void makeUnReport(); // post and storage data, and register
+  void makeUnReport(context); // post and storage data, and register
   setUserPolice(String userPolice);
   setUserArea(String userArea);
   setUserGender(String dropDownValue);
   setUserPicture(File userPicture);
 }
 
-abstract class MakeUnReportOutput{
+abstract class MakeUnReportOutput {
   Stream<bool> get outArea;
   Stream<bool> get outGender;
   Stream<File> get outPicture;
   Stream<bool> get outPoliceStation;
   Stream<bool> get outAllInputValid;
-
 }

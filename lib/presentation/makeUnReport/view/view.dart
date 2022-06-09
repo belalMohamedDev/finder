@@ -49,7 +49,7 @@ class _MakeUnReportViewState extends State<MakeUnReportView> {
         builder: (context, snapshot) {
           return snapshot.data?.getScreenWidget(context, _getContentWidget(),
                   () {
-                _viewModel.makeUnReport();
+                _viewModel.makeUnReport(context);
               }) ??
               _getContentWidget();
         });
@@ -198,7 +198,7 @@ class _MakeUnReportViewState extends State<MakeUnReportView> {
                               ),
                               onPressed: (snapshot.data ?? false)
                                   ? () {
-                                      _viewModel.makeUnReport();
+                                      _viewModel.makeUnReport(context);
                                     }
                                   : null,
                               child: const Text(AppStrings.done),
@@ -254,7 +254,7 @@ class _MakeUnReportViewState extends State<MakeUnReportView> {
     if (image != null && image.path.isNotEmpty) {
       //return image
       return Container(
-        height: AppPadding.p30.h,
+        height: AppPadding.p25.h,
         width: AppPadding.p50.w,
         decoration: BoxDecoration(
             image: DecorationImage(fit: BoxFit.cover, image: FileImage(image))),

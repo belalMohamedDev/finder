@@ -104,10 +104,21 @@ class RegisterViewModel extends BaseViewModel
         .fold(
             (failure) => {
                   // left -> failure
-                  inputState.add(ErrorState(
-                    stateRenderType: StateRenderType.popupErrorState,
-                    message: failure.message,
-                  )),
+                  if (failure.code == -6)
+                    {
+                      inputState.add(InternetConnectionState(
+                        stateRenderType:
+                            StateRenderType.popupInternetConnectionState,
+                        message: failure.message,
+                      )),
+                    }
+                  else
+                    {
+                      inputState.add(ErrorState(
+                        stateRenderType: StateRenderType.popupErrorState,
+                        message: failureMassage(failure),
+                      )),
+                    }
                 }, (data) async {
       //right -> data(success)
 
@@ -129,20 +140,27 @@ class RegisterViewModel extends BaseViewModel
 
         //content
         inputState.add(ContentState());
-        //navigate to main screen
-        isUserLoggedInSuccessfullyStreamController.add(true);
 
         // storage data in app preference
         imageData =
             "${Constant.baseUrl}/storage/${data.user?.attribute?.picture}";
         _appPreferences.setLoginScreenData(
-            tokenValue: data.accessToken,
-            nameValue: data.user!.attribute!.name,
-            phoneValue: data.user!.attribute!.phoneNumber,
-            imageValue: imageData!,
-            addressValue: data.user!.attribute!.address,
-            nationalIdValue: data.user!.attribute!.nationalId,
-            id: data.user!.id, password: registerObject.password, email: data.user!.attribute!.email,);
+          tokenValue: data.accessToken,
+          nameValue: data.user!.attribute!.name,
+          phoneValue: data.user!.attribute!.phoneNumber,
+          imageValue: imageData!,
+          addressValue: data.user!.attribute!.address,
+          nationalIdValue: data.user!.attribute!.nationalId,
+          id: data.user!.id,
+          password: registerObject.password,
+          email: data.user!.attribute!.email,
+        );
+
+        // refresh data module
+        restAllModule();
+
+        //navigate to main screen
+        isUserLoggedInSuccessfullyStreamController.add(true);
       });
     });
   }

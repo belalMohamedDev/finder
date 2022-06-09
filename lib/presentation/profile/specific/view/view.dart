@@ -1,29 +1,29 @@
 
 import 'package:finder/presentation/resources/asset_manger.dart';
 import 'package:finder/presentation/resources/color_manger.dart';
-import 'package:finder/presentation/resources/font_manger.dart';
+
 import 'package:finder/presentation/resources/route_manger.dart';
-import 'package:finder/presentation/resources/strings_manger.dart';
+
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
-import '../../../application/app_prefs.dart';
-import '../../../application/di.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+
+class SpecificView extends StatefulWidget {
+  const SpecificView({Key? key}) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<SpecificView> createState() => _SpecificViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  final AppPreferences _appPreferences = instance<AppPreferences>();
+class _SpecificViewState extends State<SpecificView> {
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: ColorManger.black),
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -31,24 +31,6 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "${ AppStrings.hello} ${_appPreferences.isAccessName()} !",
-              maxLines: 1,
-              style: TextStyle(
-                fontSize: FontSize.s16.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            const Text(
-              AppStrings.hope,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.italic),
-            ),
             const SizedBox(height: 190),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.makeReport);
+                        Navigator.pushNamed(context, Routes.makeSpecificReport);
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -105,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.makeUnReport);
+                        Navigator.pushNamed(context, Routes.makeUnSpecificReport);
                       },
                       child: Container(
                         color: Colors.transparent,

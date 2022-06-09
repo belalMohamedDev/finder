@@ -33,144 +33,146 @@ class FoundPersonDetailsScreen extends StatelessWidget {
           height: double.infinity,
           width: double.infinity,
           margin:  EdgeInsets.all(AppPadding.p22.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                  shape:  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(APPSize.s12.sp),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                    shape:  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(APPSize.s12.sp),
+                      ),
                     ),
+                    elevation: 10,
+                    child: ClipRRect(
+                      borderRadius:  BorderRadius.circular(APPSize.s12.sp),
+                      child: CachedNetworkImage(
+                        imageUrl: imageData,
+                        height: AppPadding.p36.h,
+                        width: AppPadding.p92.w,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Image.asset(ImageAsset.profile),
+                      ),
+                    )),
+                SizedBox(
+                  height: AppPadding.p3.h,
+                ),
+                Center(
+                  child: Text(
+                    "${data.attributes?.policeStation}",
+                    style:Theme.of(context).textTheme.titleLarge,
                   ),
-                  elevation: 10,
-                  child: ClipRRect(
-                    borderRadius:  BorderRadius.circular(APPSize.s12.sp),
-                    child: CachedNetworkImage(
-                      imageUrl: imageData,
-                      height: AppPadding.p36.h,
-                      width: AppPadding.p92.w,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Image.asset(ImageAsset.profile),
+                ),
+                SizedBox(
+                  height: AppPadding.p3.h,
+                ),
+
+                Text(
+                  """Missing From Place:""",
+                  style:  Theme.of(context).textTheme.titleSmall,
+                ),
+                SizedBox(
+                  height: AppPadding.p1.h,
+                ),
+
+                Center(
+                  child: Text(
+                    "${data.attributes?.policeStation}",
+                    style:  Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
+
+
+                SizedBox(
+                  height: AppPadding.p4.h,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      """Missing From :    """,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
-                  )),
-              SizedBox(
-                height: AppPadding.p3.h,
-              ),
-              Center(
-                child: Text(
-                  "${data.attributes?.policeStation}",
-                  style:Theme.of(context).textTheme.titleLarge,
+                    Text(
+                      """  ${data.attributes?.createdAt}""",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: AppPadding.p3.h,
-              ),
 
-              Text(
-                """Missing From Place:""",
-                style:  Theme.of(context).textTheme.titleSmall,
-              ),
-              SizedBox(
-                height: AppPadding.p1.h,
-              ),
 
-              Center(
-                child: Text(
-                  "${data.attributes?.policeStation}",
-                  style:  Theme.of(context).textTheme.bodySmall,
+                SizedBox(
+                  height:AppPadding.p3.h,
                 ),
-              ),
-
-
-              SizedBox(
-                height: AppPadding.p4.h,
-              ),
-              Row(
-                children: [
-                  Text(
-                    """Missing From :    """,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  Text(
-                    """  ${data.attributes?.createdAt}""",
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-
-
-              SizedBox(
-                height:AppPadding.p3.h,
-              ),
-              const Divider(
-                color: Colors.black54,
-              ),
-              SizedBox(
-                height:AppPadding.p2.h,
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.person_outline,
-                    size: APPSize.s20.sp,
-                  ),
-                  SizedBox(
-                    width:AppPadding.p10.w,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(
-                        "${data.attributes?.gender}",
-                        style:  TextStyle(
-                            fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        height:AppPadding.p1.h,
-                      ),
-                      Text(
-                        "Gender",
-                        style:
-                        TextStyle(color: Colors.grey, fontSize: FontSize.s12.sp),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(
-                height:AppPadding.p4.h,
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    size: 30,
-                  ),
-                  SizedBox(
-                    width:AppPadding.p8.w,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(
-                        "${data.attributes?.area}",
-                        style:  TextStyle(
-                            fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        height:AppPadding.p1.h,
-                      ),
-                      Text(
-                        "Address",
-                        style:
-                        TextStyle(color: Colors.grey, fontSize: FontSize.s12.sp),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ],
+                const Divider(
+                  color: Colors.black54,
+                ),
+                SizedBox(
+                  height:AppPadding.p2.h,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.person_outline,
+                      size: APPSize.s20.sp,
+                    ),
+                    SizedBox(
+                      width:AppPadding.p10.w,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:  [
+                        Text(
+                          "${data.attributes?.gender}",
+                          style:  TextStyle(
+                              fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height:AppPadding.p1.h,
+                        ),
+                        Text(
+                          "Gender",
+                          style:
+                          TextStyle(color: Colors.grey, fontSize: FontSize.s12.sp),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height:AppPadding.p4.h,
+                ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      size: 30,
+                    ),
+                    SizedBox(
+                      width:AppPadding.p8.w,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:  [
+                        Text(
+                          "${data.attributes?.area}",
+                          style:  TextStyle(
+                              fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height:AppPadding.p1.h,
+                        ),
+                        Text(
+                          "Address",
+                          style:
+                          TextStyle(color: Colors.grey, fontSize: FontSize.s12.sp),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ));
   }

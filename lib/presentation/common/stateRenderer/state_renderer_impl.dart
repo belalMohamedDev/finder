@@ -23,6 +23,38 @@ class LoadingState extends FlowState {
   StateRenderType getStateRenderType() => stateRenderType;
 }
 
+
+//success state (popUp )
+
+class SuccessState extends FlowState {
+  StateRenderType stateRenderType;
+  String message;
+  SuccessState(
+      {required this.stateRenderType, this.message = AppStrings.loading});
+
+  @override
+  String getMessage() => message;
+
+  @override
+  StateRenderType getStateRenderType() => stateRenderType;
+}
+
+
+//Internet Connection state (popUp ,full screen)
+
+class InternetConnectionState extends FlowState {
+  StateRenderType stateRenderType;
+  String message;
+  InternetConnectionState({required this.stateRenderType, required this.message});
+
+  @override
+  String getMessage() => message;
+
+  @override
+  StateRenderType getStateRenderType() => stateRenderType;
+}
+
+
 //error state (popUp ,full screen)
 
 class ErrorState extends FlowState {
@@ -66,7 +98,26 @@ extension FlowStateExtension on FlowState {
     switch (runtimeType) {
       case LoadingState:
         {
+          dismissDialog(context);
           if (getStateRenderType() == StateRenderType.popupLoadingState) {
+            //show popup loading
+            showPopUp(context, getStateRenderType(), getMessage());
+            // show content ui of screen
+            return contentScreenWidget;
+          } else {
+            //full screen state loading state
+            return StateRender(
+              message: getMessage(),
+              retryActionFunction: retryActionFunction,
+              stateRenderType: getStateRenderType(),
+            );
+          }
+        }
+
+      case SuccessState:
+        {
+          dismissDialog(context);
+          if (getStateRenderType() == StateRenderType.popupSuccessState) {
             //show popup loading
             showPopUp(context, getStateRenderType(), getMessage());
             // show content ui of screen
@@ -85,6 +136,24 @@ extension FlowStateExtension on FlowState {
         {
           dismissDialog(context);
           if (getStateRenderType() == StateRenderType.popupErrorState) {
+            //show popup error
+            showPopUp(context, getStateRenderType(), getMessage());
+            // show content ui of screen
+            return contentScreenWidget;
+          } else {
+            //full screen state error state
+            return StateRender(
+              message: getMessage(),
+              retryActionFunction: retryActionFunction,
+              stateRenderType: getStateRenderType(),
+            );
+          }
+        }
+
+      case InternetConnectionState:
+        {
+          dismissDialog(context);
+          if (getStateRenderType() == StateRenderType.popupInternetConnectionState) {
             //show popup error
             showPopUp(context, getStateRenderType(), getMessage());
             // show content ui of screen

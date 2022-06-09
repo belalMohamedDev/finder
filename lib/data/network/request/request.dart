@@ -59,3 +59,12 @@ class UpdateUserRequest{
 
     UpdateUserRequest(this.name,this.nationalId,this.email,this.password,this.address,this.phoneNumber,this.picture);
 }
+
+
+class IncidentRequest{
+  String area;
+  String gender;
+  String policeStation;
+  dynamic picture;
+  IncidentRequest(this.area,this.gender,this.policeStation,this.picture);
+}

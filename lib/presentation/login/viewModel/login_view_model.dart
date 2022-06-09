@@ -63,17 +63,27 @@ class LoginViewModel extends BaseViewModel
         .fold(
             (failure) => {
                   // left -> failure
-                  inputState.add(ErrorState(
-                    stateRenderType: StateRenderType.popupErrorState,
-                    message: failureMassage(failure),
-                  )),
+
+                  if (failure.code == -6)
+                    {
+                      inputState.add(InternetConnectionState(
+                        stateRenderType:
+                            StateRenderType.popupInternetConnectionState,
+                        message: failure.message,
+                      )),
+                    }
+                  else
+                    {
+                      inputState.add(ErrorState(
+                        stateRenderType: StateRenderType.popupErrorState,
+                        message: failureMassage(failure),
+                      )),
+                    }
                 }, (data) {
       //right -> data(success)
 
       //content
       inputState.add(ContentState());
-      //navigate to main screen
-      isUserLoggedInSuccessfullyStreamController.add(true);
 
       // storage data in app preference
       imageData =
@@ -85,7 +95,16 @@ class LoginViewModel extends BaseViewModel
           imageValue: imageData!,
           addressValue: data.user!.attribute!.address,
           nationalIdValue: data.user!.attribute!.nationalId,
-          id: data.user!.id, password: userPassword!, email: data.user!.attribute!.email);
+          id: data.user!.id,
+          password: userPassword!,
+          email: data.user!.attribute!.email);
+
+      // refresh data module
+
+         restAllModule();
+
+      //navigate to main screen
+      isUserLoggedInSuccessfullyStreamController.add(true);
     });
   }
 
@@ -117,7 +136,7 @@ class LoginViewModel extends BaseViewModel
   @override
   setPassword(String password) {
     inputPassword.add(password.trim());
-    userPassword=password.trim();
+    userPassword = password.trim();
     loginObject = loginObject.copyWith(password: password.trim());
     inputAreAllInputsValid.add(null);
   }

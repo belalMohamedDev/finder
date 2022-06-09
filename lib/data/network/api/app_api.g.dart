@@ -10,7 +10,7 @@ part of 'app_api.dart';
 
 class _AppServiceClient implements AppServiceClient {
   _AppServiceClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://57b6-197-36-114-250.eu.ngrok.io';
+    baseUrl ??= Constant.baseUrl;
   }
 
   final Dio _dio;
@@ -39,7 +39,7 @@ class _AppServiceClient implements AppServiceClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
+    FormData _data = FormData.fromMap({
       'name': name,
       'national_id': nationalId,
       'email': email,
@@ -47,7 +47,7 @@ class _AppServiceClient implements AppServiceClient {
       'address': address,
       'phone_number': phoneNumber,
       'picture': picture
-    };
+    });
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<RegisterModelResponse>(
             Options(method: 'POST', headers: _headers, extra: _extra)
@@ -91,38 +91,6 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<MakeSpecificReportResponse> getSpecificReports() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MakeSpecificReportResponse>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/api/reports/',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = MakeSpecificReportResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<MakeSpecificUnReportResponse> getSpecificUnReports() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MakeSpecificUnReportResponse>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options, '/api/unreportedincidents/1',
-                    queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = MakeSpecificUnReportResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
   Future<LogOutResponse> logOut() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -144,7 +112,7 @@ class _AppServiceClient implements AppServiceClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
+    FormData _data = FormData.fromMap({
       'name': name,
       'national_id': nationalId,
       'age': age,
@@ -153,7 +121,7 @@ class _AppServiceClient implements AppServiceClient {
       'picture': picture,
       'clothes_last_seen_wearing': clothesLastSeenWearing,
       'birthmark': birthmark
-    };
+    });
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<MakeReportResponse>(
             Options(method: 'POST', headers: _headers, extra: _extra)
@@ -164,25 +132,27 @@ class _AppServiceClient implements AppServiceClient {
     return value;
   }
 
+
+
   @override
-  Future<MakeUnReportResponse> makeUnReport(
+  Future<IncidentResponse> incident(
       area, gender, policeStation, picture) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
+    FormData _data = FormData.fromMap({
       'area': area,
       'gender': gender,
       'police_station': policeStation,
       'picture': picture
-    };
+    });
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MakeUnReportResponse>(
+        _setStreamType<IncidentResponse>(
             Options(method: 'POST', headers: _headers, extra: _extra)
                 .compose(_dio.options, '/api/unreportedincidents',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = MakeUnReportResponse.fromJson(_result.data!);
+    final value = IncidentResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -199,7 +169,7 @@ class _AppServiceClient implements AppServiceClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
+    FormData _data = FormData.fromMap({
       'name': name,
       'national_id': nationalId,
       'email': email,
@@ -208,11 +178,11 @@ class _AppServiceClient implements AppServiceClient {
       'phone_number': phoneNumber,
       'picture': picture,
       '_method': method
-    };
+    });
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UpdateResponse>(
             Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, 'api/users',
+                .compose(_dio.options, '/api/users',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UpdateResponse.fromJson(_result.data!);

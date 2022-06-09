@@ -5,7 +5,7 @@ import 'package:finder/presentation/resources/route_manger.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,14 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   _bind(){
     _viewModel.start();
-    _viewModel.isUserLoggedOutSuccessfullyStreamController.stream.listen((isLoggedOut) {
-      if (isLoggedOut) {
-        //navigate to main screen
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoute,(Route<dynamic> route) => false);
-        });
-      }
-    });
+
     }
 
 
@@ -84,7 +77,7 @@ class _ProfileViewState extends State<ProfileView> {
       children: [
         GestureDetector(
           onTap:() {
-      Navigator.pushNamed(context, Routes.makeUnSpecificReport);
+      Navigator.pushNamed(context, Routes.specificView);
     },
           child: Card(
             color: ColorManger.lightWhiteColor,
@@ -163,9 +156,6 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         InkWell(
           onTap: () {
-            setState(() {
-
-            });
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -200,7 +190,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                     MaterialButton(
                     onPressed: () {
-            _viewModel.logOut();
+            _viewModel.logOut(context);
 
 
             },

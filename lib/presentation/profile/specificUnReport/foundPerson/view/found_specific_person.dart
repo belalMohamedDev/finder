@@ -10,20 +10,21 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../application/constant.dart';
-import '../../../../../domain/models/makeUnSpecificReport/model.dart';
+
+import '../../../../../domain/models/unReport/un_report_model.dart';
 import '../../../../resources/asset_manger.dart';
 import '../../../../resources/color_manger.dart';
 
 
 
 class FoundSpecificPersonDetailsScreen extends StatelessWidget {
-  final MakeSpecificUnReportModel data;
+  final DataModel data;
 
   const FoundSpecificPersonDetailsScreen(this.data, {Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String imageData = "${Constant.baseUrl}/storage/${data.data?.attributes?.picture}";
+    String imageData = "${Constant.baseUrl}/storage/${data.attributes?.picture}";
     return Scaffold(
         appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle(
@@ -62,7 +63,7 @@ class FoundSpecificPersonDetailsScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  "${data.data?.attributes?.policeStation}",
+                  "${data.attributes?.policeStation}",
                   style:Theme.of(context).textTheme.titleLarge,
                 ),
               ),
@@ -80,7 +81,7 @@ class FoundSpecificPersonDetailsScreen extends StatelessWidget {
 
               Center(
                 child: Text(
-                  "${data.data?.attributes?.policeStation}",
+                  "${data.attributes?.policeStation}",
                   style:  Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -96,7 +97,7 @@ class FoundSpecificPersonDetailsScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
-                    """  ${data.data?.attributes?.createdAt}""",
+                    """  ${data.attributes?.createdAt}""",
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -125,7 +126,7 @@ class FoundSpecificPersonDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
                       Text(
-                        "${data.data?.attributes?.gender}",
+                        "${data.attributes?.gender}",
                         style:  TextStyle(
                             fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
                       ),
@@ -157,7 +158,7 @@ class FoundSpecificPersonDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
                       Text(
-                        "${data.data?.attributes?.area}",
+                        "${data.attributes?.area}",
                         style:  TextStyle(
                             fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
                       ),

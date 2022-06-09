@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:finder/domain/models/makeSpecificReport/model.dart';
+
 import 'package:finder/presentation/common/stateRenderer/state_renderer_impl.dart';
 
 
@@ -8,10 +8,15 @@ import 'package:finder/presentation/resources/asset_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../application/constant.dart';
 import '../../../../application/di.dart';
+import '../../../../domain/models/reports/reports_model.dart';
+import '../../../resources/color_manger.dart';
+import '../../../resources/font_manger.dart';
+import '../../../resources/styles_manger.dart';
 import '../missingPerson/view/missing_person_details.dart';
 
 
@@ -37,6 +42,9 @@ class _SpecificReportViewState extends State<SpecificReportView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: ColorManger.black),
+      ),
       body: StreamBuilder<FlowState>(
         stream: _viewModel.outState,
         builder: (context, snapshot) {
@@ -52,7 +60,7 @@ class _SpecificReportViewState extends State<SpecificReportView> {
 
   Widget _getData() {
     return SafeArea(
-      child: StreamBuilder<List<MakeSpecificReportModel>>(
+      child: StreamBuilder<List<DataModel>>(
         stream: _viewModel.outputData,
         builder: (context, snapshot) {
           return _showData(snapshot.data);
@@ -61,7 +69,7 @@ class _SpecificReportViewState extends State<SpecificReportView> {
     );
   }
 
-  Widget _showData(List<MakeSpecificReportModel>? data) {
+  Widget _showData(List<DataModel>? data) {
     if (data != null) {
       return GridView.builder(
         padding: const EdgeInsets.only(
@@ -78,27 +86,47 @@ class _SpecificReportViewState extends State<SpecificReportView> {
         itemBuilder: (context, index) {
 
           String imageData =
-              "${Constant.baseUrl}/storage/${data[index].data?.attributes?.picture}";
+              "${Constant.baseUrl}/storage/${_viewModel.getData[index].attributes?.picture}";
 
           return GestureDetector(
             onTap:(){
               Navigator.push(context,  MaterialPageRoute(
-                builder: (context) => MissingSpecificPersonDetailsScreen(data[index]),
+                builder: (context) => MissingSpecificPersonDetailsScreen(_viewModel.getData[index]),
 
               ));
             },
-            child: _customCard(data[index].data?.attributes?.name,
-                data[index].data?.attributes?.createdAt, imageData),
+            child: _customCard(_viewModel.getData[index].attributes?.name,
+                _viewModel.getData[index].attributes?.createdAt, imageData),
           );
         },
-        itemCount: data.length,
+        itemCount: _viewModel.getData.length,
       );
     } else {
-      return const Center(child: CircularProgressIndicator());
+      return _noData();
 
 
 
     }
+  }
+
+  Widget _noData() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+            height: APPSize.s30.h,
+            width: APPSize.s120.w,
+            child: Lottie.asset(
+              JsonAsset.empty,
+            )),
+        Text("No Data in Missing",
+            style: getRegularStyle(
+                fontSize: FontSize.s18.sp, color: ColorManger.lightBlack)),
+        SizedBox(
+          height: APPSize.s15.h,
+        )
+      ],
+    );
   }
 
 

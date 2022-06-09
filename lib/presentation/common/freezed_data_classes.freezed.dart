@@ -1067,3 +1067,174 @@ abstract class _UpdateUserObject implements UpdateUserObject {
   _$$_UpdateUserObjectCopyWith<_$_UpdateUserObject> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$IncidentObject {
+  String get area => throw _privateConstructorUsedError;
+  String get gender => throw _privateConstructorUsedError;
+  String get policeStation => throw _privateConstructorUsedError;
+  dynamic get picture => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $IncidentObjectCopyWith<IncidentObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $IncidentObjectCopyWith<$Res> {
+  factory $IncidentObjectCopyWith(
+          IncidentObject value, $Res Function(IncidentObject) then) =
+      _$IncidentObjectCopyWithImpl<$Res>;
+  $Res call(
+      {String area, String gender, String policeStation, dynamic picture});
+}
+
+/// @nodoc
+class _$IncidentObjectCopyWithImpl<$Res>
+    implements $IncidentObjectCopyWith<$Res> {
+  _$IncidentObjectCopyWithImpl(this._value, this._then);
+
+  final IncidentObject _value;
+  // ignore: unused_field
+  final $Res Function(IncidentObject) _then;
+
+  @override
+  $Res call({
+    Object? area = freezed,
+    Object? gender = freezed,
+    Object? policeStation = freezed,
+    Object? picture = freezed,
+  }) {
+    return _then(_value.copyWith(
+      area: area == freezed
+          ? _value.area
+          : area // ignore: cast_nullable_to_non_nullable
+              as String,
+      gender: gender == freezed
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
+      policeStation: policeStation == freezed
+          ? _value.policeStation
+          : policeStation // ignore: cast_nullable_to_non_nullable
+              as String,
+      picture: picture == freezed
+          ? _value.picture
+          : picture // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_IncidentObjectCopyWith<$Res>
+    implements $IncidentObjectCopyWith<$Res> {
+  factory _$$_IncidentObjectCopyWith(
+          _$_IncidentObject value, $Res Function(_$_IncidentObject) then) =
+      __$$_IncidentObjectCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String area, String gender, String policeStation, dynamic picture});
+}
+
+/// @nodoc
+class __$$_IncidentObjectCopyWithImpl<$Res>
+    extends _$IncidentObjectCopyWithImpl<$Res>
+    implements _$$_IncidentObjectCopyWith<$Res> {
+  __$$_IncidentObjectCopyWithImpl(
+      _$_IncidentObject _value, $Res Function(_$_IncidentObject) _then)
+      : super(_value, (v) => _then(v as _$_IncidentObject));
+
+  @override
+  _$_IncidentObject get _value => super._value as _$_IncidentObject;
+
+  @override
+  $Res call({
+    Object? area = freezed,
+    Object? gender = freezed,
+    Object? policeStation = freezed,
+    Object? picture = freezed,
+  }) {
+    return _then(_$_IncidentObject(
+      area == freezed
+          ? _value.area
+          : area // ignore: cast_nullable_to_non_nullable
+              as String,
+      gender == freezed
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
+      policeStation == freezed
+          ? _value.policeStation
+          : policeStation // ignore: cast_nullable_to_non_nullable
+              as String,
+      picture == freezed
+          ? _value.picture
+          : picture // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_IncidentObject implements _IncidentObject {
+  _$_IncidentObject(this.area, this.gender, this.policeStation, this.picture);
+
+  @override
+  final String area;
+  @override
+  final String gender;
+  @override
+  final String policeStation;
+  @override
+  final dynamic picture;
+
+  @override
+  String toString() {
+    return 'IncidentObject(area: $area, gender: $gender, policeStation: $policeStation, picture: $picture)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_IncidentObject &&
+            const DeepCollectionEquality().equals(other.area, area) &&
+            const DeepCollectionEquality().equals(other.gender, gender) &&
+            const DeepCollectionEquality()
+                .equals(other.policeStation, policeStation) &&
+            const DeepCollectionEquality().equals(other.picture, picture));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(area),
+      const DeepCollectionEquality().hash(gender),
+      const DeepCollectionEquality().hash(policeStation),
+      const DeepCollectionEquality().hash(picture));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_IncidentObjectCopyWith<_$_IncidentObject> get copyWith =>
+      __$$_IncidentObjectCopyWithImpl<_$_IncidentObject>(this, _$identity);
+}
+
+abstract class _IncidentObject implements IncidentObject {
+  factory _IncidentObject(final String area, final String gender,
+      final String policeStation, final dynamic picture) = _$_IncidentObject;
+
+  @override
+  String get area => throw _privateConstructorUsedError;
+  @override
+  String get gender => throw _privateConstructorUsedError;
+  @override
+  String get policeStation => throw _privateConstructorUsedError;
+  @override
+  dynamic get picture => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$$_IncidentObjectCopyWith<_$_IncidentObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}

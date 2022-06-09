@@ -53,7 +53,7 @@ dependencies:
   cached_network_image: ^3.2.0
   image_picker: ^0.8.5+2
   country_code_picker: ^2.0.2
-  anim_search_bar: ^2.0.2
+
 
  
 
@@ -98,6 +98,9 @@ flutter:
     - asset/images/makeReport.svg
     - asset/images/missing_person.png
     - asset/images/find_person.png
+    - asset/json/success.json
+    - asset/json/noInternet.json
+
 
 
 

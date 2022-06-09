@@ -28,5 +28,7 @@ class JsonAsset{
   static const String error = "$jsonPath/error.json";
   static const String loadFullScreen = "$jsonPath/loadFullScreen.json";
   static const String takePhoto = "$jsonPath/takePhoto.json";
+  static const String success = "$jsonPath/success.json";
+  static const String noInternet = "$jsonPath/noInternet.json";
 
 }

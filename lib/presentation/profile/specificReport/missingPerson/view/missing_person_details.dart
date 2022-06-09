@@ -1,26 +1,27 @@
 
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:finder/domain/models/makeSpecificReport/model.dart';
+
 import 'package:finder/presentation/resources/font_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../../application/constant.dart';
+import '../../../../../domain/models/reports/reports_model.dart';
 import '../../../../resources/asset_manger.dart';
 import '../../../../resources/color_manger.dart';
 
 
 
 class MissingSpecificPersonDetailsScreen extends StatelessWidget {
- final MakeSpecificReportModel data;
+ final DataModel data;
 
   const MissingSpecificPersonDetailsScreen( this.data,   {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String imageData = "${Constant.baseUrl}/storage/${data.data?.attributes?.picture}";
+    String imageData = "${Constant.baseUrl}/storage/${data.attributes?.picture}";
     return Scaffold(
         appBar: AppBar(
           systemOverlayStyle: SystemUiOverlayStyle(
@@ -59,7 +60,7 @@ class MissingSpecificPersonDetailsScreen extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  "${data.data?.attributes?.name}",
+                  "${data.attributes?.name}",
                   style:Theme.of(context).textTheme.titleLarge,
                 ),
               ),
@@ -77,7 +78,7 @@ class MissingSpecificPersonDetailsScreen extends StatelessWidget {
 
               Center(
                 child: Text(
-                  "${data.data?.attributes?.area}",
+                  "${data.attributes?.area}",
                   style:  Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -93,7 +94,7 @@ class MissingSpecificPersonDetailsScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall,
               ),
                    Text(
-                     """  ${data.data?.attributes?.createdAt}""",
+                     """  ${data.attributes?.createdAt}""",
                      style: Theme.of(context).textTheme.bodySmall,
                    ),
                  ],
@@ -122,7 +123,7 @@ class MissingSpecificPersonDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
                       Text(
-                        "${data.data?.attributes?.birthmark}",
+                        "${data.attributes?.birthmark}",
                         style:  TextStyle(
                             fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
                       ),
@@ -154,7 +155,7 @@ class MissingSpecificPersonDetailsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
                       Text(
-                        "${data.data?.attributes?.clothesLastSeenWearing}",
+                        "${data.attributes?.clothesLastSeenWearing}",
                         style:  TextStyle(
                             fontSize: FontSize.s14.sp, fontWeight: FontWeight.w500),
                       ),

@@ -65,3 +65,15 @@ class  UpdateUserObject with _$UpdateUserObject{
 
       )=_UpdateUserObject;
 }
+
+
+@freezed
+class  IncidentObject with _$IncidentObject{
+  factory IncidentObject(
+      String area,
+      String gender,
+      String policeStation,
+      dynamic picture,
+
+      )=_IncidentObject;
+}

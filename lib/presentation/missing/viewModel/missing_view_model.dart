@@ -28,13 +28,26 @@ class MissingViewModel extends BaseViewModel
     inputState.add(LoadingState(
         stateRenderType: StateRenderType.fullScreenLoadingState, message: ''));
 
+
     (await _reportUseCase.execute(Void)).fold(
             (failure) => {
           // left -> failure
-          inputState.add(ErrorState(
-            stateRenderType: StateRenderType.fullScreenErrorState,
-            message: failure.message,
-          )),
+
+              if (failure.code== -6){
+                inputState.add(InternetConnectionState(
+                  stateRenderType: StateRenderType.fullScreenInternetConnectionState,
+                  message: failure.message,
+                )),
+              }else{
+                inputState.add(ErrorState(
+                  stateRenderType: StateRenderType.fullScreenErrorState,
+                  message: failure.message,
+                )),
+              }
+
+
+
+
         }, (dataFound) {
       //right -> data(success)
 

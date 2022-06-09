@@ -32,10 +32,17 @@ class FoundViewModel extends BaseViewModel
     (await _unReportUseCase.execute(Void)).fold(
         (failure) => {
               // left -> failure
-              inputState.add(ErrorState(
-                stateRenderType: StateRenderType.fullScreenErrorState,
-                message: failure.message,
-              )),
+          if (failure.code== -6){
+            inputState.add(InternetConnectionState(
+              stateRenderType: StateRenderType.fullScreenInternetConnectionState,
+              message: failure.message,
+            )),
+          }else{
+            inputState.add(ErrorState(
+              stateRenderType: StateRenderType.fullScreenErrorState,
+              message: failure.message,
+            )),
+          }
             }, (dataFound) {
       //right -> data(success)
 

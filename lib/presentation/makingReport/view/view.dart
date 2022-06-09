@@ -51,7 +51,6 @@ class _MakeReportViewState extends State<MakeReportView> {
         () => _viewModel.setUserClothesLastSeenWearing(_userClothes.text));
     _userBirthMark
         .addListener(() => _viewModel.setUserBirthmark(_userBirthMark.text));
-
   }
 
   @override
@@ -67,7 +66,7 @@ class _MakeReportViewState extends State<MakeReportView> {
         builder: (context, snapshot) {
           return snapshot.data?.getScreenWidget(context, _getContentWidget(),
                   () {
-                _viewModel.makeReport();
+                _viewModel.makeReport(context);
               }) ??
               _getContentWidget();
         });
@@ -133,11 +132,9 @@ class _MakeReportViewState extends State<MakeReportView> {
                                     : AppStrings.ageError),
                           );
                         }),
-
                     SizedBox(
                       height: AppPadding.p1_5.h,
                     ),
-
                     StreamBuilder(
                       builder: (context, snapshot) {
                         return DropdownButtonFormField<String>(
@@ -155,17 +152,17 @@ class _MakeReportViewState extends State<MakeReportView> {
                           value: dropDownValue,
                           items: items
                               .map((item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: ColorManger.darkGrey,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ))
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorManger.darkGrey,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ))
                               .toList(),
                           onChanged: (String? value) {
                             dropDownValue = value!;
@@ -179,18 +176,21 @@ class _MakeReportViewState extends State<MakeReportView> {
                       height: AppPadding.p1_5.h,
                     ),
                     StreamBuilder<bool>(
-                        stream: _viewModel.outNationalId,
+                        stream: _viewModel.outClothesLastSeenWearing,
                         builder: (context, snapshot) {
                           return TextFormField(
+                            maxLines: 6,
+                            minLines: 1,
                             textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
-                            controller: _userId,
+                            keyboardType: TextInputType.streetAddress,
+                            controller: _userClothes,
                             decoration: InputDecoration(
-                                labelText: AppStrings.nationalNumber,
-                                hintText: AppStrings.nationalNumber,
+                                alignLabelWithHint: true,
+                                labelText: AppStrings.cloths,
+                                hintText: AppStrings.cloths,
                                 errorText: (snapshot.data ?? true)
                                     ? null
-                                    : AppStrings.nationalIdError),
+                                    : AppStrings.clothsError),
                           );
                         }),
                     SizedBox(
@@ -200,11 +200,11 @@ class _MakeReportViewState extends State<MakeReportView> {
                         stream: _viewModel.outArea,
                         builder: (context, snapshot) {
                           return TextFormField(
-                            textInputAction: TextInputAction.done,
+                            textInputAction: TextInputAction.next,
                             maxLines: 6,
                             minLines: 1,
                             keyboardType: TextInputType.streetAddress,
-                            onEditingComplete:()=> Navigator.push(
+                            onEditingComplete: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => secondPage(),
@@ -219,7 +219,6 @@ class _MakeReportViewState extends State<MakeReportView> {
                                     : AppStrings.placeLastSeen),
                           );
                         }),
-
                     StreamBuilder<bool>(
                       stream: _viewModel.outAllTextInputsValid,
                       builder: (context, snapshot) {
@@ -229,19 +228,18 @@ class _MakeReportViewState extends State<MakeReportView> {
                             width: double.infinity,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(APPSize.s10.sp)),
-                                  primary: ColorManger.darkBlue
-                              ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          APPSize.s10.sp)),
+                                  primary: ColorManger.darkBlue),
                               onPressed: (snapshot.data ?? false)
                                   ? () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => secondPage(),
-                                    ));
-                              }
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => secondPage(),
+                                          ));
+                                    }
                                   : null,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -303,8 +301,7 @@ class _MakeReportViewState extends State<MakeReportView> {
                 Container(
                   decoration: BoxDecoration(
                       color: ColorManger.lightBlueDegree,
-                      borderRadius:
-                          BorderRadius.circular(AppPadding.p6.sp)),
+                      borderRadius: BorderRadius.circular(AppPadding.p6.sp)),
                   child: GestureDetector(
                     onTap: () => _showPicker(context),
                     child: Container(
@@ -335,41 +332,27 @@ class _MakeReportViewState extends State<MakeReportView> {
                     ),
                   ),
                 ),
-
-
-
                 Padding(
                   padding: EdgeInsets.only(
                       top: AppPadding.p5.h,
                       right: AppPadding.p5.w,
                       left: AppPadding.p5.w),
-                  child:
-                  StreamBuilder<bool>(
-                      stream: _viewModel.outClothesLastSeenWearing,
+                  child: StreamBuilder<bool>(
+                      stream: _viewModel.outNationalId,
                       builder: (context, snapshot) {
                         return TextFormField(
-                          maxLines: 6,
-                          minLines: 1,
-
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.streetAddress,
-                          controller: _userClothes,
+                          keyboardType: TextInputType.number,
+                          controller: _userId,
                           decoration: InputDecoration(
-                              alignLabelWithHint: true,
-                              labelText: AppStrings.cloths,
-                              hintText: AppStrings.cloths,
+                              labelText: AppStrings.nationalNumber,
+                              hintText: AppStrings.nationalNumber,
                               errorText: (snapshot.data ?? true)
                                   ? null
-                                  : AppStrings.clothsError),
+                                  : AppStrings.nationalIdError),
                         );
                       }),
-
-
-
-
-
                 ),
-
                 Padding(
                   padding: EdgeInsets.only(
                       top: AppPadding.p1.h,
@@ -381,7 +364,7 @@ class _MakeReportViewState extends State<MakeReportView> {
                         return TextFormField(
                           maxLines: 6,
                           minLines: 1,
-                          textInputAction: TextInputAction.done,
+                          textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.streetAddress,
                           controller: _userBirthMark,
                           decoration: InputDecoration(
@@ -394,13 +377,14 @@ class _MakeReportViewState extends State<MakeReportView> {
                         );
                       }),
                 ),
-
                 StreamBuilder<bool>(
                   stream: _viewModel.outAllInputsValid,
                   builder: (context, snapshot) {
                     return Padding(
-                      padding: EdgeInsets.only(top: AppPadding.p3.h,
-                      left:AppPadding.p5.w,right: AppPadding.p5.w ),
+                      padding: EdgeInsets.only(
+                          top: AppPadding.p3.h,
+                          left: AppPadding.p5.w,
+                          right: AppPadding.p5.w),
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -408,13 +392,14 @@ class _MakeReportViewState extends State<MakeReportView> {
                             primary: ColorManger.darkBlue,
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.circular(APPSize.s10.sp),
-
+                                  BorderRadius.circular(APPSize.s10.sp),
                             ),
                           ),
-                          onPressed: (snapshot.data ?? false) ? () {
-                            _viewModel.makeReport();
-                          } : null,
+                          onPressed: (snapshot.data ?? false)
+                              ? () {
+                                  _viewModel.makeReport(context);
+                                }
+                              : null,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

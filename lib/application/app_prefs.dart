@@ -18,15 +18,18 @@ class AppPreferences {
   AppPreferences(this._sharedPreferences);
 
 //Clear  data from application
-  removeData() async{
-   await _sharedPreferences.remove(prefsKeyAccessToken); //clear token
-   await _sharedPreferences.remove(prefsKeyName); //clear name
-   await _sharedPreferences.remove(prefsKeyImage); //clear image
-   await _sharedPreferences.remove(prefsKeyNationalId); //clear national
-   await _sharedPreferences.remove(prefsKeyPhoneNumber); // clear phone
-   await _sharedPreferences.remove(prefsKeyAddress);  // clear address
-   await _sharedPreferences.remove(prefsKeyIsUserLoggedIn); // clear bool data in login
-   await _sharedPreferences.remove(prefsKeyId); // clear id
+ Future<void> removeData() async{
+    _sharedPreferences.remove(prefsKeyAccessToken); //clear token
+    _sharedPreferences.remove(prefsKeyName); //clear name
+    _sharedPreferences.remove(prefsKeyImage); //clear image
+    _sharedPreferences.remove(prefsKeyNationalId); //clear national
+    _sharedPreferences.remove(prefsKeyPhoneNumber); // clear phone
+    _sharedPreferences.remove(prefsKeyAddress);  // clear address
+    _sharedPreferences.remove(prefsKeyIsUserLoggedIn); // clear bool data in login
+    _sharedPreferences.remove(prefsKeyId); // clear id
+    _sharedPreferences.remove(prefsKeyEmail); // clear id
+    _sharedPreferences.remove(prefsKeyPassword); // clear id
+
   }
 
   //on Boarding screen

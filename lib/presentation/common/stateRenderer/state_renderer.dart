@@ -13,11 +13,16 @@ enum StateRenderType {
   //popup states (Dialog)
   popupLoadingState,
   popupErrorState,
+  popupSuccessState,
+  popupInternetConnectionState,
+
 
   //FULL SCREEN STATED (FULL SCREEN)
   fullScreenLoadingState,
   fullScreenErrorState,
   fullScreenEmptyState,
+  fullScreenInternetConnectionState,
+
 
   //general
   contentState,
@@ -49,6 +54,22 @@ class StateRender extends StatelessWidget {
           _getAnimatedImage(JsonAsset.loadFullScreen),
         ]);
 
+
+
+      case StateRenderType.popupSuccessState:
+        return _getPopUpDialog(context, [
+          _getAnimatedImage(JsonAsset.success),
+        ]);
+
+      case StateRenderType.popupInternetConnectionState:
+        return _getPopUpDialog(context, [
+          _getAnimatedImage(JsonAsset.noInternet),
+          _getMessage(message),
+          _getRetryButton(buttonTitle: AppStrings.ok,context:  context),
+        ]);
+
+
+
       case StateRenderType.popupErrorState:
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAsset.error),
@@ -62,11 +83,18 @@ class StateRender extends StatelessWidget {
           _getMessage(message),
         ]);
 
+      case StateRenderType.fullScreenInternetConnectionState:
+        return _getItemColumn([
+          _getAnimatedImage(JsonAsset.noInternet),
+          _getMessage(message),
+          _getRetryButton(buttonTitle: AppStrings.retryAgain,context:  context,size: AppPadding.p12),
+        ]);
+
       case StateRenderType.fullScreenErrorState:
         return _getItemColumn([
           _getAnimatedImage(JsonAsset.error),
           _getMessage(message),
-          _getRetryButton(buttonTitle: AppStrings.retryAgain,context:  context,size: AppPadding.p22),
+          _getRetryButton(buttonTitle: AppStrings.retryAgain,context:  context,size: AppPadding.p12),
         ]);
 
       case StateRenderType.fullScreenEmptyState:
@@ -124,7 +152,7 @@ class StateRender extends StatelessWidget {
     return SizedBox(
       height: APPSize.s28.h,
       width: APPSize.s100.w,
-      child: Lottie.asset(animationName),
+      child: Lottie.asset(animationName,),
     );
   }
 
@@ -150,7 +178,7 @@ class StateRender extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () {
-                  if (stateRenderType == StateRenderType.popupErrorState) {
+                  if (stateRenderType == StateRenderType.popupErrorState ||stateRenderType == StateRenderType.popupInternetConnectionState ) {
                     // popup error state
                     Navigator.of(context).pop();
 

@@ -1,20 +1,20 @@
 
 import 'package:dio/dio.dart';
 import 'package:finder/application/constant.dart';
-import 'package:finder/data/responses/MakeSpecificReport/response.dart';
+
 import 'package:finder/data/responses/logOut/response.dart';
 import 'package:finder/data/responses/login/responses.dart';
 import 'package:finder/data/responses/makeReport/response.dart';
-import 'package:finder/data/responses/makeUnReport/make_un_report.dart';
-import 'package:finder/data/responses/makeUnSpecificReport/response.dart';
+
+
 import 'package:finder/data/responses/register/response.dart';
 import 'package:finder/data/responses/updateUser/response.dart';
 
 import 'package:retrofit/retrofit.dart';
 
 
-import '../../../application/app_prefs.dart';
-import '../../../application/di.dart';
+
+import '../../responses/Incident/response.dart';
 import '../../responses/report/response.dart';
 import '../../responses/unReport/un_report_response.dart';
 part 'app_api.g.dart';
@@ -56,11 +56,6 @@ abstract class AppServiceClient {
 
 
 
-  @GET("/api/reports/")
-  Future<MakeSpecificReportResponse> getSpecificReports();
-
-  @GET("/api/unreportedincidents/1")
-  Future<MakeSpecificUnReportResponse> getSpecificUnReports();
 
   @POST("/api/logout")
   Future<LogOutResponse> logOut();
@@ -81,8 +76,11 @@ abstract class AppServiceClient {
 
 
 
+
+
+
   @POST("/api/unreportedincidents")
-  Future<MakeUnReportResponse> makeUnReport(
+  Future<IncidentResponse> incident(
       @Field("area") String area,
       @Field("gender") String gender,
       @Field("police_station") String policeStation,
@@ -90,7 +88,8 @@ abstract class AppServiceClient {
 
       );
 
-  @POST("api/users")
+
+  @POST("/api/users")
   Future<UpdateResponse> updateUser({
     @Field("name") required String name,
     @Field("national_id")required String nationalId,

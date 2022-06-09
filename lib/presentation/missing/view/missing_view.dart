@@ -13,6 +13,8 @@ import 'package:sizer/sizer.dart';
 import '../../../application/constant.dart';
 import '../../../application/di.dart';
 import '../../../domain/models/reports/reports_model.dart';
+import '../../resources/color_manger.dart';
+import '../../widget/search.dart';
 
 
 class MissingView extends StatefulWidget {
@@ -24,6 +26,9 @@ class MissingView extends StatefulWidget {
 
 class _MissingViewState extends State<MissingView> {
   final MissingViewModel _viewModel = instance<MissingViewModel>();
+  final TextEditingController _search = TextEditingController();
+  List<DataModel>? dataList;
+  List<DataModel>? searchList;
 
 
   _bind() {
@@ -55,11 +60,38 @@ class _MissingViewState extends State<MissingView> {
         statusBarColor: Theme.of(context).primaryColor
     ),
     child:
-      SafeArea(
-      child: StreamBuilder<List<DataModel>>(
+      Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          leading: const SizedBox(),
+          title: Text("Searching in Missing .....",
+              style: TextStyle(color: ColorManger.black)),
+          actions: [
+            StatefulBuilder(
+              builder:  (context, setState) {
+                return AnimSearchBar(
+                  width: AppPadding.p90.w,
+                  textController: _search,
+                  onSuffixTap: () {
+                    _search.clear();
+                    setState(() {});
+                  },
+                  function: (value) {
+                    addItemToList(value);
+                  },
+                );
+              },
+            ),
+            SizedBox(
+              width: AppPadding.p5.w,
+            ),
+          ],
+        ),
+      body: StreamBuilder<List<DataModel>>(
         stream: _viewModel.outputData,
         builder: (context, snapshot) {
-          return _showData(snapshot.data);
+          dataList=snapshot.data;
+          return _showData(_search.text.isEmpty? snapshot.data:searchList);
         },
       ),
     )
@@ -96,7 +128,7 @@ class _MissingViewState extends State<MissingView> {
                 data[index].attributes?.createdAt, imageData),
           );
         },
-        itemCount: data.length,
+        itemCount: _search.text.isEmpty? data.length:searchList!.length,
       );
     } else {
       return const Center(child: CircularProgressIndicator());
@@ -153,6 +185,15 @@ class _MissingViewState extends State<MissingView> {
         ],
       ),
     );
+  }
+
+  void addItemToList(String value) {
+    searchList = dataList!.where((element) =>
+        element.attributes!.name.toLowerCase().startsWith(value))
+        .toList();
+    setState(() {
+
+    });
   }
 
   @override

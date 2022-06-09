@@ -4,11 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:finder/domain/useCase/makeReport/make_report_use_case.dart';
 import 'package:finder/presentation/base/base_view_model.dart';
 import 'package:finder/presentation/common/freezed_data_classes.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../application/di.dart';
 import '../../common/stateRenderer/state_renderer.dart';
 import '../../common/stateRenderer/state_renderer_impl.dart';
+
 
 class MakingReportViewModel extends BaseViewModel
     with MakingReportViewModelInput, MakingReportViewModelOutPut {
@@ -18,14 +20,15 @@ class MakingReportViewModel extends BaseViewModel
   final StreamController _ageStreamController = BehaviorSubject();
   final StreamController _areaStreamController = BehaviorSubject();
   final StreamController _genderStreamController = BehaviorSubject();
-  final StreamController _pictureStreamController = BehaviorSubject<File>();
+  final StreamController _pictureStreamController =
+      StreamController<File>.broadcast();
   final StreamController _clothesLastSeenWearingStreamController =
       BehaviorSubject();
   final StreamController _birthmarkStreamController = BehaviorSubject();
   final StreamController _isNextCompleteStreamController =
       BehaviorSubject<void>();
   final StreamController _isALLCompleteStreamController =
-  BehaviorSubject<void>();
+      BehaviorSubject<void>();
 
   // object instance
   var makeReportObject = MakeReportObject("", "", "", "", "", "", "", "");
@@ -68,7 +71,7 @@ class MakingReportViewModel extends BaseViewModel
   }
 
   @override
-  void makeReport() async {
+  void makeReport(context) async {
     inputState.add(LoadingState(
         stateRenderType: StateRenderType.popupLoadingState, message: ''));
 
@@ -85,15 +88,31 @@ class MakingReportViewModel extends BaseViewModel
         .fold(
             (failure) => {
                   // left -> failure
+              if (failure.code == -6)
+                {
+                  inputState.add(InternetConnectionState(
+                    stateRenderType:
+                    StateRenderType.popupInternetConnectionState,
+                    message: failure.message,
+                  )),
+                }
+              else
+                {
                   inputState.add(ErrorState(
                     stateRenderType: StateRenderType.popupErrorState,
                     message: failure.message,
                   )),
+                }
                 }, (data) async {
       //right -> data(success)
 
-      inputState.add(ContentState());
-      print("ok");
+      inputState.add(SuccessState(
+          stateRenderType: StateRenderType.popupSuccessState, message: ''));
+
+      Timer(const Duration(seconds: 3), () {
+        inputState.add(ContentState());
+
+      },);
     });
   }
 
@@ -154,9 +173,9 @@ class MakingReportViewModel extends BaseViewModel
   Stream<bool> get outGender =>
       _genderStreamController.stream.map((gender) => _isGenderValid(gender));
 
-
   @override
-  Stream<bool> get outAllInputsValid => _isALLCompleteStreamController.stream.map((_) => _areAllValid());
+  Stream<bool> get outAllInputsValid =>
+      _isALLCompleteStreamController.stream.map((_) => _areAllValid());
 
   @override
   Stream<bool> get outName =>
@@ -173,7 +192,7 @@ class MakingReportViewModel extends BaseViewModel
 // private function
 
   bool _isAgeValid(String age) {
-    return age.length <= 3   ;
+    return age.length <= 3;
   }
 
   bool _isStringDataValid(data) {
@@ -182,7 +201,7 @@ class MakingReportViewModel extends BaseViewModel
   }
 
   bool _isGenderValid(gender) {
-    return  gender.length >= 3;
+    return gender.length >= 3;
   }
 
   bool _isNationalIdValid(String nationalId) {
@@ -299,36 +318,27 @@ class MakingReportViewModel extends BaseViewModel
 
   bool _areAllInputValid() {
     return makeReportObject.name.isNotEmpty &&
-        makeReportObject.nationalId.isNotEmpty &&
+        makeReportObject.clothesLastSeenWearing.isNotEmpty &&
         makeReportObject.age.isNotEmpty &&
         makeReportObject.area.isNotEmpty &&
-         makeReportObject.gender.isNotEmpty;
-
-
+        makeReportObject.gender.isNotEmpty;
   }
 
-  bool  _areAllValid(){
-    return makeReportObject.name.isNotEmpty &&
-        makeReportObject.nationalId.isNotEmpty &&
-        makeReportObject.age.isNotEmpty &&
-        makeReportObject.area.isNotEmpty &&
-        makeReportObject.gender.isNotEmpty&&
-    makeReportObject.birthmark.isNotEmpty&&
-    makeReportObject.clothesLastSeenWearing.isNotEmpty;
+  bool _areAllValid() {
+    return makeReportObject.birthmark.isNotEmpty &&
+        makeReportObject.nationalId.isNotEmpty;
   }
 
   validate() {
     inputAllTextInputsValid.add(null);
     inputAllInputsValid.add(null);
   }
-
-
 }
 
 abstract class MakingReportViewModelInput {
   void camera(); // open camera and upload photo
   void gallery(); // open gallery and upload photo
-  void makeReport(); // post and storage data, and register
+  void makeReport(context); // post and storage data, and register
   Sink get inputName;
   Sink get inputNationalId;
   Sink get inputAge;

@@ -1,24 +1,24 @@
-class MakeUnReportModel {
+class IncidentModel {
   String message;
   int statusCode;
-  UnreportedIncidentModel ? unreportedIncident;
+  UnreportedIncidentModel? unreportedIncident;
 
-  MakeUnReportModel(this.message, this.statusCode, this.unreportedIncident);
+  IncidentModel(this.message, this.statusCode, this.unreportedIncident);
 
 
 }
 
-class UnreportedIncidentModel  {
+class UnreportedIncidentModel {
   int id;
   String type;
-  AttributesMakeUnModel ? attributes;
+  AttributesIncidentModel? attributes;
 
-  UnreportedIncidentModel (this.id, this.type, this.attributes);
+  UnreportedIncidentModel(this.id, this.type, this.attributes);
 
 
 }
 
-class AttributesMakeUnModel  {
+class AttributesIncidentModel {
   String area;
   String gender;
   String policeStation;
@@ -27,7 +27,7 @@ class AttributesMakeUnModel  {
   int userId;
   String createdAt;
 
-  AttributesMakeUnModel (
+AttributesIncidentModel(
       this.area,
         this.gender,
         this.policeStation,
