@@ -3,7 +3,6 @@ import 'package:finder/application/app_prefs.dart';
 import 'package:finder/data/datasource/localData/report/local_data_source.dart';
 import 'package:finder/data/datasource/localData/unReport/un_report_local_data.dart';
 
-
 import 'package:finder/domain/repository/repositry.dart';
 import 'package:finder/domain/useCase/logOut/log_out_use_case.dart';
 import 'package:finder/domain/useCase/login/login_use_case.dart';
@@ -22,14 +21,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import '../data/datasource/remoteData/remote_data_source.dart';
 import '../data/network/api/app_api.dart';
 import '../data/network/dio_factory/dio_factory.dart';
 import '../data/network/network_info/network_info.dart';
 import '../data/repositoryImpl/repository_impl.dart';
 import '../domain/useCase/Incident/use_case.dart';
-
 
 import '../domain/useCase/unReport/un_report_use_case.dart';
 import '../domain/useCase/updateUser/use_case.dart';
@@ -66,39 +63,34 @@ Future<void> initAppModule() async {
       () => RemoteDataSourceImpl(instance()));
 
   // local data source
-  instance.registerLazySingleton<LocalDataSource>(
-          () => LocalDataSourceImpl());
+  instance.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImpl());
 
   //  un report local data source
   instance.registerLazySingleton<UnReportLocalDataSource>(
-          () => UnReportLocalDataSourceImpl());
+      () => UnReportLocalDataSourceImpl());
 
-
-
-
+  instance.registerLazySingleton<ImagePicker>(() => ImagePicker());
 
   //repository
-  instance.registerLazySingleton<Repositry>(
-      () => RepositoryImpl(instance(), instance(),instance(),instance(),));
+  instance.registerLazySingleton<Repositry>(() => RepositoryImpl(
+        instance(),
+        instance(),
+        instance(),
+        instance(),
+      ));
 }
 
 initLoginModule() {
   if (!GetIt.I.isRegistered<LoginUseCase>()) {
     instance.registerFactory<LoginUseCase>(() => LoginUseCase(instance()));
     instance.registerFactory<LoginViewModel>(() => LoginViewModel(instance()));
-
   }
 }
 
 initRegisterModule() {
   if (!GetIt.I.isRegistered<RegisterUseCase>()) {
-    instance
-        .registerFactory<RegisterUseCase>(() => RegisterUseCase(instance()));
-    instance.registerFactory<RegisterViewModel>(
-        () => RegisterViewModel(instance(), instance()));
-
-    instance.registerFactory<ImagePicker>(() => ImagePicker());
-
+    instance.registerFactory<RegisterUseCase>(() => RegisterUseCase(instance()));
+    instance.registerFactory<RegisterViewModel>(() => RegisterViewModel(instance(), instance(),instance()));
   }
 }
 
@@ -110,29 +102,20 @@ initFoundModule() {
   }
 }
 
-
-
-
 initUpdateUserModule() {
   if (!GetIt.I.isRegistered<UpdateUserUseCase>()) {
-    instance.registerFactory<UpdateUserUseCase>(() => UpdateUserUseCase(instance()));
-    instance.registerFactory<ImagePicker>(() => ImagePicker());
-
+    instance.registerFactory<UpdateUserUseCase>(
+        () => UpdateUserUseCase(instance()));
   }
 }
-
-
-
 
 initMissingModule() {
   if (!GetIt.I.isRegistered<ReportUseCase>()) {
     instance.registerFactory<ReportUseCase>(() => ReportUseCase(instance()));
     instance.registerFactory<MissingViewModel>(() => MissingViewModel(instance()));
     instance.registerFactory<SpecificReportViewModel>(() => SpecificReportViewModel(instance()));
-
   }
 }
-
 
 initMakeReportModule() {
   if (!GetIt.I.isRegistered<MakeReportUseCase>()) {
@@ -141,18 +124,13 @@ initMakeReportModule() {
   }
 }
 
-
 initMakeUnReportModule() {
-
   if (!GetIt.I.isRegistered<IncidentUseCase>()) {
-    instance
-        .registerFactory<IncidentUseCase>(() => IncidentUseCase(instance()));
-    instance.registerFactory<MakeUnReport>(
-            () => MakeUnReport(instance()));
-   // instance.registerFactory<ImagePicker>(() => ImagePicker());
+    instance.registerFactory<IncidentUseCase>(() => IncidentUseCase(instance()));
+    instance.registerFactory<MakeUnReport>(() => MakeUnReport(instance()));
+
   }
 }
-
 
 initLogOutModule() {
   if (!GetIt.I.isRegistered<LogOutUseCase>()) {
@@ -161,9 +139,7 @@ initLogOutModule() {
   }
 }
 
-
-
-restAllModule(){
+restAllModule() {
   instance.reset(dispose: false);
   initAppModule();
   initFoundModule();
@@ -174,5 +150,4 @@ restAllModule(){
   initMissingModule();
   initRegisterModule();
   initUpdateUserModule();
-
 }

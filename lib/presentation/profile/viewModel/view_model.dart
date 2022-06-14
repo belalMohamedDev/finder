@@ -8,8 +8,6 @@ import 'package:finder/domain/useCase/logOut/log_out_use_case.dart';
 
 import 'package:finder/presentation/base/base_view_model.dart';
 import 'package:finder/presentation/common/freezed_data_classes.dart';
-import 'package:finder/presentation/resources/route_manger.dart';
-import 'package:flutter/cupertino.dart';
 
 
 
@@ -52,7 +50,8 @@ class ProfileViewModel extends BaseViewModel with ProfileViewModelInput ,Profile
   final StreamController _allInputValidStreamController =
   StreamController<void>.broadcast();
 
-
+  final StreamController isUserLoggedInSuccessfullyStreamController =
+  StreamController<bool>();
 
 
 
@@ -74,12 +73,14 @@ class ProfileViewModel extends BaseViewModel with ProfileViewModelInput ,Profile
     _addressStreamController.close();
     _pictureStreamController.close();
     _allInputValidStreamController.close();
+    isUserLoggedInSuccessfullyStreamController.close();
 
     super.dispose();
   }
 
   @override
   void logOut(context)async {
+
     inputState.add(LoadingState(
         stateRenderType: StateRenderType.popupLoadingState, message: ''));
 
@@ -116,10 +117,12 @@ class ProfileViewModel extends BaseViewModel with ProfileViewModelInput ,Profile
       _appPreferences.removeData();
       _localDataSource.clearCache();
       _unReportLocalDataSource.clearCache();
-       Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute,(Route<dynamic> route) => false);
+    isUserLoggedInSuccessfullyStreamController.add(true);
+
 
     });
   }
+
 
 
   //-----input

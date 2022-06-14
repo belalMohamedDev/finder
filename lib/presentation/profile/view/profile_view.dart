@@ -5,12 +5,14 @@ import 'package:finder/presentation/resources/route_manger.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../application/app_prefs.dart';
 import '../../../application/di.dart';
+import '../../common/stateRenderer/state_renderer_impl.dart';
 import '../../resources/asset_manger.dart';
 import '../viewModel/view_model.dart';
 
@@ -27,7 +29,15 @@ class _ProfileViewState extends State<ProfileView> {
 
   _bind(){
     _viewModel.start();
+    _viewModel.isUserLoggedInSuccessfullyStreamController.stream.listen((isLoggedOut) {
+      if(isLoggedOut){
+        //navigate to main screen
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
+          Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
+        });
 
+      }
+    });
     }
 
 
@@ -40,38 +50,46 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
-
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: Theme.of(context).primaryColor
-    ),
-    child:
-      SafeArea(
-          child: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.only(
-              top: AppPadding.p6.h,
-              left: AppPadding.p5.w,
-              right: AppPadding.p5.w),
-          child: Column(
-            children: [
-
-              _stack(),
-              SizedBox(
-                height: AppPadding.p4.h,
-              ),
-              _column()
-            ],
-          ),
-        ),
-      )),
-   )
+      body: StreamBuilder<FlowState>(stream: _viewModel.outState,builder: (context,snapshot){
+        return snapshot.data?.getScreenWidget(context,_getContentWidget(),(){
+          _viewModel.logOut(context);
+        })?? _getContentWidget();
+      }),
     );
   }
 
+  Widget _getContentWidget(){
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Theme.of(context).primaryColor
+      ),
+      child:
+      SafeArea(
+          child: SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: AppPadding.p6.h,
+                  left: AppPadding.p5.w,
+                  right: AppPadding.p5.w),
+              child: Column(
+                children: [
+
+                  _stack(),
+                  SizedBox(
+                    height: AppPadding.p4.h,
+                  ),
+                  _column()
+                ],
+              ),
+            ),
+          )),
+    );
+  }
   Widget _column() {
     return Column(
       children: [
@@ -190,7 +208,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                     MaterialButton(
                     onPressed: () {
-            _viewModel.logOut(context);
+                      _viewModel.logOut(context);
 
 
             },

@@ -48,9 +48,9 @@ class RegisterViewModel extends BaseViewModel
   final RegisterUseCase _registerUseCase;
   final LoginUseCase _loginUseCase;
   var registerObject = RegisterObject("", "", "", "", "", "", "");
-  final ImagePicker _imagePicker = instance<ImagePicker>();
+  final ImagePicker _imagePicker ;
   final AppPreferences _appPreferences = instance<AppPreferences>();
-  RegisterViewModel(this._registerUseCase, this._loginUseCase);
+  RegisterViewModel(this._registerUseCase, this._loginUseCase,this._imagePicker);
 
   //input
   @override

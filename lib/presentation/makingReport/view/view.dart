@@ -5,13 +5,15 @@ import 'package:finder/presentation/resources/asset_manger.dart';
 import 'package:finder/presentation/resources/values_manger.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
+
+
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../application/di.dart';
 import '../../common/stateRenderer/state_renderer_impl.dart';
 import '../../resources/color_manger.dart';
-import '../../resources/font_manger.dart';
+
 import '../../resources/strings_manger.dart';
 
 import '../viewModel/view_model.dart';
@@ -34,7 +36,7 @@ class _MakeReportViewState extends State<MakeReportView> {
   final TextEditingController _userBirthMark = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  final _formKey2 = GlobalKey<FormState>();
+
   final List<String> items = [
     AppStrings.male,
     AppStrings.female,
@@ -51,8 +53,9 @@ class _MakeReportViewState extends State<MakeReportView> {
         () => _viewModel.setUserClothesLastSeenWearing(_userClothes.text));
     _userBirthMark
         .addListener(() => _viewModel.setUserBirthmark(_userBirthMark.text));
-  }
 
+
+  }
   @override
   void initState() {
     _bind();
@@ -87,17 +90,29 @@ class _MakeReportViewState extends State<MakeReportView> {
               key: _formKey,
               child: Padding(
                 padding: EdgeInsets.only(
-                    top: AppPadding.p3.h,
+
                     left: AppPadding.p5.w,
                     right: AppPadding.p5.w),
                 child: Column(
                   children: [
-                    SvgPicture.asset(
-                      ImageAsset.onBoardingFirstLogo,
-                      height: AppPadding.p31.h,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: SizerUtil.deviceType == DeviceType.mobile
+                              ? AppPadding.p1.h
+                              : AppPadding.p3.h),
+                      child: Center(
+                        child: MaterialButton(
+                            highlightColor: ColorManger.gradationLightBlue,
+                            onPressed: () => _showPicker(context),
+                            child: StreamBuilder<File>(
+                                stream: _viewModel.outPicture,
+                                builder: (context, snapshot) {
+                                  return _imagePicketByUser(snapshot.data);
+                                })),
+                      ),
                     ),
                     SizedBox(
-                      height: AppPadding.p5.h,
+                      height: AppPadding.p2.h,
                     ),
                     StreamBuilder<bool>(
                         stream: _viewModel.outName,
@@ -132,6 +147,24 @@ class _MakeReportViewState extends State<MakeReportView> {
                                     : AppStrings.ageError),
                           );
                         }),
+                    SizedBox(
+                      height: AppPadding.p1_5.h,
+                    ),
+                 StreamBuilder<bool>(
+                                      stream: _viewModel.outNationalId,
+                                      builder: (context, snapshot) {
+                                        return TextFormField(
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType: TextInputType.number,
+                                          controller: _userId,
+                                          decoration: InputDecoration(
+                                              labelText: AppStrings.nationalNumber,
+                                              hintText: AppStrings.nationalNumber,
+                                              errorText: (snapshot.data ?? true)
+                                                  ? null
+                                                  : AppStrings.nationalIdError),
+                                        );
+                                      }),
                     SizedBox(
                       height: AppPadding.p1_5.h,
                     ),
@@ -204,11 +237,7 @@ class _MakeReportViewState extends State<MakeReportView> {
                             maxLines: 6,
                             minLines: 1,
                             keyboardType: TextInputType.streetAddress,
-                            onEditingComplete: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => secondPage(),
-                                )),
+
                             controller: _userArea,
                             decoration: InputDecoration(
                                 alignLabelWithHint: true,
@@ -219,7 +248,28 @@ class _MakeReportViewState extends State<MakeReportView> {
                                     : AppStrings.placeLastSeen),
                           );
                         }),
-                    StreamBuilder<bool>(
+                    SizedBox(
+                      height: AppPadding.p1_5.h,
+                    ),
+                   StreamBuilder<bool>(
+                                      stream: _viewModel.outBirthmark,
+                                      builder: (context, snapshot) {
+                                        return TextFormField(
+                                          maxLines: 6,
+                                          minLines: 1,
+                                          textInputAction: TextInputAction.next,
+                                          keyboardType: TextInputType.streetAddress,
+                                          controller: _userBirthMark,
+                                          decoration: InputDecoration(
+                                              alignLabelWithHint: true,
+                                              labelText: AppStrings.mark,
+                                              hintText: AppStrings.mark,
+                                              errorText: (snapshot.data ?? true)
+                                                  ? null
+                                                  : AppStrings.markError),
+                                        );
+                                      }),
+                   StreamBuilder<bool>(
                       stream: _viewModel.outAllTextInputsValid,
                       builder: (context, snapshot) {
                         return Padding(
@@ -234,11 +284,13 @@ class _MakeReportViewState extends State<MakeReportView> {
                                   primary: ColorManger.darkBlue),
                               onPressed: (snapshot.data ?? false)
                                   ? () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => secondPage(),
-                                          ));
+                                  _viewModel.makeReport(context);
+                                  _userName.clear();
+                                  _userId.clear();
+                                  _userAge.clear();
+                                  _userArea.clear();
+                                  _userBirthMark.clear();
+                                  _userClothes.clear();
                                     }
                                   : null,
                               child: Row(
@@ -264,164 +316,7 @@ class _MakeReportViewState extends State<MakeReportView> {
         ));
   }
 
-  Widget secondPage() {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.makeAReport,
-            style: TextStyle(color: ColorManger.lightBlack)),
-        iconTheme: IconThemeData(color: ColorManger.lightBlack),
-      ),
-      body: Form(
-        key: _formKey2,
-        child: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: AppPadding.p3.h,
-                ),
-                StreamBuilder<File>(
-                    stream: _viewModel.outPicture,
-                    builder: (context, snapshot) {
-                      return _imagePicketByUser(snapshot.data);
-                    }),
-                SizedBox(
-                  height: AppPadding.p6.h,
-                ),
-                Text(
-                  AppStrings.uploadImage,
-                  style: TextStyle(fontSize: FontSize.s14.sp),
-                ),
-                SizedBox(
-                  height: AppPadding.p4.h,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: ColorManger.lightBlueDegree,
-                      borderRadius: BorderRadius.circular(AppPadding.p6.sp)),
-                  child: GestureDetector(
-                    onTap: () => _showPicker(context),
-                    child: Container(
-                      height: AppPadding.p6.h,
-                      width: AppPadding.p46.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(APPSize.s6.sp),
-                        // color: buttonOnBoardingColor,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppStrings.camera,
-                            style: TextStyle(
-                                fontSize: FontSize.s14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),
-                          ),
-                          SizedBox(
-                            width: AppPadding.p8.w,
-                          ),
-                          const Icon(
-                            Icons.add_a_photo_rounded,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: AppPadding.p5.h,
-                      right: AppPadding.p5.w,
-                      left: AppPadding.p5.w),
-                  child: StreamBuilder<bool>(
-                      stream: _viewModel.outNationalId,
-                      builder: (context, snapshot) {
-                        return TextFormField(
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          controller: _userId,
-                          decoration: InputDecoration(
-                              labelText: AppStrings.nationalNumber,
-                              hintText: AppStrings.nationalNumber,
-                              errorText: (snapshot.data ?? true)
-                                  ? null
-                                  : AppStrings.nationalIdError),
-                        );
-                      }),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: AppPadding.p1.h,
-                      right: AppPadding.p5.w,
-                      left: AppPadding.p5.w),
-                  child: StreamBuilder<bool>(
-                      stream: _viewModel.outBirthmark,
-                      builder: (context, snapshot) {
-                        return TextFormField(
-                          maxLines: 6,
-                          minLines: 1,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.streetAddress,
-                          controller: _userBirthMark,
-                          decoration: InputDecoration(
-                              alignLabelWithHint: true,
-                              labelText: AppStrings.mark,
-                              hintText: AppStrings.mark,
-                              errorText: (snapshot.data ?? true)
-                                  ? null
-                                  : AppStrings.markError),
-                        );
-                      }),
-                ),
-                StreamBuilder<bool>(
-                  stream: _viewModel.outAllInputsValid,
-                  builder: (context, snapshot) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          top: AppPadding.p3.h,
-                          left: AppPadding.p5.w,
-                          right: AppPadding.p5.w),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: ColorManger.darkBlue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(APPSize.s10.sp),
-                            ),
-                          ),
-                          onPressed: (snapshot.data ?? false)
-                              ? () {
-                                  _viewModel.makeReport(context);
-                                }
-                              : null,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(AppStrings.complete),
-                              SizedBox(
-                                width: AppPadding.p4.w,
-                              ),
-                              const Icon(Icons.arrow_forward),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 
   _showPicker(context) {
     showModalBottomSheet(
@@ -460,13 +355,13 @@ class _MakeReportViewState extends State<MakeReportView> {
     if (image != null && image.path.isNotEmpty) {
       //return image
       return Container(
-        height: AppPadding.p30.h,
+        height: AppPadding.p20.h,
         width: AppPadding.p50.w,
         decoration: BoxDecoration(
             image: DecorationImage(fit: BoxFit.cover, image: FileImage(image))),
       );
     } else {
-      return SvgPicture.asset(ImageAsset.makeReport);
+      return Lottie.asset(JsonAsset.takePhoto, height: AppPadding.p16.h);
     }
   }
 

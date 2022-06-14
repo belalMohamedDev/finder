@@ -54,6 +54,7 @@ class MakingReportViewModel extends BaseViewModel
     _birthmarkStreamController.close();
     _isNextCompleteStreamController.close();
     _isALLCompleteStreamController.close();
+
     super.dispose();
   }
 
@@ -110,7 +111,9 @@ class MakingReportViewModel extends BaseViewModel
           stateRenderType: StateRenderType.popupSuccessState, message: ''));
 
       Timer(const Duration(seconds: 3), () {
+
         inputState.add(ContentState());
+
 
       },);
     });
@@ -321,6 +324,8 @@ class MakingReportViewModel extends BaseViewModel
         makeReportObject.clothesLastSeenWearing.isNotEmpty &&
         makeReportObject.age.isNotEmpty &&
         makeReportObject.area.isNotEmpty &&
+        makeReportObject.birthmark.isNotEmpty &&
+        makeReportObject.nationalId.isNotEmpty&&
         makeReportObject.gender.isNotEmpty;
   }
 
