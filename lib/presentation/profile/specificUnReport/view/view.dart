@@ -71,39 +71,44 @@ class _SpecificUnReportViewState extends State<SpecificUnReportView> {
   }
 
   Widget _showData(List<DataModel>? data) {
-    if (data != null) {
-      return GridView.builder(
-        padding: const EdgeInsets.only(
-          top: 15,
-          right: 8,
-          left: 8,
-        ),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.8,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 10),
-        itemBuilder: (context, index) {
-          String imageData =
-              "${Constant.baseUrl}/storage/${_viewModel.getData[index].attributes?.picture}";
 
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FoundSpecificPersonDetailsScreen(
-                        _viewModel.getData[index]),
-                  ));
-            },
-            child: _customCard(
-                _viewModel.getData[index].attributes!.policeStation,
-                _viewModel.getData[index].attributes?.createdAt,
-                imageData),
-          );
-        },
-        itemCount: _viewModel.getData.length,
-      );
+    if (data != null) {
+      if(_viewModel.getData.isNotEmpty){
+        return  GridView.builder(
+          padding: const EdgeInsets.only(
+            top: 15,
+            right: 8,
+            left: 8,
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.8,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 10),
+          itemBuilder: (context, index) {
+            String imageData =
+                "${Constant.baseUrl}/storage/${_viewModel.getData[index].attributes?.picture}";
+
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FoundSpecificPersonDetailsScreen(
+                          _viewModel.getData[index]),
+                    ));
+              },
+              child: _customCard(
+                  _viewModel.getData[index].attributes!.policeStation,
+                  _viewModel.getData[index].attributes?.createdAt,
+                  imageData),
+            );
+          },
+          itemCount: _viewModel.getData.length,
+        );
+      }else{
+        return _noData();
+      }
     } else {
       return _noData();
     }
@@ -121,7 +126,7 @@ class _SpecificUnReportViewState extends State<SpecificUnReportView> {
         )),
         Text("No Data in Found",
             style: getRegularStyle(
-                fontSize: FontSize.s18.sp, color: ColorManger.lightBlack)),
+                fontSize: FontSize.s14.sp, color: ColorManger.lightBlack)),
         SizedBox(
           height: APPSize.s18.h,
         )

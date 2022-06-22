@@ -5,7 +5,7 @@ import 'package:finder/presentation/resources/color_manger.dart';
 import 'package:finder/presentation/resources/font_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
+
 
 import 'package:lottie/lottie.dart';
 
@@ -113,11 +113,7 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Widget _getContentWidget() {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light.copyWith(
-          statusBarColor: Theme.of(context).primaryColor
-      ),
-      child: SafeArea(
+    return  SafeArea(
         child: SizedBox(
           height: double.infinity,
           width: double.infinity,
@@ -185,7 +181,7 @@ class _RegisterViewState extends State<RegisterView> {
             ),
           ),
         ),
-      ),
+
     );
   }
 

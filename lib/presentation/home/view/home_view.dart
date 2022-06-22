@@ -4,6 +4,7 @@ import 'package:finder/presentation/resources/color_manger.dart';
 import 'package:finder/presentation/resources/font_manger.dart';
 import 'package:finder/presentation/resources/route_manger.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -105,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.makeUnReport);
+                        Navigator.pushNamed(context, Routes.aiView);
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -149,6 +150,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ],
             ),
+
           ],
         ),
       ),

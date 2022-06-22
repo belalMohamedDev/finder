@@ -285,12 +285,7 @@ class _MakeReportViewState extends State<MakeReportView> {
                               onPressed: (snapshot.data ?? false)
                                   ? () {
                                   _viewModel.makeReport(context);
-                                  _userName.clear();
-                                  _userId.clear();
-                                  _userAge.clear();
-                                  _userArea.clear();
-                                  _userBirthMark.clear();
-                                  _userClothes.clear();
+
                                     }
                                   : null,
                               child: Row(

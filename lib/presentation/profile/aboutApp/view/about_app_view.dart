@@ -36,7 +36,7 @@ class AboutAppView extends StatelessWidget {
                     color: ColorManger.lightBlue1,
                     image: const DecorationImage(
                         image: AssetImage(
-                      ImageAsset.splashLogo,
+                      ImageAsset.logo,
                     )))),
             SizedBox(
               height: 5.h,

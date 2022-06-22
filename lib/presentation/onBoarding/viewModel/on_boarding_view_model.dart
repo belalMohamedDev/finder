@@ -4,6 +4,8 @@ import 'package:finder/presentation/base/base_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../application/app_prefs.dart';
+import '../../../application/di.dart';
 import '../../../domain/models/onBoarding/on_boarding_model.dart';
 import '../../resources/asset_manger.dart';
 import '../../resources/constant_manger.dart';
@@ -15,7 +17,7 @@ class OnBoardingViewModel extends BaseViewModel
   //stream controller outputs
 
   final StreamController<SliderViewObject> _streamDataController = BehaviorSubject();
-
+  final AppPreferences _appPreferences=instance<AppPreferences>();
   final PageController _pageController = PageController();
   late final List<SliderObject> _list;
   bool isLast = false;
@@ -59,6 +61,7 @@ class OnBoardingViewModel extends BaseViewModel
   @override
   void onPageSkip(context) {
     // skip button and navigate to login
+    _appPreferences.setOnBoardingScreenView();
     Navigator.pushReplacementNamed(context, Routes.loginRoute);
   }
 

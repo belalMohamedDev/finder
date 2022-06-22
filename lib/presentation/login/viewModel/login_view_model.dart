@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../application/app_prefs.dart';
 import '../../../application/di.dart';
-import '../../common/freezed_data_classes.dart';
+import '../../common/freez/freezed_data_classes.dart';
 import '../../common/stateRenderer/state_renderer_impl.dart';
 
 class LoginViewModel extends BaseViewModel

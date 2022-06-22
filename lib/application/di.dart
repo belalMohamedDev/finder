@@ -4,11 +4,13 @@ import 'package:finder/data/datasource/localData/report/local_data_source.dart';
 import 'package:finder/data/datasource/localData/unReport/un_report_local_data.dart';
 
 import 'package:finder/domain/repository/repositry.dart';
+import 'package:finder/domain/useCase/ai/use_case.dart';
 import 'package:finder/domain/useCase/logOut/log_out_use_case.dart';
 import 'package:finder/domain/useCase/login/login_use_case.dart';
 import 'package:finder/domain/useCase/makeReport/make_report_use_case.dart';
 import 'package:finder/domain/useCase/register/register_use_case.dart';
 import 'package:finder/domain/useCase/reports/reports_use_case.dart';
+import 'package:finder/presentation/ai/viewModel/view_model.dart';
 
 import 'package:finder/presentation/login/viewModel/login_view_model.dart';
 import 'package:finder/presentation/makeUnReport/viewModel/view_model.dart';
@@ -139,12 +141,20 @@ initLogOutModule() {
   }
 }
 
+initAiModule() {
+  if (!GetIt.I.isRegistered<AiUseCase>()) {
+    instance.registerFactory<AiUseCase>(() => AiUseCase(instance()));
+    instance.registerFactory<AiViewModel>(() => AiViewModel(instance(),instance()));
+  }
+}
+
 restAllModule() {
   instance.reset(dispose: false);
   initAppModule();
   initFoundModule();
   initLoginModule();
   initLogOutModule();
+  initAiModule();
   initMakeReportModule();
   initMakeUnReportModule();
   initMissingModule();

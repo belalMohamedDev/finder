@@ -7,7 +7,7 @@ import 'package:finder/presentation/resources/values_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'package:flutter/services.dart';
+
 import 'package:sizer/sizer.dart';
 
 import '../../../application/app_prefs.dart';
@@ -62,11 +62,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _getContentWidget(){
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light.copyWith(
-          statusBarColor: Theme.of(context).primaryColor
-      ),
-      child:
+    return
       SafeArea(
           child: SizedBox(
             height: double.infinity,
@@ -81,13 +77,13 @@ class _ProfileViewState extends State<ProfileView> {
 
                   _stack(),
                   SizedBox(
-                    height: AppPadding.p4.h,
+                    height: AppPadding.p3.h,
                   ),
                   _column()
                 ],
               ),
             ),
-          )),
+          ),
     );
   }
   Widget _column() {
@@ -95,7 +91,7 @@ class _ProfileViewState extends State<ProfileView> {
       children: [
         GestureDetector(
           onTap:() {
-      Navigator.pushNamed(context, Routes.specificView);
+            Navigator.pushNamed(context, Routes.tipsView);
     },
           child: Card(
             color: ColorManger.lightWhiteColor,
@@ -271,7 +267,7 @@ class _ProfileViewState extends State<ProfileView> {
               ),
             ),
             child: SizedBox(
-              height: AppPadding.p35.h,
+              height: AppPadding.p36.h,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,33 +305,30 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
         Center(
-          child: InkWell(
-            onTap: () {},
-            child: Container(
-                height: AppPadding.p18.h,
-                width: AppPadding.p41.w,
-                decoration: BoxDecoration(
-                  color: ColorManger.lightDarkBlue,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(APPSize.s60.sp),
-                  ),
+          child: Container(
+              height: AppPadding.p18.h,
+              width: AppPadding.p41.w,
+              decoration: BoxDecoration(
+                color: ColorManger.lightDarkBlue,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(APPSize.s60.sp),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(APPSize.s60.sp),
-                  child: CachedNetworkImage (
-                    imageUrl:  _appPreferences.isAccessImage(),
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) =>
-                        Image.asset(ImageAsset.profile),
-                  ),
-                )),
-          ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(APPSize.s60.sp),
+                child: CachedNetworkImage (
+                  imageUrl:  _appPreferences.isAccessImage(),
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) =>
+                      Image.asset(ImageAsset.profile),
+                ),
+              )),
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: AppPadding.p41.h,
+            top: AppPadding.p42.h,
           ),
           child: Center(
               child: ElevatedButton(
@@ -343,7 +336,9 @@ class _ProfileViewState extends State<ProfileView> {
               AppStrings.edite,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.specificView);
+            },
             style: ElevatedButton.styleFrom(primary: ColorManger.blue),
           )),
         ),

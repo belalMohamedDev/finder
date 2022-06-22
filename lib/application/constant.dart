@@ -1,7 +1,7 @@
 
 
 class Constant {
-  static const String baseUrl = "https://a7ca-197-36-156-166.eu.ngrok.io";
+  static const String baseUrl = "https://ae29-197-36-241-18.eu.ngrok.io";
   static const String empty = "";
   static const int zero = 0;
   static const List listEmpty = [];

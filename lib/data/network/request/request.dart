@@ -1,4 +1,7 @@
-
+class AiRequest{
+  dynamic image ;
+  AiRequest(this.image);
+}
 
 
 class LoginRequest{

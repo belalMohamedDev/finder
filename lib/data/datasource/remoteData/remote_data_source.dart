@@ -11,20 +11,22 @@ import 'package:finder/data/responses/updateUser/response.dart';
 
 import '../../network/api/app_api.dart';
 import '../../responses/Incident/response.dart';
+import '../../responses/ai/ai_response.dart';
 import '../../responses/unReport/un_report_response.dart';
 
 abstract class RemoteDataSource {
   Future<BaseResponses> login(LoginRequest loginRequest);
   Future<LogOutResponse> logOut();
   Future<RegisterModelResponse> register(RegisterRequest registerRequest);
+
   Future<IncidentResponse> incident(IncidentRequest incidentRequest);
   Future<ReportResponse> getReports();
 
   Future<UnReportResponse> getUnReports();
   Future<MakeReportResponse> makeReport(MakeReportRequest makeReportRequest);
-
-
   Future<UpdateResponse> updateUser(UpdateUserRequest updateUserRequest);
+
+  Future<AiResponse> aiUser(AiRequest aiRequest);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -103,6 +105,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         incidentRequest.gender,
         incidentRequest.policeStation,
         incidentRequest.picture);
+  }
+
+  @override
+  Future<AiResponse> aiUser(AiRequest aiRequest)async {
+    return await _appServiceClient.ai(
+      aiRequest.image);
   }
 
 }

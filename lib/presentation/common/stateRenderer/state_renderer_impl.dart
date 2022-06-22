@@ -24,6 +24,53 @@ class LoadingState extends FlowState {
 }
 
 
+//loading Ai state (popUp)
+
+class LoadingAiState extends FlowState {
+  StateRenderType stateRenderType;
+  String message;
+  LoadingAiState(
+      {required this.stateRenderType, this.message = AppStrings.loading});
+
+  @override
+  String getMessage() => message;
+
+  @override
+  StateRenderType getStateRenderType() => stateRenderType;
+}
+
+
+
+//Ai Match state (popUp )
+
+class AiMatchState extends FlowState {
+  StateRenderType stateRenderType;
+  String message;
+  AiMatchState({required this.stateRenderType, required this.message});
+
+  @override
+  String getMessage() => message;
+
+  @override
+  StateRenderType getStateRenderType() => stateRenderType;
+}
+
+
+//Ai Not Match state (popUp )
+
+class AiNotMatchState extends FlowState {
+  StateRenderType stateRenderType;
+  String message;
+  AiNotMatchState({required this.stateRenderType, required this.message});
+
+  @override
+  String getMessage() => message;
+
+  @override
+  StateRenderType getStateRenderType() => stateRenderType;
+}
+
+
 //success state (popUp )
 
 class SuccessState extends FlowState {
@@ -113,6 +160,63 @@ extension FlowStateExtension on FlowState {
             );
           }
         }
+
+      case LoadingAiState:
+        {
+          dismissDialog(context);
+          if (getStateRenderType() == StateRenderType.popupLoadingAiState) {
+            //show popup loading
+            showPopUp(context, getStateRenderType(), getMessage());
+            // show content ui of screen
+            return contentScreenWidget;
+          } else {
+            //full screen state loading state
+            return StateRender(
+              message: getMessage(),
+              retryActionFunction: retryActionFunction,
+              stateRenderType: getStateRenderType(),
+            );
+          }
+        }
+
+
+      case AiMatchState:
+        {
+          dismissDialog(context);
+          if (getStateRenderType() == StateRenderType.popupMatchingAiState) {
+            //show popup error
+            showPopUp(context, getStateRenderType(), getMessage());
+            // show content ui of screen
+            return contentScreenWidget;
+          } else {
+            //full screen state error state
+            return StateRender(
+              message: getMessage(),
+              retryActionFunction: retryActionFunction,
+              stateRenderType: getStateRenderType(),
+            );
+          }
+        }
+
+
+      case AiNotMatchState:
+        {
+          dismissDialog(context);
+          if (getStateRenderType() == StateRenderType.popupNoMatchingAiState) {
+            //show popup error
+            showPopUp(context, getStateRenderType(), getMessage());
+            // show content ui of screen
+            return contentScreenWidget;
+          } else {
+            //full screen state error state
+            return StateRender(
+              message: getMessage(),
+              retryActionFunction: retryActionFunction,
+              stateRenderType: getStateRenderType(),
+            );
+          }
+        }
+
 
       case SuccessState:
         {

@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:finder/application/constant.dart';
+import 'package:finder/data/responses/ai/ai_response.dart';
 
 import 'package:finder/data/responses/logOut/response.dart';
 import 'package:finder/data/responses/login/responses.dart';
@@ -27,10 +28,17 @@ abstract class AppServiceClient {
 
   @POST("/api/login")
   Future<BaseResponses> login(
-    @Field("national_id") String nationalId,
-    @Field("password") String password,
-    
-  );
+      @Field("national_id") String nationalId,
+      @Field("password") String password,
+
+      );
+
+  @POST("/api/ai")
+  Future<AiResponse> ai(
+
+      @Field("image") dynamic image,
+
+      );
 
 
   @POST("/api/register")

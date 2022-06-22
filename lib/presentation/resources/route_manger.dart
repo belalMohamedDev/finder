@@ -1,6 +1,8 @@
+import 'package:finder/presentation/ai/view/view.dart';
 import 'package:finder/presentation/home/view/home_view.dart';
 import 'package:finder/presentation/makingReport/view/view.dart';
 import 'package:finder/presentation/profile/aboutApp/view/about_app_view.dart';
+import 'package:finder/presentation/profile/tips/view/tips_view.dart';
 import 'package:finder/presentation/register/view/register_view.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,8 @@ class Routes {
   static const String makeSpecificReport = "/makeSpecificReport";
   static const String makeUnSpecificReport = "/makeUnSpecificReport";
   static const String specificView = "/specificView";
+  static const String aiView = "/aiView";
+  static const String tipsView = "/tipsView";
 }
 
 class RouteGenerator {
@@ -83,15 +87,27 @@ class RouteGenerator {
           builder: (_) => const SpecificReportView(),
         );
       case Routes.makeUnSpecificReport:
-      // initSpecificReportModule();
+
         return MaterialPageRoute(
           builder: (_) => const SpecificUnReportView(),
         );
 
-      case Routes.specificView:
+      case Routes.tipsView:
       // initSpecificReportModule();
         return MaterialPageRoute(
+          builder: (_) => const TipsView(),
+        );
+
+
+      case Routes.specificView:
+
+        return MaterialPageRoute(
           builder: (_) => const SpecificView(),
+        );
+        case Routes.aiView:
+          initAiModule();
+        return MaterialPageRoute(
+          builder: (_) => const AiView(),
         );
       default:
         return unDefinedRoute();

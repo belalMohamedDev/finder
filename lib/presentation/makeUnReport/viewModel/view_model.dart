@@ -12,7 +12,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../application/di.dart';
 import '../../../domain/useCase/Incident/use_case.dart';
 
-import '../../common/freezed_data_classes.dart';
+import '../../common/freez/freezed_data_classes.dart';
 
 import '../../common/stateRenderer/state_renderer.dart';
 import '../../common/stateRenderer/state_renderer_impl.dart';
@@ -234,6 +234,7 @@ class MakeUnReport extends BaseViewModel
   bool _areAllValid() {
     return incidentObject.gender.isNotEmpty &&
         incidentObject.area.isNotEmpty &&
+        incidentObject.picture.toString().isNotEmpty &&
         incidentObject.policeStation.isNotEmpty;
   }
 

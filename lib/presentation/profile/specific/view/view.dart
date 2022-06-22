@@ -31,8 +31,8 @@ class _SpecificViewState extends State<SpecificView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 190),
-            Row(
+            const SizedBox(height: 90),
+              Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
@@ -43,8 +43,8 @@ class _SpecificViewState extends State<SpecificView> {
                       },
                       child: Container(
                         color: Colors.transparent,
-                        height: 180,
-                        width: 180,
+                        height: 190,
+                        width: 200,
                         child: Card(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
@@ -81,7 +81,7 @@ class _SpecificViewState extends State<SpecificView> {
                   ],
                 ),
                 const SizedBox(
-                  width: 18,
+                  height: 60,
                 ),
                 Column(
                   children: [
@@ -91,8 +91,8 @@ class _SpecificViewState extends State<SpecificView> {
                       },
                       child: Container(
                         color: Colors.transparent,
-                        height: 180,
-                        width: 180,
+                        height: 190,
+                        width: 200,
                         child: Card(
                           color: ColorManger.darkBlue,
                           shape: const RoundedRectangleBorder(

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:finder/data/datasource/localData/report/local_data_source.dart';
 import 'package:finder/data/datasource/localData/unReport/un_report_local_data.dart';
 import 'package:finder/data/mapper/Incident/mapper.dart';
+import 'package:finder/data/mapper/ai/ai_mapper.dart';
 import 'package:finder/data/mapper/logOut/mapper.dart';
 import 'package:finder/data/mapper/login/mapper.dart';
 import 'package:finder/data/mapper/makeReport/mapper.dart';
@@ -20,6 +21,7 @@ import 'package:finder/data/network/network_info/network_info.dart';
 
 import 'package:finder/data/network/request/request.dart';
 import 'package:finder/domain/models/Incident/model.dart';
+import 'package:finder/domain/models/aiModel/ai_model.dart';
 import 'package:finder/domain/models/logOut/model.dart';
 
 import 'package:finder/domain/models/login/login_model.dart';
@@ -279,6 +281,32 @@ class  RepositoryImpl implements Repositry {
           //failure --return business error
           return left(Failure(ApiInternalStatus.failure,
               response.message ?? ResponseMessage.unKnown));
+        }
+      } catch (error) {
+        return Left(ErrorHandler
+            .handle(error)
+            .failure);
+      }
+    } else {
+      //return  internet connection error
+      return left(DataSource.noInternetConnection.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, AiModel>> ai(AiRequest aiRequest) async{
+    if (await _networkInfo.isConnected) {
+      //its  connected to internet ,its safe to call api
+
+      try {
+        final response = await _remoteDataSource.aiUser(aiRequest);
+        if (response.statusCode == ApiInternalStatus.success) {
+          //success and return data
+          return Right(response.toDomain());
+        } else {
+          //failure --return business error
+          return left(Failure(ApiInternalStatus.failure,
+             ResponseMessage.unKnown));
         }
       } catch (error) {
         return Left(ErrorHandler

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:finder/domain/useCase/register/register_use_case.dart';
 import 'package:finder/presentation/base/base_view_model.dart';
-import 'package:finder/presentation/common/freezed_data_classes.dart';
+import 'package:finder/presentation/common/freez/freezed_data_classes.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -406,6 +406,7 @@ class RegisterViewModel extends BaseViewModel
         registerObject.phone.isNotEmpty &&
         imageValidData!.isNotEmpty &&
         lastNameData!.isNotEmpty &&
+        registerObject.picture.toString().isNotEmpty &&
         registerObject.address.isNotEmpty;
   }
 

@@ -10,6 +10,7 @@ import 'values_manger.dart';
 ThemeData getApplicationTheme() {
   return ThemeData(
 
+
 //main color
       primaryColor: ColorManger.backGround,
       scaffoldBackgroundColor: ColorManger.backGround,

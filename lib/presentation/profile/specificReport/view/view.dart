@@ -45,6 +45,7 @@ class _SpecificReportViewState extends State<SpecificReportView> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: ColorManger.black),
       ),
+
       body: StreamBuilder<FlowState>(
         stream: _viewModel.outState,
         builder: (context, snapshot) {
@@ -71,42 +72,47 @@ class _SpecificReportViewState extends State<SpecificReportView> {
 
   Widget _showData(List<DataModel>? data) {
     if (data != null) {
-      return GridView.builder(
-        padding: const EdgeInsets.only(
-          top: 15,
-          right: 8,
-          left: 8,
-        ),
+      if(_viewModel.getData.isNotEmpty){
+        return GridView.builder(
+          padding: const EdgeInsets.only(
+            top: 15,
+            right: 8,
+            left: 8,
+          ),
 
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.8,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 10),
-        itemBuilder: (context, index) {
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.8,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 10),
+          itemBuilder: (context, index) {
 
-          String imageData =
-              "${Constant.baseUrl}/storage/${_viewModel.getData[index].attributes?.picture}";
+            String imageData =
+                "${Constant.baseUrl}/storage/${_viewModel.getData[index].attributes?.picture}";
 
-          return GestureDetector(
-            onTap:(){
-              Navigator.push(context,  MaterialPageRoute(
-                builder: (context) => MissingSpecificPersonDetailsScreen(_viewModel.getData[index]),
+            return GestureDetector(
+              onTap:(){
+                Navigator.push(context,  MaterialPageRoute(
+                  builder: (context) => MissingSpecificPersonDetailsScreen(_viewModel.getData[index]),
 
-              ));
-            },
-            child: _customCard(_viewModel.getData[index].attributes?.name,
-                _viewModel.getData[index].attributes?.createdAt, imageData),
-          );
-        },
-        itemCount: _viewModel.getData.length,
-      );
+                ));
+              },
+              child: _customCard(_viewModel.getData[index].attributes?.name,
+                  _viewModel.getData[index].attributes?.createdAt, imageData),
+            );
+          },
+          itemCount: _viewModel.getData.length,
+        );
+      }else{
+        return _noData();
+      }
     } else {
       return _noData();
 
 
 
     }
+
   }
 
   Widget _noData() {
@@ -121,7 +127,7 @@ class _SpecificReportViewState extends State<SpecificReportView> {
             )),
         Text("No Data in Missing",
             style: getRegularStyle(
-                fontSize: FontSize.s18.sp, color: ColorManger.lightBlack)),
+                fontSize: FontSize.s14.sp, color: ColorManger.lightBlack)),
         SizedBox(
           height: APPSize.s15.h,
         )

@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:finder/presentation/resources/asset_manger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../application/app_prefs.dart';
 import '../../application/di.dart';
-import '../resources/asset_manger.dart';
+
 import '../resources/color_manger.dart';
 import '../resources/constant_manger.dart';
 import '../resources/route_manger.dart';
@@ -55,17 +58,23 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManger.lightBlue1,
-      appBar: AppBar(
-        backgroundColor: ColorManger.lightBlue1,
-        systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: ColorManger.lightBlue1,
-            statusBarIconBrightness: Brightness.dark),
-      ),
+
       body:
-      const Center(child: Image(image: AssetImage(ImageAsset.splashLogo))),
+       Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+         children: [
+           Center(child: SvgPicture.asset(ImageAsset.splashLogo,height: 500),),
+           SpinKitSquareCircle(
+             color: ColorManger.blue1,
+             size: 40.0,
+           ),
+         ],
+       )
+
     );
   }
+
+  // AssetImage(ImageAsset.splashLogo)
 
   @override
   void dispose() {

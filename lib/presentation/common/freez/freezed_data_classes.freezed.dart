@@ -389,6 +389,117 @@ abstract class _RegisterObject implements RegisterObject {
 }
 
 /// @nodoc
+mixin _$AiObject {
+  dynamic get image => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $AiObjectCopyWith<AiObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AiObjectCopyWith<$Res> {
+  factory $AiObjectCopyWith(AiObject value, $Res Function(AiObject) then) =
+      _$AiObjectCopyWithImpl<$Res>;
+  $Res call({dynamic image});
+}
+
+/// @nodoc
+class _$AiObjectCopyWithImpl<$Res> implements $AiObjectCopyWith<$Res> {
+  _$AiObjectCopyWithImpl(this._value, this._then);
+
+  final AiObject _value;
+  // ignore: unused_field
+  final $Res Function(AiObject) _then;
+
+  @override
+  $Res call({
+    Object? image = freezed,
+  }) {
+    return _then(_value.copyWith(
+      image: image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_AiObjectCopyWith<$Res> implements $AiObjectCopyWith<$Res> {
+  factory _$$_AiObjectCopyWith(
+          _$_AiObject value, $Res Function(_$_AiObject) then) =
+      __$$_AiObjectCopyWithImpl<$Res>;
+  @override
+  $Res call({dynamic image});
+}
+
+/// @nodoc
+class __$$_AiObjectCopyWithImpl<$Res> extends _$AiObjectCopyWithImpl<$Res>
+    implements _$$_AiObjectCopyWith<$Res> {
+  __$$_AiObjectCopyWithImpl(
+      _$_AiObject _value, $Res Function(_$_AiObject) _then)
+      : super(_value, (v) => _then(v as _$_AiObject));
+
+  @override
+  _$_AiObject get _value => super._value as _$_AiObject;
+
+  @override
+  $Res call({
+    Object? image = freezed,
+  }) {
+    return _then(_$_AiObject(
+      image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_AiObject implements _AiObject {
+  _$_AiObject(this.image);
+
+  @override
+  final dynamic image;
+
+  @override
+  String toString() {
+    return 'AiObject(image: $image)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_AiObject &&
+            const DeepCollectionEquality().equals(other.image, image));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(image));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_AiObjectCopyWith<_$_AiObject> get copyWith =>
+      __$$_AiObjectCopyWithImpl<_$_AiObject>(this, _$identity);
+}
+
+abstract class _AiObject implements AiObject {
+  factory _AiObject(final dynamic image) = _$_AiObject;
+
+  @override
+  dynamic get image => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$$_AiObjectCopyWith<_$_AiObject> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$MakeReportObject {
   String get name => throw _privateConstructorUsedError;
   String get nationalId => throw _privateConstructorUsedError;

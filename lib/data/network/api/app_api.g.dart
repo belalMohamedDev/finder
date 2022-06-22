@@ -34,6 +34,22 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
+  Future<AiResponse> ai(image) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    FormData _data = FormData.fromMap({ 'image': image});
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<AiResponse>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/api/ai',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = AiResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<RegisterModelResponse> register(
       name, nationalId, email, password, address, phoneNumber, picture) async {
     const _extra = <String, dynamic>{};
@@ -131,8 +147,6 @@ class _AppServiceClient implements AppServiceClient {
     final value = MakeReportResponse.fromJson(_result.data!);
     return value;
   }
-
-
 
   @override
   Future<IncidentResponse> incident(

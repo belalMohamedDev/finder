@@ -5,7 +5,7 @@ import 'package:finder/presentation/resources/route_manger.dart';
 import 'package:finder/presentation/resources/strings_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:sizer/sizer.dart';
@@ -65,11 +65,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _getContentWidget() {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light.copyWith(
-          statusBarColor: Theme.of(context).primaryColor
-      ),
-        child: SafeArea(
+    return  SafeArea(
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -92,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
           ),
-        ),
+
       );
 
   }

@@ -12,6 +12,7 @@ class AppStrings {
   static const String female =  'FeMale';
   static const String ok = "OK";
   static const String skip = "SKIP";
+  static const String skipToReport = "Skip to report";
   static const String hello = '   Hello,';
   static const String hope = '     We hope you find what you want here';
   static const String age = "Age";
@@ -67,7 +68,7 @@ people with the help of our
   static const String  putImage ="Please put a clear image of the Person.";
   static const String  putImageDetails =""" in order to access to the child Easier,  please place the child in the nearest police station. And tell us the name of this police  station and Gender....""";
   static const String profile = 'Profile';
-  static const String edite = "           Edite         ";
+  static const String edite = "      Person Data      ";
   static const String tips = "Tips to keep your child  safe.";
   static const String about = "About the app";
   static const String logOut = "Log out";
@@ -96,4 +97,15 @@ connect and help find each other.
   static const String userPasswordValid = "Password should be include big and small letters";
   static const String userPhoneValid = "Phone Number Should be at least 12 digits";
   static const String userAddressValid = "Address Should be at least 10 characters";
+  static const String ai = "Use AI";
+  static const String submit = "Submit";
+  static const String searchAnything = "Search anything";
+  static const String tips1 = "1- It is forbidden to leave a child under the age of 8 anywhere alone, whether club, garden or anywhere outside the home, and the mother should never be absent from sight even for seconds.";
+  static const String tips2 = "2- Avoid browsing at all on your mobile phone while walking around with your children outside the home, as you are a powerful target for kidnappers to easily attract your children's attention.";
+  static const String tips3 = "3- Try as much as possible to engage your son in a sport that teaches him self-defense and quick action in case he feels any danger.";
+  static const String tips4 = "4- Read simple and indirect stories about kidnapping, teach your child how to keep himself, emphasizing the phrase I'll go ask Mama first.";
+  static const String tips5 = "5- Be careful to save the home phone number, the house number, the street name and also the help number so that it can communicate quickly if it can escape from the kidnapper.";
+  static const String tips6 = "6- Teach your children not to let strangers talk to them, catch them or go somewhere else, no matter what, and assured them that you will never send someone they don't know.";
+  static const String tops7 = "7- It is necessary to make children aware of the risk of abduction, through dialogue without going into scary details, and just tell him that those who leave their families are in a lot of trouble.";
+  static const String tips8 = "8- Tell the child that if he lost or separated from his father or mother, he must stay in his place and wait to find him, and assured him that they would never get out of the place where you are, whether it be a park, a mall or anywhere.";
 }

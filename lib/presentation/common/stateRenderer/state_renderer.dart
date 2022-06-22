@@ -15,14 +15,14 @@ enum StateRenderType {
   popupErrorState,
   popupSuccessState,
   popupInternetConnectionState,
-
-
+  popupLoadingAiState,
+  popupMatchingAiState,
+  popupNoMatchingAiState,
   //FULL SCREEN STATED (FULL SCREEN)
   fullScreenLoadingState,
   fullScreenErrorState,
   fullScreenEmptyState,
   fullScreenInternetConnectionState,
-
 
   //general
   contentState,
@@ -54,7 +54,10 @@ class StateRender extends StatelessWidget {
           _getAnimatedImage(JsonAsset.loadFullScreen),
         ]);
 
-
+      case StateRenderType.popupLoadingAiState:
+        return _getPopUpDialog(context, [
+          _getAnimatedImage(JsonAsset.ai),
+        ]);
 
       case StateRenderType.popupSuccessState:
         return _getPopUpDialog(context, [
@@ -65,16 +68,28 @@ class StateRender extends StatelessWidget {
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAsset.noInternet),
           _getMessage(message),
-          _getRetryButton(buttonTitle: AppStrings.ok,context:  context),
+          _getRetryButton(buttonTitle: AppStrings.ok, context: context),
         ]);
 
+      case StateRenderType.popupMatchingAiState:
+        return _getPopUpDialog(context, [
+          _getAnimatedImage(JsonAsset.success),
+          _getMessage(message),
+          _getRetryButton(buttonTitle: AppStrings.ok, context: context),
+        ]);
 
+      case StateRenderType.popupNoMatchingAiState:
+        return _getPopUpDialog(context, [
+          _getAnimatedImage(JsonAsset.noMatching),
+          _getMessage(message),
+          _getRetryButton(buttonTitle: AppStrings.ok, context: context),
+        ]);
 
       case StateRenderType.popupErrorState:
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAsset.error),
           _getMessage(message),
-          _getRetryButton(buttonTitle: AppStrings.ok,context:  context),
+          _getRetryButton(buttonTitle: AppStrings.ok, context: context),
         ]);
 
       case StateRenderType.fullScreenLoadingState:
@@ -87,22 +102,30 @@ class StateRender extends StatelessWidget {
         return _getItemColumn([
           _getAnimatedImage(JsonAsset.noInternet),
           _getMessage(message),
-          _getRetryButton(buttonTitle: AppStrings.retryAgain,context:  context,size: AppPadding.p12),
+          _getRetryButton(
+              buttonTitle: AppStrings.retryAgain,
+              context: context,
+              size: AppPadding.p12),
         ]);
 
       case StateRenderType.fullScreenErrorState:
         return _getItemColumn([
           _getAnimatedImage(JsonAsset.error),
           _getMessage(message),
-          _getRetryButton(buttonTitle: AppStrings.retryAgain,context:  context,size: AppPadding.p12),
+          _getRetryButton(
+              buttonTitle: AppStrings.retryAgain,
+              context: context,
+              size: AppPadding.p12),
         ]);
 
       case StateRenderType.fullScreenEmptyState:
         return _getItemColumn([
           _getAnimatedImage(JsonAsset.empty),
           _getMessage(message),
-
-          _getRetryButton(buttonTitle: AppStrings.retryAgain,context:  context,size: AppPadding.p22),
+          _getRetryButton(
+              buttonTitle: AppStrings.retryAgain,
+              context: context,
+              size: AppPadding.p22),
         ]);
       case StateRenderType.contentState:
         return Container();
@@ -152,7 +175,9 @@ class StateRender extends StatelessWidget {
     return SizedBox(
       height: APPSize.s28.h,
       width: APPSize.s100.w,
-      child: Lottie.asset(animationName,),
+      child: Lottie.asset(
+        animationName,
+      ),
     );
   }
 
@@ -178,10 +203,13 @@ class StateRender extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () {
-                  if (stateRenderType == StateRenderType.popupErrorState ||stateRenderType == StateRenderType.popupInternetConnectionState ) {
+                  if (stateRenderType == StateRenderType.popupErrorState ||
+                      stateRenderType ==
+                          StateRenderType.popupInternetConnectionState ||
+                      stateRenderType == StateRenderType.popupNoMatchingAiState ||
+                      stateRenderType == StateRenderType.popupMatchingAiState) {
                     // popup error state
                     Navigator.of(context).pop();
-
                   } else {
                     //call retry function
                     retryActionFunction.call();

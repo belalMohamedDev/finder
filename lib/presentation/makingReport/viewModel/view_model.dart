@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:finder/domain/useCase/makeReport/make_report_use_case.dart';
 import 'package:finder/presentation/base/base_view_model.dart';
-import 'package:finder/presentation/common/freezed_data_classes.dart';
+import 'package:finder/presentation/common/freez/freezed_data_classes.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:rxdart/rxdart.dart';
@@ -326,6 +326,7 @@ class MakingReportViewModel extends BaseViewModel
         makeReportObject.area.isNotEmpty &&
         makeReportObject.birthmark.isNotEmpty &&
         makeReportObject.nationalId.isNotEmpty&&
+        makeReportObject.picture.toString().isNotEmpty&&
         makeReportObject.gender.isNotEmpty;
   }
 

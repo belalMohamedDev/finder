@@ -3,10 +3,10 @@ import 'package:finder/presentation/common/stateRenderer/state_renderer_impl.dar
 import 'package:finder/presentation/found/viewModel/found_view_model.dart';
 
 import 'package:finder/presentation/resources/asset_manger.dart';
-import 'package:finder/presentation/resources/color_manger.dart';
+
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:sizer/sizer.dart';
 
 import '../../../application/constant.dart';
@@ -53,36 +53,25 @@ class _FoundViewState extends State<FoundView> {
   }
 
   Widget _getData() {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light
-            .copyWith(statusBarColor: Theme.of(context).primaryColor),
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: false,
-            leading: const SizedBox(),
-            title: Text("Searching in Found .....",
-                style: TextStyle(color: ColorManger.black)),
-            actions: [
-              StatefulBuilder(
-                builder:  (context, setState) {
-                  return AnimSearchBar(
-                    width: AppPadding.p90.w,
-                    textController: _search,
-                    onSuffixTap: () {
-                      _search.clear();
-                      setState(() {});
-                    },
-                    function: (value) {
-                      addItemToList(value);
-                    },
-                  );
+    return  Scaffold(
+      appBar: AppBar(
+        title: StatefulBuilder(
+          builder: (context, setState) {
+            return searchBar(
+                context,
+                function:  (value) {
+                  addItemToList(value);
                 },
-              ),
-              SizedBox(
-                width: AppPadding.p5.w,
-              ),
-            ],
-          ),
+
+                clear: () {
+                  _search.clear();
+                },
+                search: _search
+            );
+          },
+        ) ,
+
+      ),
           body: StreamBuilder<List<DataModel>>(
             stream: _viewModel.outputData,
             builder: (context, snapshot) {
@@ -90,7 +79,7 @@ class _FoundViewState extends State<FoundView> {
               return _showData(_search.text.isEmpty? snapshot.data:searchList);
             },
           ),
-        ));
+        );
   }
 
   Widget _showData(List<DataModel>? data ) {

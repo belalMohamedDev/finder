@@ -21,6 +21,14 @@ class  RegisterObject with _$RegisterObject{
       )=_RegisterObject;
 }
 
+@freezed
+class  AiObject with _$AiObject{
+  factory AiObject(
+
+      dynamic image,
+
+      )=_AiObject;
+}
 
 
 @freezed
