@@ -58,9 +58,9 @@ class _AiViewState extends State<AiView> {
                     return _imagePicketByUser(snapshot.data);
                   })),
           
-          SizedBox(height: APPSize.s20,),
-          Text("You can use AI to Find your missing person"),
-          SizedBox(height: APPSize.s120,),
+          const SizedBox(height: APPSize.s20,),
+          const Text("You can use AI to Find your missing person"),
+          const SizedBox(height: APPSize.s120,),
           SizedBox(
             width: double.infinity,
             height: AppPadding.p6_7.h,
@@ -77,7 +77,7 @@ class _AiViewState extends State<AiView> {
                   primary: ColorManger.darkBlue),
             ),
           ),
-          SizedBox(height: APPSize.s20,),
+          const SizedBox(height: APPSize.s20,),
 
           SizedBox(
             width: double.infinity,

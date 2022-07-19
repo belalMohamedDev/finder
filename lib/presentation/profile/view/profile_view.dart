@@ -32,7 +32,7 @@ class _ProfileViewState extends State<ProfileView> {
     _viewModel.isUserLoggedInSuccessfullyStreamController.stream.listen((isLoggedOut) {
       if(isLoggedOut){
         //navigate to main screen
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
         });
 

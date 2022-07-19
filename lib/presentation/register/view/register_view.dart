@@ -82,7 +82,7 @@ class _RegisterViewState extends State<RegisterView> {
         .listen((isLoggedIn) {
       if (isLoggedIn) {
         //navigate to main screen
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           _appPreferences.setLoginScreenView();
           Navigator.of(context).pushReplacementNamed(Routes.bottomNavBarRoute);
         });

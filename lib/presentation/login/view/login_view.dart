@@ -38,7 +38,7 @@ class _LoginViewState extends State<LoginView> {
     _viewModel.isUserLoggedInSuccessfullyStreamController.stream.listen((isLoggedIn) {
       if(isLoggedIn){
         //navigate to main screen
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           _appPreferences.setLoginScreenView();
           Navigator.of(context).pushReplacementNamed(Routes.bottomNavBarRoute);
         });
