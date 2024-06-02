@@ -17,6 +17,7 @@ class _FoundViewState extends State<FoundView> {
   Widget build(BuildContext context) {
     final getFoundCubit = context.read<GetFoundCubit>();
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
           title: searchBar(context, function: (value) {
         getFoundCubit.addItemToList(value);
@@ -28,6 +29,7 @@ class _FoundViewState extends State<FoundView> {
         buildWhen: (previous, current) =>
             current is LoadingFromPagination ||
             current is Success ||
+            current is AddItemToList ||
             current is Error,
         builder: (context, state) {
           if (state is LoadingFromPagination) {

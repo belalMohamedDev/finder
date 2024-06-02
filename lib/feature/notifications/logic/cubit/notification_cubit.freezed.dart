@@ -21,7 +21,7 @@ mixin _$NotificationState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getNotificationFromPaginationLoadingState,
-    required TResult Function(List<DataNotification> data) success,
+    required TResult Function(NotificationResponse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +30,7 @@ mixin _$NotificationState<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getNotificationFromPaginationLoadingState,
-    TResult? Function(List<DataNotification> data)? success,
+    TResult? Function(NotificationResponse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ mixin _$NotificationState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getNotificationFromPaginationLoadingState,
-    TResult Function(List<DataNotification> data)? success,
+    TResult Function(NotificationResponse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     required TResult orElse(),
   }) =>
@@ -137,7 +137,7 @@ class _$InitialImpl<T> implements _Initial<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getNotificationFromPaginationLoadingState,
-    required TResult Function(List<DataNotification> data) success,
+    required TResult Function(NotificationResponse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
   }) {
     return initial();
@@ -149,7 +149,7 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getNotificationFromPaginationLoadingState,
-    TResult? Function(List<DataNotification> data)? success,
+    TResult? Function(NotificationResponse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
   }) {
     return initial?.call();
@@ -161,7 +161,7 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getNotificationFromPaginationLoadingState,
-    TResult Function(List<DataNotification> data)? success,
+    TResult Function(NotificationResponse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     required TResult orElse(),
   }) {
@@ -260,7 +260,7 @@ class _$LoadingImpl<T> implements Loading<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getNotificationFromPaginationLoadingState,
-    required TResult Function(List<DataNotification> data) success,
+    required TResult Function(NotificationResponse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
   }) {
     return loading();
@@ -272,7 +272,7 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getNotificationFromPaginationLoadingState,
-    TResult? Function(List<DataNotification> data)? success,
+    TResult? Function(NotificationResponse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
   }) {
     return loading?.call();
@@ -284,7 +284,7 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getNotificationFromPaginationLoadingState,
-    TResult Function(List<DataNotification> data)? success,
+    TResult Function(NotificationResponse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     required TResult orElse(),
   }) {
@@ -384,7 +384,7 @@ class _$LoadingPaginationImpl<T> implements LoadingPagination<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getNotificationFromPaginationLoadingState,
-    required TResult Function(List<DataNotification> data) success,
+    required TResult Function(NotificationResponse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
   }) {
     return getNotificationFromPaginationLoadingState();
@@ -396,7 +396,7 @@ class _$LoadingPaginationImpl<T> implements LoadingPagination<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getNotificationFromPaginationLoadingState,
-    TResult? Function(List<DataNotification> data)? success,
+    TResult? Function(NotificationResponse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
   }) {
     return getNotificationFromPaginationLoadingState?.call();
@@ -408,7 +408,7 @@ class _$LoadingPaginationImpl<T> implements LoadingPagination<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getNotificationFromPaginationLoadingState,
-    TResult Function(List<DataNotification> data)? success,
+    TResult Function(NotificationResponse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     required TResult orElse(),
   }) {
@@ -472,7 +472,7 @@ abstract class _$$SuccessImplCopyWith<T, $Res> {
           _$SuccessImpl<T> value, $Res Function(_$SuccessImpl<T>) then) =
       __$$SuccessImplCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({List<DataNotification> data});
+  $Res call({NotificationResponse data});
 }
 
 /// @nodoc
@@ -490,9 +490,9 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
   }) {
     return _then(_$SuccessImpl<T>(
       null == data
-          ? _value._data
+          ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<DataNotification>,
+              as NotificationResponse,
     ));
   }
 }
@@ -500,15 +500,10 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$SuccessImpl<T> implements Success<T> {
-  const _$SuccessImpl(final List<DataNotification> data) : _data = data;
+  const _$SuccessImpl(this.data);
 
-  final List<DataNotification> _data;
   @override
-  List<DataNotification> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
+  final NotificationResponse data;
 
   @override
   String toString() {
@@ -520,12 +515,11 @@ class _$SuccessImpl<T> implements Success<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl<T> &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(runtimeType, data);
 
   @JsonKey(ignore: true)
   @override
@@ -539,7 +533,7 @@ class _$SuccessImpl<T> implements Success<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getNotificationFromPaginationLoadingState,
-    required TResult Function(List<DataNotification> data) success,
+    required TResult Function(NotificationResponse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
   }) {
     return success(data);
@@ -551,7 +545,7 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getNotificationFromPaginationLoadingState,
-    TResult? Function(List<DataNotification> data)? success,
+    TResult? Function(NotificationResponse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
   }) {
     return success?.call(data);
@@ -563,7 +557,7 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getNotificationFromPaginationLoadingState,
-    TResult Function(List<DataNotification> data)? success,
+    TResult Function(NotificationResponse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     required TResult orElse(),
   }) {
@@ -618,9 +612,9 @@ class _$SuccessImpl<T> implements Success<T> {
 }
 
 abstract class Success<T> implements NotificationState<T> {
-  const factory Success(final List<DataNotification> data) = _$SuccessImpl<T>;
+  const factory Success(final NotificationResponse data) = _$SuccessImpl<T>;
 
-  List<DataNotification> get data;
+  NotificationResponse get data;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<T, _$SuccessImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -703,7 +697,7 @@ class _$ErrorImpl<T> implements Error<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getNotificationFromPaginationLoadingState,
-    required TResult Function(List<DataNotification> data) success,
+    required TResult Function(NotificationResponse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
   }) {
     return error(errorMessage, errorCode);
@@ -715,7 +709,7 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getNotificationFromPaginationLoadingState,
-    TResult? Function(List<DataNotification> data)? success,
+    TResult? Function(NotificationResponse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
   }) {
     return error?.call(errorMessage, errorCode);
@@ -727,7 +721,7 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getNotificationFromPaginationLoadingState,
-    TResult Function(List<DataNotification> data)? success,
+    TResult Function(NotificationResponse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     required TResult orElse(),
   }) {

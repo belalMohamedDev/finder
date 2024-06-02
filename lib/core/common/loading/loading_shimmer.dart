@@ -23,7 +23,7 @@ class LoadingShimmer extends StatelessWidget {
       ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.58,
+          childAspectRatio: 0.7,
           crossAxisSpacing: 5,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {
@@ -60,7 +60,7 @@ class CustomCardShimmer extends StatelessWidget {
                     topLeft: Radius.circular(20.sp)),
                 child: Container(
                   color: Colors.black,
-                  height: 212.h,
+                  height: 160.h,
                   width: double.infinity,
                 )),
           ),

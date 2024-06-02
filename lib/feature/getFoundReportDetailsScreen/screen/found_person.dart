@@ -16,7 +16,7 @@ class FoundPersonDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String imageData =
-        "${data.image?.replaceFirst("http://localhost:8080", ApiConstants.baseUrl)}";
+        "${data.image?.replaceFirst(ApiConstants.baseUrlImage, ApiConstants.baseUrl)}";
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

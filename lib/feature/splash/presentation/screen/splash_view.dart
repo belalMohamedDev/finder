@@ -18,7 +18,7 @@ class _SplashViewState extends State<SplashView> {
   Timer? _timer;
 
   void startDelay() {
-    _timer = Timer(const Duration(seconds: 2), goNext);
+    _timer = Timer(const Duration(seconds: 3), goNext);
   }
 
   ///this function to mange navigate to next

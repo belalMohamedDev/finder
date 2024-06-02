@@ -36,7 +36,7 @@ class NotificationCubit extends Cubit<NotificationState> {
           dataList.addAll(getNotification.data!);
           page++;
         }
-        emit(NotificationState.success(dataList));
+        emit(NotificationState.success(getNotification));
       },
       failure: (error) {
         emit(

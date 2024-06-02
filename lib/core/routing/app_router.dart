@@ -42,7 +42,6 @@ class RouteGenerator {
           builder: (_) => const OnBoardingView(),
         );
       case Routes.loginRoute:
-        //initLoginModule();
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => instance<LoginCubit>(),
@@ -50,7 +49,6 @@ class RouteGenerator {
           ),
         );
       case Routes.registerRoute:
-      
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => instance<RegisterCubit>(),
@@ -58,14 +56,18 @@ class RouteGenerator {
           ),
         );
       case Routes.bottomNavBarRoute:
+ 
+
         return MaterialPageRoute(
           builder: (_) => const BottomNavBarView(),
         );
 
       case Routes.notificationsView:
+
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => instance<NotificationCubit>()..getNotifications(),
+            create: (context) =>
+                instance<NotificationCubit>()..getNotifications(),
             child: const NotificationScreen(),
           ),
         );
@@ -75,7 +77,7 @@ class RouteGenerator {
         );
 
       case Routes.makeReport:
-  
+
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => instance<MakeAReportCubit>(),
@@ -91,6 +93,7 @@ class RouteGenerator {
         );
 
       case Routes.updatePasswordView:
+
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => instance<UpdatePasswordCubit>(),
@@ -99,6 +102,7 @@ class RouteGenerator {
         );
 
       case Routes.updateUserDataView:
+
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => instance<UpdateMyDataCubit>()..start(),
@@ -117,6 +121,7 @@ class RouteGenerator {
         );
 
       case Routes.makeObjectReport:
+
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => instance<MakeAObjectReportCubit>(),

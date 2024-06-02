@@ -41,6 +41,8 @@ class _BottomNavBarViewState extends State<BottomNavBarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+      
       body: SizedBox.expand(
         child: currentPage[currentBottomIndex],
       ),

@@ -35,7 +35,7 @@ class GetFoundCubit extends Cubit<GetFoundState<dynamic>> {
           page++;
         }
 
-        emit(GetFoundState.success(getFoundResponse.data!));
+        emit(GetFoundState.success(getFoundResponse));
       },
       failure: (error) {
         emit(

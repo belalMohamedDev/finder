@@ -22,7 +22,7 @@ class _CustomCardMissingState extends State<CustomCardMissing>
   Widget build(BuildContext context) {
     super.build(context);
     String imageData =
-        "${widget.data![widget.index].image?.replaceFirst("http://localhost:8080", ApiConstants.baseUrl)}";
+        "${widget.data![widget.index].image?.replaceFirst(ApiConstants.baseUrlImage, ApiConstants.baseUrl)}";
 
     return Card(
       color: Colors.grey[300],
@@ -38,22 +38,17 @@ class _CustomCardMissingState extends State<CustomCardMissing>
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20.sp),
                   topLeft: Radius.circular(20.sp)),
-              child: SizedBox(
-                height: 212.h,
-                //width: 150,
-                child: Container(
-                  color: Colors.black,
-                  child: CachedNetworkImage(
-                    imageUrl: imageData,
-                    placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                height: 160.h,
+                width: 180.w,
+                imageUrl: imageData,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               )),
           SizedBox(
-            height: 10.h,
+            height: 15.h,
           ),
           Text(
             widget.data?[widget.index].name ??

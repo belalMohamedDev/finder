@@ -1,28 +1,22 @@
 import 'package:finder/core/application/di.dart';
-import 'package:finder/core/services/pushNotification/firebase_cloud_messaging.dart';
-import 'package:finder/core/services/pushNotification/local_notification.dart';
 
 import 'package:finder/finder_app.dart';
-
+import 'package:finder/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-   await Future.delayed(const Duration(seconds: 3));
-
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-   await initAppModule().then((value) => {
-    FirebaseCloudMessaging().init(),
-    LocalNotificationService.init()
+  await Future.wait([
+    initAppModule(),
+    SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
+    ),
+  ]);
 
-   });
- 
-  // Used to make the screen body-less Orientation
-  await SystemChrome.setPreferredOrientations(
-    [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-  ).then((_) {
-    runApp(MyApp());
-  });
+  runApp(MyApp());
 }

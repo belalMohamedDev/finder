@@ -1,5 +1,6 @@
 import 'package:finder/core/style/colors/colors_light.dart';
 import 'package:finder/core/style/images/app_images.dart';
+import 'package:animate_do/animate_do.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,9 +17,15 @@ class SplashBody extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: SvgPicture.asset(
-              ImageAsset.splashLogo,
+          Bounce(
+            child: ShakeX(
+              delay: const Duration(seconds: 1),
+              duration: const Duration(seconds: 2),
+              child: Center(
+                child: SvgPicture.asset(
+                  ImageAsset.splashLogo,
+                ),
+              ),
             ),
           ),
           SizedBox(

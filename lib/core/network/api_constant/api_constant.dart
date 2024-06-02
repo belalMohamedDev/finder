@@ -1,5 +1,6 @@
 class ApiConstants {
    static const String baseUrl = 'http://192.168.182.2:8080';
+   static const String baseUrlImage = 'http://localhost:4040';
    static const int apiTimeOut = 120 * 1000;
 
   static const String login = '/v1/api/auth/login';

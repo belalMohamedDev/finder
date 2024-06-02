@@ -34,7 +34,7 @@ class GetMissingCubit extends Cubit<GetMissingState<dynamic>> {
           page++;
         }
 
-        emit(GetMissingState.success(getMissingResponse.data!));
+        emit(GetMissingState.success(getMissingResponse));
       },
       failure: (error) {
         emit(

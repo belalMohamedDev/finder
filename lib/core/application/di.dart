@@ -2,6 +2,7 @@ import 'package:finder/core/network/api/app_api.dart';
 import 'package:finder/core/network/dio_factory/dio_factory.dart';
 import 'package:finder/core/network/network_connectivity/connectivity_controller.dart';
 import 'package:finder/core/services/pushNotification/firebase_cloud_messaging.dart';
+import 'package:finder/core/services/pushNotification/local_notification.dart';
 
 import 'package:finder/core/services/shared_pref/shared_pref.dart';
 import 'package:finder/core/style/colors/colors_light.dart';
@@ -31,8 +32,6 @@ import 'package:finder/feature/signUp/data/repository/register_repo.dart';
 import 'package:finder/feature/signUp/logic/viewModel/register_cubit.dart';
 import 'package:finder/feature/updatePassword/logic/cubit/update_password_cubit.dart';
 import 'package:finder/feature/updateUserData/logic/cubit/update_user_data_cubit.dart';
-import 'package:firebase_core/firebase_core.dart';
-import '../../firebase_options.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,21 +40,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 final instance = GetIt.instance;
+
+
+
 Future<void> initAppModule() async {
-  // app module ,its a module where we put all generic dependencies
-
-  // shared prefs instance
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-
-  await SharedPref.preferences.instantiatePreferences();
-
-  await ScreenUtil.ensureScreenSize();
-
-  await FirebaseCloudMessaging().init();
+  await Future.wait([
+    SharedPref.preferences.instantiatePreferences(),
+    ScreenUtil.ensureScreenSize(),
+    FirebaseCloudMessaging().init(),
+    LocalNotificationService.init(),
+  ]);
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -64,91 +58,147 @@ Future<void> initAppModule() async {
     ),
   );
 
-  //network info instance
-  instance
-    ..registerLazySingleton<NetworkInfo>(
+
+  if (!instance.isRegistered<NetworkInfo>()) {
+    instance.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(InternetConnectionChecker()),
-    )
+    );
+  }
 
-    //dio factory
-    ..registerLazySingleton<DioFactory>(DioFactory.new);
+  if (!instance.isRegistered<DioFactory>()) {
+    instance.registerLazySingleton<DioFactory>(DioFactory.new);
+  }
 
-  //app service client
+  if (!instance.isRegistered<ImagePicker>()) {
+    instance.registerLazySingleton<ImagePicker>(ImagePicker.new);
+  }
+
   final dio = await instance<DioFactory>().getDio();
-  instance
-    ..registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio))
-    ..registerLazySingleton<ImagePicker>(ImagePicker.new)
+  if (!instance.isRegistered<AppServiceClient>()) {
+    instance.registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio));
+  }
 
-    // login
-    ..registerLazySingleton<LoginRepository>(
-        () => LoginRepository(instance(), instance()))
-    ..registerFactory<LoginCubit>(() => LoginCubit(instance()))
+  _registerCubitsAndRepositories();
+}
 
-    // register
-    ..registerLazySingleton<RegisterRepository>(
-        () => RegisterRepository(instance(), instance()))
-    ..registerFactory<RegisterCubit>(
-        () => RegisterCubit(instance(), instance()))
+void _registerCubitsAndRepositories() {
+  if (!instance.isRegistered<GetMissingRepository>()) {
+    instance.registerLazySingleton<GetMissingRepository>(
+        () => GetMissingRepository(instance(), instance()));
+  }
 
-    // get missing
-    ..registerLazySingleton<GetMissingRepository>(
-        () => GetMissingRepository(instance(), instance()))
-    ..registerFactory<GetMissingCubit>(() => GetMissingCubit(instance()))
+  if (!instance.isRegistered<GetMissingCubit>()) {
+    instance.registerFactory<GetMissingCubit>(() => GetMissingCubit(instance()));
+  }
 
-    // get found
-    ..registerLazySingleton<GetFoundRepository>(
-        () => GetFoundRepository(instance(), instance()))
-    ..registerFactory<GetFoundCubit>(() => GetFoundCubit(instance()))
+  if (!instance.isRegistered<GetFoundRepository>()) {
+    instance.registerLazySingleton<GetFoundRepository>(
+        () => GetFoundRepository(instance(), instance()));
+  }
 
-    // make un report
-    ..registerLazySingleton<MakeUnReportRepository>(
-        () => MakeUnReportRepository(instance(), instance()))
-    ..registerFactory<MakeUnReportCubit>(
-        () => MakeUnReportCubit(instance(), instance()))
+  if (!instance.isRegistered<GetFoundCubit>()) {
+    instance.registerFactory<GetFoundCubit>(() => GetFoundCubit(instance()));
+  }
 
-    // make report
-    ..registerLazySingleton<MakeAReportRepository>(
-        () => MakeAReportRepository(instance(), instance()))
-    ..registerFactory<MakeAReportCubit>(
-        () => MakeAReportCubit(instance(), instance()))
+  if (!instance.isRegistered<MakeUnReportRepository>()) {
+    instance.registerLazySingleton<MakeUnReportRepository>(
+        () => MakeUnReportRepository(instance(), instance()));
+  }
 
-    // make object report
-    ..registerLazySingleton<MakeAReportObjectRepository>(
-        () => MakeAReportObjectRepository(instance(), instance()))
-    ..registerFactory<MakeAObjectReportCubit>(
-        () => MakeAObjectReportCubit(instance(), instance()))
+  if (!instance.isRegistered<MakeUnReportCubit>()) {
+    instance.registerFactory<MakeUnReportCubit>(
+        () => MakeUnReportCubit(instance(), instance()));
+  }
 
-    // profile
-    ..registerLazySingleton<UpdateImageRepository>(
-        () => UpdateImageRepository(instance(), instance()))
-    ..registerFactory<ProfileCubit>(() => ProfileCubit(
-          instance(),
-          instance(),
-        ))
+  if (!instance.isRegistered<MakeAReportRepository>()) {
+    instance.registerLazySingleton<MakeAReportRepository>(
+        () => MakeAReportRepository(instance(), instance()));
+  }
 
-// update data
-    ..registerLazySingleton<UpdateMyDataRepository>(
-        () => UpdateMyDataRepository(instance(), instance()))
-    ..registerFactory<UpdateMyDataCubit>(() => UpdateMyDataCubit(
-          instance(),
-        ))
-// update password
-    ..registerLazySingleton<UpdatePasswordRepository>(
-        () => UpdatePasswordRepository(instance(), instance()))
-    ..registerFactory<UpdatePasswordCubit>(
-        () => UpdatePasswordCubit(instance()))
+  if (!instance.isRegistered<MakeAReportCubit>()) {
+    instance.registerFactory<MakeAReportCubit>(
+        () => MakeAReportCubit(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<MakeAReportObjectRepository>()) {
+    instance.registerLazySingleton<MakeAReportObjectRepository>(
+        () => MakeAReportObjectRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<MakeAObjectReportCubit>()) {
+    instance.registerFactory<MakeAObjectReportCubit>(
+        () => MakeAObjectReportCubit(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<UpdateImageRepository>()) {
+    instance.registerLazySingleton<UpdateImageRepository>(
+        () => UpdateImageRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<ProfileCubit>()) {
+    instance.registerFactory<ProfileCubit>(() => ProfileCubit(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<UpdateMyDataRepository>()) {
+    instance.registerLazySingleton<UpdateMyDataRepository>(
+        () => UpdateMyDataRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<UpdateMyDataCubit>()) {
+    instance.registerFactory<UpdateMyDataCubit>(() => UpdateMyDataCubit(instance()));
+  }
+
+  if (!instance.isRegistered<UpdatePasswordRepository>()) {
+    instance.registerLazySingleton<UpdatePasswordRepository>(
+        () => UpdatePasswordRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<UpdatePasswordCubit>()) {
+    instance.registerFactory<UpdatePasswordCubit>(() => UpdatePasswordCubit(instance()));
+  }
+
+  if (!instance.isRegistered<NotificationRepository>()) {
+    instance.registerLazySingleton<NotificationRepository>(
+        () => NotificationRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<NotificationCubit>()) {
+    instance.registerFactory<NotificationCubit>(() => NotificationCubit(instance()));
+  }
+
+  if (!instance.isRegistered<AiRepository>()) {
+    instance.registerLazySingleton<AiRepository>(() => AiRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<AiCubit>()) {
+    instance.registerFactory<AiCubit>(() => AiCubit(instance(), instance()));
+  }
 
 
-        // update password
-    ..registerLazySingleton<NotificationRepository>(
-        () => NotificationRepository(instance(), instance()))
-    ..registerFactory<NotificationCubit>(
-        () => NotificationCubit(instance()))
-    // AI
-       ..registerLazySingleton<AiRepository>(
-        () => AiRepository(instance(), instance()))
-    ..registerFactory<AiCubit>(() => AiCubit(
-          instance(),
-          instance(),
-        ));
+
+
+  if (!instance.isRegistered<LoginRepository>()) {
+    instance.registerFactory<LoginRepository>(() => LoginRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<LoginCubit>()) {
+    instance.registerFactory<LoginCubit>(() => LoginCubit(instance()));
+  }
+
+  if (!instance.isRegistered<RegisterRepository>()) {
+    instance.registerFactory<RegisterRepository>(() => RegisterRepository(instance(), instance()));
+  }
+
+  if (!instance.isRegistered<RegisterCubit>()) {
+    instance.registerFactory<RegisterCubit>(() => RegisterCubit(instance(), instance()));
+  }
+
+
+
+
+
+
+
+
+
 }

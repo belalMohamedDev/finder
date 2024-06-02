@@ -1,4 +1,5 @@
 import 'package:finder/core/common/loading/notification_loader_shimmer.dart';
+import 'package:finder/core/common/stateRenderer/empty_state_render.dart';
 import 'package:finder/core/common/stateRenderer/error_state_renderer.dart';
 import 'package:finder/feature/notifications/logic/cubit/notification_cubit.dart';
 import 'package:finder/feature/notifications/presentation/widgets/notification_success_widget.dart';
@@ -25,19 +26,24 @@ class NotificationScreenBody extends StatelessWidget {
                 retryActionFunction: () =>
                     context.read<NotificationCubit>().getNotifications());
           } else if (state is Success) {
-            return NotificationListener<ScrollNotification>(
-                onNotification: (notification) {
-                  if (notification.metrics.pixels ==
-                          notification.metrics.maxScrollExtent &&
-                      notification is ScrollUpdateNotification) {
-                    context
-                        .read<NotificationCubit>()
-                        .getNotifications(fromPagination: true);
-                  }
-                  return true;
-                },
-                child: NotificationSuccessWidget(state: state.data));
+            if (state.data.data!.isEmpty && state.data.page == 1) {
+              return const EmptyStateRender();
+            } else {
+              return NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    if (notification.metrics.pixels ==
+                            notification.metrics.maxScrollExtent &&
+                        notification is ScrollUpdateNotification) {
+                      context
+                          .read<NotificationCubit>()
+                          .getNotifications(fromPagination: true);
+                    }
+                    return true;
+                  },
+                  child: NotificationSuccessWidget(state: state.data.data!));
+            }
           }
+
           return const Center(child: CircularProgressIndicator());
         },
       ),

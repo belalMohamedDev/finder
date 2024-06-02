@@ -27,11 +27,11 @@ class ErrorFlowStateRender extends StatelessWidget {
             height: 180.h,
             width: 250.w,
             child: Lottie.asset(
-              errorCode == -6 ? JsonAsset.noInternet : JsonAsset.error,
+               JsonAsset.error,
             ),
           ),
           SizedBox(
-            height: errorCode == -6 ? 10.h : 5.h,
+            height:  5.h,
           ),
           Text(
             errorMessage,

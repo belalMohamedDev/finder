@@ -175,7 +175,7 @@ class _ImageUserProfileState extends State<ImageUserProfile>
                       borderRadius: BorderRadius.circular(60.sp),
                       child: CachedNetworkImage(
                         imageUrl:
-                            "${SharedPref().getString(PrefKeys.userImage)?.replaceFirst("http://localhost:8080", ApiConstants.baseUrl)}",
+                            "${SharedPref().getString(PrefKeys.userImage)?.replaceFirst(ApiConstants.baseUrlImage, ApiConstants.baseUrl)}",
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
                             const Center(child: CircularProgressIndicator()),

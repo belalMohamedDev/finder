@@ -49,7 +49,7 @@ class TextFormAndButtonUnReport extends StatelessWidget {
             height: 11.h,
           ),
           TextFormField(
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             maxLines: 6,
             minLines: 2,
             keyboardType: TextInputType.text,
@@ -65,43 +65,41 @@ class TextFormAndButtonUnReport extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 15.h,
+            height: 17.h,
           ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 2.h,
-            ),
-            child: BlocListener<MakeUnReportCubit, MakeUnReportState<dynamic>>(
-              listenWhen: (previous, current) =>
-                  current is Loading || current is Success || current is Error,
-              listener: (context, state) {
-                state.whenOrNull(
-                  loading: (flowStat) {
-                    flowStat.getScreenWidget(
-                        context: context, retryActionFunction: () {});
-                  },
-                  error: (flowStat) {
-                    flowStat.getScreenWidget(
-                        context: context, retryActionFunction: () {});
-                  },
-                  success: (flowStat) {
-                    flowStat.getScreenWidget(
-                        context: context, retryActionFunction: () {});
-                  },
-                );
-              },
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorsLight.darkBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
+          BlocListener<MakeUnReportCubit, MakeUnReportState<dynamic>>(
+            listenWhen: (previous, current) =>
+                current is Loading || current is Success || current is Error,
+            listener: (context, state) {
+              state.whenOrNull(
+                loading: (flowStat) {
+                  flowStat.getScreenWidget(
+                      context: context, retryActionFunction: () {});
+                },
+                error: (flowStat) {
+                  flowStat.getScreenWidget(
+                      context: context, retryActionFunction: () {});
+                },
+                success: (flowStat) {
+                  flowStat.getScreenWidget(
+                      context: context, retryActionFunction: () {});
+
+                  makeUnReportCubit.userAddress.clear();
+                  makeUnReportCubit.userDescription.clear();
+                },
+              );
+            },
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorsLight.darkBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.sp),
                   ),
-                  onPressed: () => validateThenDoMakeUnReport(context),
-                  child: const Text(LangKeys.done),
                 ),
+                onPressed: () => validateThenDoMakeUnReport(context),
+                child: const Text(LangKeys.done),
               ),
             ),
           ),

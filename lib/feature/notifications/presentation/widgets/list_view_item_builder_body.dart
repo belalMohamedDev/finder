@@ -44,7 +44,7 @@ class _ListViewItemBuilderBodyState extends State<ListViewItemBuilderBody>
               borderRadius: BorderRadius.circular(12.sp),
               child: CachedNetworkImage(
                 imageUrl:
-                    "${widget.image?.replaceFirst("http://localhost:8080", ApiConstants.baseUrl)}",
+                    "${widget.image?.replaceFirst(ApiConstants.baseUrlImage, ApiConstants.baseUrl)}",
                 fit: BoxFit.cover,
                 placeholder: (context, url) =>
                     const Center(child: CircularProgressIndicator()),

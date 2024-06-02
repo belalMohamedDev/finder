@@ -11,9 +11,9 @@ class MakeUnReportBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 120.h),
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(left: 20.w,right: 20.w, top: 120.h),
         child: Column(
           children: [
             const CustomFadeInUp(duration: 1, child: UploadFindImageButton()),

@@ -1,3 +1,4 @@
+import 'package:finder/core/language/lang_keys.dart';
 import 'package:finder/core/style/colors/colors_light.dart';
 import 'package:finder/core/style/fonts/font_family_helper.dart';
 
@@ -5,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NoNetworkView extends StatelessWidget {
-  const NoNetworkView({super.key});
+  final VoidCallback retryActionFunction;
+  const NoNetworkView({super.key, required this.retryActionFunction});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-      padding: EdgeInsets.only(bottom: 100.h),
+    return Padding(
+      padding: EdgeInsets.only(bottom: 110.h, left: 42.w, right: 42.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -40,8 +41,8 @@ class NoNetworkView extends StatelessWidget {
             child: Text(
               "There is no internet connection",
               style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
                 fontFamily: FontFamilyHelper.cairoArabic,
                 color: ColorsLight.lightBlack,
               ),
@@ -50,20 +51,27 @@ class NoNetworkView extends StatelessWidget {
           SizedBox(
             height: 5.h,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 15.w),
-            child: Text(
-              "please check your internet connection",
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontFamily: FontFamilyHelper.cairoArabic,
-                color: ColorsLight.lightBlack,
-                fontWeight: FontWeight.w700,
-              ),
+          Text(
+            "please check your internet connection",
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontFamily: FontFamilyHelper.cairoArabic,
+              color: ColorsLight.lightBlack,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 12.h,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: retryActionFunction,
+              child: const Text(LangKeys.retryAgain),
             ),
           ),
         ],
       ),
-    ));
+    );
   }
 }

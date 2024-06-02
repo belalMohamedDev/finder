@@ -63,7 +63,7 @@ flutter_native_splash:
     image: asset/images/android12splash.png
 
     # Splash screen background color.
-    color: "#DAF0FD"
+    # color: "#DAF0FD"
 
 
 
@@ -73,7 +73,7 @@ flutter_native_splash:
     # The image_dark, color_dark, icon_background_color_dark, and branding_dark set values that
     # apply when the device is in dark mode. If they are not specified, the app will use the
     # parameters from above.
-    color_dark: "#DAF0FD"
+    # color_dark: "#DAF0FD"
     icon_background_color_dark: "#DAF0FD"
     
     image_dark: asset/images/android12splash.png
@@ -119,7 +119,7 @@ flutter_native_splash:
   # https://developer.android.com/reference/android/view/Gravity): bottom, center,
   # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
   # fill_vertical, left, right, start, or top.
-  android_gravity: fill
+  # android_gravity: fill
   #
   # ios_content_mode can be one of the following iOS UIView.ContentMode (see
   # https://developer.apple.com/documentation/uikit/uiview/contentmode): scaleToFill,

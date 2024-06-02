@@ -21,7 +21,7 @@ mixin _$GetFoundState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getRebortsFromPaginationLoadingState,
-    required TResult Function(List<GetFoundData> data) success,
+    required TResult Function(GetFoundResopnse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
     required TResult Function(List<GetFoundData> getFoundData) addItemToList,
   }) =>
@@ -31,7 +31,7 @@ mixin _$GetFoundState<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getRebortsFromPaginationLoadingState,
-    TResult? Function(List<GetFoundData> data)? success,
+    TResult? Function(GetFoundResopnse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
     TResult? Function(List<GetFoundData> getFoundData)? addItemToList,
   }) =>
@@ -41,7 +41,7 @@ mixin _$GetFoundState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getRebortsFromPaginationLoadingState,
-    TResult Function(List<GetFoundData> data)? success,
+    TResult Function(GetFoundResopnse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     TResult Function(List<GetFoundData> getFoundData)? addItemToList,
     required TResult orElse(),
@@ -142,7 +142,7 @@ class _$InitialImpl<T> implements _Initial<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getRebortsFromPaginationLoadingState,
-    required TResult Function(List<GetFoundData> data) success,
+    required TResult Function(GetFoundResopnse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
     required TResult Function(List<GetFoundData> getFoundData) addItemToList,
   }) {
@@ -155,7 +155,7 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getRebortsFromPaginationLoadingState,
-    TResult? Function(List<GetFoundData> data)? success,
+    TResult? Function(GetFoundResopnse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
     TResult? Function(List<GetFoundData> getFoundData)? addItemToList,
   }) {
@@ -168,7 +168,7 @@ class _$InitialImpl<T> implements _Initial<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getRebortsFromPaginationLoadingState,
-    TResult Function(List<GetFoundData> data)? success,
+    TResult Function(GetFoundResopnse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     TResult Function(List<GetFoundData> getFoundData)? addItemToList,
     required TResult orElse(),
@@ -271,7 +271,7 @@ class _$LoadingImpl<T> implements Loading<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getRebortsFromPaginationLoadingState,
-    required TResult Function(List<GetFoundData> data) success,
+    required TResult Function(GetFoundResopnse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
     required TResult Function(List<GetFoundData> getFoundData) addItemToList,
   }) {
@@ -284,7 +284,7 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getRebortsFromPaginationLoadingState,
-    TResult? Function(List<GetFoundData> data)? success,
+    TResult? Function(GetFoundResopnse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
     TResult? Function(List<GetFoundData> getFoundData)? addItemToList,
   }) {
@@ -297,7 +297,7 @@ class _$LoadingImpl<T> implements Loading<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getRebortsFromPaginationLoadingState,
-    TResult Function(List<GetFoundData> data)? success,
+    TResult Function(GetFoundResopnse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     TResult Function(List<GetFoundData> getFoundData)? addItemToList,
     required TResult orElse(),
@@ -403,7 +403,7 @@ class _$LoadingFromPaginationImpl<T> implements LoadingFromPagination<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getRebortsFromPaginationLoadingState,
-    required TResult Function(List<GetFoundData> data) success,
+    required TResult Function(GetFoundResopnse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
     required TResult Function(List<GetFoundData> getFoundData) addItemToList,
   }) {
@@ -416,7 +416,7 @@ class _$LoadingFromPaginationImpl<T> implements LoadingFromPagination<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getRebortsFromPaginationLoadingState,
-    TResult? Function(List<GetFoundData> data)? success,
+    TResult? Function(GetFoundResopnse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
     TResult? Function(List<GetFoundData> getFoundData)? addItemToList,
   }) {
@@ -429,7 +429,7 @@ class _$LoadingFromPaginationImpl<T> implements LoadingFromPagination<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getRebortsFromPaginationLoadingState,
-    TResult Function(List<GetFoundData> data)? success,
+    TResult Function(GetFoundResopnse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     TResult Function(List<GetFoundData> getFoundData)? addItemToList,
     required TResult orElse(),
@@ -497,7 +497,7 @@ abstract class _$$SuccessImplCopyWith<T, $Res> {
           _$SuccessImpl<T> value, $Res Function(_$SuccessImpl<T>) then) =
       __$$SuccessImplCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({List<GetFoundData> data});
+  $Res call({GetFoundResopnse data});
 }
 
 /// @nodoc
@@ -515,9 +515,9 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
   }) {
     return _then(_$SuccessImpl<T>(
       null == data
-          ? _value._data
+          ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<GetFoundData>,
+              as GetFoundResopnse,
     ));
   }
 }
@@ -525,15 +525,10 @@ class __$$SuccessImplCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$SuccessImpl<T> implements Success<T> {
-  const _$SuccessImpl(final List<GetFoundData> data) : _data = data;
+  const _$SuccessImpl(this.data);
 
-  final List<GetFoundData> _data;
   @override
-  List<GetFoundData> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
+  final GetFoundResopnse data;
 
   @override
   String toString() {
@@ -545,12 +540,11 @@ class _$SuccessImpl<T> implements Success<T> {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl<T> &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(runtimeType, data);
 
   @JsonKey(ignore: true)
   @override
@@ -564,7 +558,7 @@ class _$SuccessImpl<T> implements Success<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getRebortsFromPaginationLoadingState,
-    required TResult Function(List<GetFoundData> data) success,
+    required TResult Function(GetFoundResopnse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
     required TResult Function(List<GetFoundData> getFoundData) addItemToList,
   }) {
@@ -577,7 +571,7 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getRebortsFromPaginationLoadingState,
-    TResult? Function(List<GetFoundData> data)? success,
+    TResult? Function(GetFoundResopnse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
     TResult? Function(List<GetFoundData> getFoundData)? addItemToList,
   }) {
@@ -590,7 +584,7 @@ class _$SuccessImpl<T> implements Success<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getRebortsFromPaginationLoadingState,
-    TResult Function(List<GetFoundData> data)? success,
+    TResult Function(GetFoundResopnse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     TResult Function(List<GetFoundData> getFoundData)? addItemToList,
     required TResult orElse(),
@@ -649,9 +643,9 @@ class _$SuccessImpl<T> implements Success<T> {
 }
 
 abstract class Success<T> implements GetFoundState<T> {
-  const factory Success(final List<GetFoundData> data) = _$SuccessImpl<T>;
+  const factory Success(final GetFoundResopnse data) = _$SuccessImpl<T>;
 
-  List<GetFoundData> get data;
+  GetFoundResopnse get data;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<T, _$SuccessImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -734,7 +728,7 @@ class _$ErrorImpl<T> implements Error<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getRebortsFromPaginationLoadingState,
-    required TResult Function(List<GetFoundData> data) success,
+    required TResult Function(GetFoundResopnse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
     required TResult Function(List<GetFoundData> getFoundData) addItemToList,
   }) {
@@ -747,7 +741,7 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getRebortsFromPaginationLoadingState,
-    TResult? Function(List<GetFoundData> data)? success,
+    TResult? Function(GetFoundResopnse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
     TResult? Function(List<GetFoundData> getFoundData)? addItemToList,
   }) {
@@ -760,7 +754,7 @@ class _$ErrorImpl<T> implements Error<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getRebortsFromPaginationLoadingState,
-    TResult Function(List<GetFoundData> data)? success,
+    TResult Function(GetFoundResopnse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     TResult Function(List<GetFoundData> getFoundData)? addItemToList,
     required TResult orElse(),
@@ -906,7 +900,7 @@ class _$AddItemToListImpl<T> implements AddItemToList<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() getRebortsFromPaginationLoadingState,
-    required TResult Function(List<GetFoundData> data) success,
+    required TResult Function(GetFoundResopnse data) success,
     required TResult Function(String errorMessage, int errorCode) error,
     required TResult Function(List<GetFoundData> getFoundData) addItemToList,
   }) {
@@ -919,7 +913,7 @@ class _$AddItemToListImpl<T> implements AddItemToList<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? getRebortsFromPaginationLoadingState,
-    TResult? Function(List<GetFoundData> data)? success,
+    TResult? Function(GetFoundResopnse data)? success,
     TResult? Function(String errorMessage, int errorCode)? error,
     TResult? Function(List<GetFoundData> getFoundData)? addItemToList,
   }) {
@@ -932,7 +926,7 @@ class _$AddItemToListImpl<T> implements AddItemToList<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? getRebortsFromPaginationLoadingState,
-    TResult Function(List<GetFoundData> data)? success,
+    TResult Function(GetFoundResopnse data)? success,
     TResult Function(String errorMessage, int errorCode)? error,
     TResult Function(List<GetFoundData> getFoundData)? addItemToList,
     required TResult orElse(),

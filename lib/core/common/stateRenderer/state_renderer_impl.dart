@@ -8,7 +8,6 @@ abstract class FlowState {
 }
 
 //loading state (popUp ,full screen)
-
 class LoadingState extends FlowState {
   LoadingState({
     required this.stateRenderType,
@@ -25,7 +24,6 @@ class LoadingState extends FlowState {
 }
 
 //Internet Connection state (popUp ,full screen)
-
 class InternetConnectionState extends FlowState {
   InternetConnectionState({
     required this.stateRenderType,
@@ -42,7 +40,6 @@ class InternetConnectionState extends FlowState {
 }
 
 //error state (popUp ,full screen)
-
 class ErrorState extends FlowState {
   ErrorState({required this.stateRenderType, required this.message});
   StateRenderType stateRenderType;
@@ -69,7 +66,6 @@ class ContentState extends FlowState {
 //loading state (popUp ,full screen)
 
 //loading Ai state (popUp)
-
 class LoadingAiState extends FlowState {
   StateRenderType stateRenderType;
   String message;
@@ -84,7 +80,6 @@ class LoadingAiState extends FlowState {
 }
 
 //Ai Match state (popUp )
-
 class AiMatchState extends FlowState {
   StateRenderType stateRenderType;
   String message;
@@ -98,7 +93,6 @@ class AiMatchState extends FlowState {
 }
 
 //Ai Not Match state (popUp )
-
 class AiNotMatchState extends FlowState {
   StateRenderType stateRenderType;
   String message;
@@ -112,7 +106,6 @@ class AiNotMatchState extends FlowState {
 }
 
 //success state (popUp )
-
 class SuccessState extends FlowState {
   StateRenderType stateRenderType;
   String message;
@@ -126,23 +119,21 @@ class SuccessState extends FlowState {
   StateRenderType getStateRenderType() => stateRenderType;
 }
 
-
 extension FlowStateExtension on FlowState {
   Widget getScreenWidget(
       {required BuildContext context,
       Widget contentScreenWidget = const SizedBox.shrink(),
       required Function retryActionFunction}) {
+    // Dismiss any existing dialogs before showing a new one
+    dismissDialog(context);
+
     switch (runtimeType) {
-      case const (LoadingAiState):
+      case const (LoadingAiState) :
         {
-          dismissDialog(context);
           if (getStateRenderType() == StateRenderType.popupLoadingAiState) {
-            //show popup loading
             showPopUp(context, getStateRenderType(), getMessage());
-            // show content ui of screen
             return contentScreenWidget;
           } else {
-            //full screen state loading state
             return StateRender(
               message: getMessage(),
               retryActionFunction: retryActionFunction,
@@ -153,14 +144,10 @@ extension FlowStateExtension on FlowState {
 
       case const (AiMatchState):
         {
-          dismissDialog(context);
           if (getStateRenderType() == StateRenderType.popupMatchingAiState) {
-            //show popup error
             showPopUp(context, getStateRenderType(), getMessage());
-            // show content ui of screen
             return contentScreenWidget;
           } else {
-            //full screen state error state
             return StateRender(
               message: getMessage(),
               retryActionFunction: retryActionFunction,
@@ -171,14 +158,10 @@ extension FlowStateExtension on FlowState {
 
       case const (AiNotMatchState):
         {
-          dismissDialog(context);
           if (getStateRenderType() == StateRenderType.popupNoMatchingAiState) {
-            //show popup error
             showPopUp(context, getStateRenderType(), getMessage());
-            // show content ui of screen
             return contentScreenWidget;
           } else {
-            //full screen state error state
             return StateRender(
               message: getMessage(),
               retryActionFunction: retryActionFunction,
@@ -189,14 +172,10 @@ extension FlowStateExtension on FlowState {
 
       case const (SuccessState):
         {
-          dismissDialog(context);
           if (getStateRenderType() == StateRenderType.popupSuccessState) {
-            //show popup loading
             showPopUp(context, getStateRenderType(), getMessage());
-            // show content ui of screen
             return contentScreenWidget;
           } else {
-            //full screen state loading state
             return StateRender(
               message: getMessage(),
               retryActionFunction: retryActionFunction,
@@ -207,37 +186,29 @@ extension FlowStateExtension on FlowState {
 
       case const (LoadingState):
         {
-          dismissDialog(context);
           showPopUp(context, getStateRenderType(), getMessage());
           return contentScreenWidget;
         }
 
       case const (ErrorState):
         {
-          dismissDialog(context);
           showPopUp(context, getStateRenderType(), getMessage());
-          // show content ui of screen
           return contentScreenWidget;
         }
 
       case const (InternetConnectionState):
         {
-          dismissDialog(context);
-          //show popup error
           showPopUp(context, getStateRenderType(), getMessage());
-          // show content ui of screen
           return contentScreenWidget;
         }
 
       case const (ContentState):
         {
-          dismissDialog(context);
           return contentScreenWidget;
         }
 
       default:
         {
-          dismissDialog(context);
           return contentScreenWidget;
         }
     }
@@ -252,14 +223,18 @@ extension FlowStateExtension on FlowState {
     }
   }
 
-  showPopUp(
-      BuildContext context, StateRenderType stateRenderType, String message) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => showDialog(
-        context: context,
-        builder: (BuildContext context) => StateRender(
-              stateRenderType: stateRenderType,
-              retryActionFunction: () {},
-              message: message,
-            )));
+  void showPopUp(BuildContext context, StateRenderType stateRenderType, String message) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_isCurrentDialogShowing(context)) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => StateRender(
+            stateRenderType: stateRenderType,
+            retryActionFunction: () {},
+            message: message,
+          ),
+        );
+      }
+    });
   }
 }

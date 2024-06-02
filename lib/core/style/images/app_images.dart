@@ -31,7 +31,7 @@ class JsonAsset{
   static const String loadFullScreen = '$jsonPath/loadFullScreen.json';
   static const String takePhoto = '$jsonPath/takePhoto.json';
   static const String success = '$jsonPath/success.json';
-  static const String noInternet = '$jsonPath/noInternet.json';
+  static const String noInternet = '$jsonPath/asset/json/noInternet.json';
   static const String ai = '$jsonPath/ai.json';
   static const String noMatching = '$jsonPath/no_match.json';
 

@@ -24,7 +24,7 @@ class GridViewFoundWidget extends StatelessWidget {
       ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.58,
+          childAspectRatio: 0.7,
           crossAxisSpacing: 5,
           mainAxisSpacing: 10),
       itemBuilder: (context, index) {

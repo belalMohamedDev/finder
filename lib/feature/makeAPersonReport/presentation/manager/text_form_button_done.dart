@@ -1,3 +1,4 @@
+
 import 'package:finder/core/common/animations/animate_do.dart';
 import 'package:finder/core/common/stateRenderer/state_renderer_impl.dart';
 import 'package:finder/core/language/lang_keys.dart';
@@ -174,6 +175,13 @@ class TextFormAndButtonAReport extends StatelessWidget {
                       success: (flowStat) {
                         flowStat.getScreenWidget(
                             context: context, retryActionFunction: () {});
+
+                        makeAReportCubit.userFirstName.clear();
+                        makeAReportCubit.userLastName.clear();
+                        makeAReportCubit.userAddress.clear();
+                        makeAReportCubit.userAge.clear();
+                        makeAReportCubit.userClothLastSeen.clear();
+                        makeAReportCubit.userDescription.clear();
                       },
                     );
                   },

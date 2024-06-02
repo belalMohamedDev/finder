@@ -66,7 +66,7 @@ class MakeAObjectReportCubit extends Cubit<MakeAObjectReportState<dynamic>> {
   /////image picker
   Future<void> camera() async {
     final pickedImage =
-        await _imagePicker.pickImage(source: ImageSource.camera);
+    await _imagePicker.pickImage(source: ImageSource.camera);
     await setUserPicture(File(pickedImage?.path ?? ''));
     emit(
       MakeAObjectReportState.imagePath(File(pickedImage?.path ?? '')),

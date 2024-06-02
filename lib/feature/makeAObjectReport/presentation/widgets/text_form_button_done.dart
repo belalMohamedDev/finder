@@ -1,3 +1,4 @@
+
 import 'package:finder/core/common/stateRenderer/state_renderer_impl.dart';
 import 'package:finder/core/language/lang_keys.dart';
 import 'package:finder/core/style/colors/colors_light.dart';
@@ -88,6 +89,9 @@ class TextFormAndButtonAOjectReport extends StatelessWidget {
                   success: (flowStat) {
                     flowStat.getScreenWidget(
                         context: context, retryActionFunction: () {});
+
+                    makeAObjectReportCubit.userAddress.clear();
+                    makeAObjectReportCubit.userDescription.clear();
                   },
                 );
               },

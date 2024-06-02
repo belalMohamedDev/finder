@@ -1,10 +1,8 @@
 import 'package:finder/core/language/lang_keys.dart';
-
 import 'package:finder/core/style/colors/colors_light.dart';
 import 'package:finder/core/style/fonts/font_family_helper.dart';
 import 'package:finder/core/style/images/app_images.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
@@ -18,8 +16,6 @@ enum StateRenderType {
   popupMatchingAiState,
   popupNoMatchingAiState,
 
-
-
   //general
   contentState,
 }
@@ -32,6 +28,7 @@ class StateRender extends StatelessWidget {
     super.key,
     this.title = '',
   });
+
   final StateRenderType stateRenderType;
   final Function retryActionFunction;
   final String message;
@@ -70,25 +67,25 @@ class StateRender extends StatelessWidget {
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAsset.success),
         ]);
+
       case StateRenderType.popupLoadingAiState:
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAsset.ai),
         ]);
+
       case StateRenderType.popupMatchingAiState:
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAsset.success),
           _getMessage(message),
           _getRetryButton(buttonTitle: LangKeys.ok, context: context),
         ]);
+
       case StateRenderType.popupNoMatchingAiState:
         return _getPopUpDialog(context, [
           _getAnimatedImage(JsonAsset.noMatching),
           _getMessage(message),
           _getRetryButton(buttonTitle: LangKeys.ok, context: context),
         ]);
-
-
-
     }
   }
 
@@ -111,10 +108,13 @@ class StateRender extends StatelessWidget {
   }
 
   Widget _getDialogContent(BuildContext context, List<Widget> children) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: children,
+    return Padding(
+      padding: EdgeInsets.all(20.sp),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: children,
+      ),
     );
   }
 
@@ -134,6 +134,7 @@ class StateRender extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Text(
           message,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 14.sp,
             fontFamily: FontFamilyHelper.cairoArabic,
@@ -156,19 +157,14 @@ class StateRender extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
+              // Close the dialog for specific states
               if (stateRenderType == StateRenderType.popupErrorState ||
                   stateRenderType == StateRenderType.popupNoMatchingAiState ||
-                  stateRenderType == StateRenderType.popupMatchingAiState) {
-                // popup error state
-                Navigator.of(context).pop();
-              } else if (stateRenderType ==
-                  StateRenderType.popupInternetConnectionState) {
-                // popup error state
-                Navigator.of(context, rootNavigator: true).pop(true);
-                // popup loading state
+                  stateRenderType == StateRenderType.popupMatchingAiState ||
+                  stateRenderType == StateRenderType.popupInternetConnectionState) {
                 Navigator.of(context, rootNavigator: true).pop(true);
               } else {
-                //call retry function
+                // Call retry function for other states
                 retryActionFunction.call();
               }
             },
